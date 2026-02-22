@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
+import { useTheme } from "@/context/ThemeContext";
 import {
   Brain, Code2, Zap, Users, Star, ArrowRight, ChevronRight,
   GitBranch, Layers, BarChart3, Play, Upload,
@@ -99,10 +100,6 @@ function GraphAnimation() {
   );
 }
 
-/* Shared tokens */
-const PAGE_BG = "#020b18";
-const CARD_BG = "rgba(3,14,30,0.95)";
-const BORDER = "rgba(255,255,255,0.07)";
 const W = { maxWidth: "1400px", margin: "0 auto", padding: "0 32px" } as const;
 
 export default function LandingPage() {
@@ -110,6 +107,17 @@ export default function LandingPage() {
   const [activeAgent, setActiveAgent] = useState(0);
   const { scrollYProgress } = useScroll();
   const yHero = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
+  const { isDark } = useTheme();
+
+  /* ── Theme tokens ── */
+  const PAGE_BG  = isDark ? "#020b18"               : "#f4f6fa";
+  const CARD_BG  = isDark ? "rgba(3,14,30,0.95)"    : "rgba(255,255,255,0.97)";
+  const BORDER   = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.09)";
+  const TEXT1    = isDark ? "#fff"                   : "#0f172a";
+  const TEXT2    = isDark ? "#64748b"                : "#475569";
+  const TEXT3    = isDark ? "#94a3b8"                : "#64748b";
+  const SECT_BG  = isDark ? "rgba(3,14,30,0.6)"     : "rgba(241,245,249,0.8)";
+  const DIVIDER  = isDark ? "rgba(6,182,212,0.08)"  : "rgba(6,182,212,0.15)";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -121,7 +129,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", background: PAGE_BG, color: "#fff", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: PAGE_BG, color: TEXT1, overflowX: "hidden", transition: "background 0.3s ease, color 0.3s ease" }}>
       <Navbar />
 
       {/* ════════════════════════════════════ HERO ════════════════════════════════════ */}
@@ -134,7 +142,9 @@ export default function LandingPage() {
         }}/>
         {/* ── Subtle grid overlay ── */}
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none",
-          backgroundImage: "linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px)",
+          backgroundImage: isDark
+            ? "linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px)"
+            : "linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px)",
           backgroundSize: "60px 60px"
         }}/>
         {/* ── Rising particles ── */}
@@ -167,7 +177,7 @@ export default function LandingPage() {
 
           {/* Subtext */}
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}
-            style={{ fontSize: "18px", color: "#94a3b8", lineHeight: 1.75, maxWidth: "540px", margin: "0 auto 44px" }}
+            style={{ fontSize: "18px", color: TEXT3, lineHeight: 1.75, maxWidth: "540px", margin: "0 auto 44px" }}
           >
             Practice DSA with an AI tutor that teaches like a mentor — Socratic questioning,
             live visualizations, and personalized learning paths.
@@ -194,11 +204,11 @@ export default function LandingPage() {
             </Link>
             <Link href="/visualizer">
               <motion.button
-                whileHover={{ scale: 1.04, borderColor: "rgba(6,182,212,0.5)" }}
+                whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 style={{ display: "flex", alignItems: "center", gap: "10px", padding: "16px 32px",
-                  background: "rgba(255,255,255,0.04)", color: "#e2e8f0", fontWeight: 600,
-                  fontSize: "16px", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.12)",
+                  background: isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.05)", color: TEXT1, fontWeight: 600,
+                  fontSize: "16px", borderRadius: "999px", border: `1px solid ${BORDER}`,
                   cursor: "pointer", backdropFilter: "blur(12px)"
                 }}
               >
@@ -214,10 +224,10 @@ export default function LandingPage() {
           >
             {STATS.map((s, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center" }}>
-                {i > 0 && <div style={{ width: "1px", height: "36px", background: "rgba(255,255,255,0.1)", margin: "0 28px" }} />}
+                {i > 0 && <div style={{ width: "1px", height: "36px", background: isDark ? "rgba(255,255,255,0.1)" : "rgba(15,23,42,0.12)", margin: "0 28px" }} />}
                 <div style={{ textAlign: "center" }}>
                   <div className="gold-text" style={{ fontSize: "26px", fontWeight: 900, lineHeight: 1 }}>{s.value}</div>
-                  <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px", fontWeight: 500 }}>{s.label}</div>
+                  <div style={{ fontSize: "12px", color: TEXT2, marginTop: "4px", fontWeight: 500 }}>{s.label}</div>
                 </div>
               </div>
             ))}
@@ -304,17 +314,17 @@ export default function LandingPage() {
       </motion.section>
 
       {/* ════════════════════════════════════ STATS ════════════════════════════════════ */}
-      <section className="stats-section" style={{ padding: "80px 0", borderTop: "1px solid rgba(6,182,212,0.1)", borderBottom: "1px solid rgba(6,182,212,0.1)", background: "rgba(3,14,30,0.6)" }}>
+      <section className="stats-section" style={{ padding: "80px 0", borderTop: `1px solid ${DIVIDER}`, borderBottom: `1px solid ${DIVIDER}`, background: SECT_BG }}>
         <div style={W}>
           <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {STAT_CARDS.map((stat, i) => (
-                <div key={i} className="stat-card" style={{ textAlign: "center", padding: "32px 20px", background: CARD_BG, border: `1px solid ${BORDER}`, borderRadius: "16px", cursor: "default" }}>
+                <div key={i} className="stat-card" style={{ textAlign: "center", padding: "32px 20px", background: CARD_BG, border: `1px solid ${BORDER}`, borderRadius: "16px", cursor: "default", boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.06)" }}>
                   <div style={{ width: "52px", height: "52px", borderRadius: "14px", background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
                     <stat.icon style={{ width: "24px", height: "24px", color: "#f59e0b" }} />
                   </div>
                   <div className="gold-text" style={{ fontSize: "40px", fontWeight: 900, lineHeight: 1, marginBottom: "8px" }}>{stat.value}</div>
-                  <div style={{ fontSize: "13px", color: "#64748b", fontWeight: 500 }}>{stat.label}</div>
+                  <div style={{ fontSize: "13px", color: TEXT2, fontWeight: 500 }}>{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -336,7 +346,7 @@ export default function LandingPage() {
               Everything you need to <span className="gold-text">master DSA</span>
             </motion.h2>
             <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-              style={{ color: "#64748b", maxWidth: "480px", margin: "0 auto", fontSize: "17px", lineHeight: 1.75 }}>
+              style={{ color: TEXT2, maxWidth: "480px", margin: "0 auto", fontSize: "17px", lineHeight: 1.75 }}>
               Built for engineering students who want more than just answers — a system that teaches you to think.
             </motion.p>
           </div>
@@ -345,13 +355,13 @@ export default function LandingPage() {
             {FEATURES.map((f, i) => (
               <motion.div key={i} className="feature-card"
                 whileHover={{ y: -6, boxShadow: `0 24px 60px ${f.color}18`, borderColor: `${f.color}30` }}
-                style={{ padding: "28px", borderRadius: "20px", background: CARD_BG, border: `1px solid ${BORDER}`, cursor: "default" }}
+                style={{ padding: "28px", borderRadius: "20px", background: CARD_BG, border: `1px solid ${BORDER}`, cursor: "default", boxShadow: isDark ? "none" : "0 2px 12px rgba(0,0,0,0.05)" }}
               >
                 <div style={{ width: "50px", height: "50px", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "20px", background: `${f.color}10`, border: `1px solid ${f.color}25` }}>
                   <f.icon style={{ width: "24px", height: "24px", color: f.color }} />
                 </div>
-                <h3 style={{ fontWeight: 700, fontSize: "16px", color: "#fff", marginBottom: "10px" }}>{f.title}</h3>
-                <p style={{ color: "#64748b", fontSize: "14px", lineHeight: 1.75, margin: 0 }}>{f.desc}</p>
+                <h3 style={{ fontWeight: 700, fontSize: "16px", color: TEXT1, marginBottom: "10px" }}>{f.title}</h3>
+                <p style={{ color: TEXT2, fontSize: "14px", lineHeight: 1.75, margin: 0 }}>{f.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -359,7 +369,7 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════════════════════════ ARCHITECTURE ════════════════════════════════════ */}
-      <section style={{ padding: "100px 0", borderTop: "1px solid rgba(6,182,212,0.08)", background: "rgba(3,14,30,0.5)", position: "relative" }}>
+      <section style={{ padding: "100px 0", borderTop: `1px solid ${DIVIDER}`, background: SECT_BG, position: "relative" }}>
         <div style={{ position: "absolute", width: "700px", height: "700px", borderRadius: "50%", filter: "blur(120px)", background: "#06b6d4", opacity: 0.04, top: "-10%", left: "-150px", pointerEvents: "none" }} />
         <div style={W}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
@@ -370,22 +380,22 @@ export default function LandingPage() {
               <h2 style={{ fontSize: "clamp(28px, 3.5vw, 50px)", fontWeight: 900, lineHeight: 1.1, marginBottom: "16px" }}>
                 5 AI Agents, <span className="gold-text">One Goal</span>
               </h2>
-              <p style={{ color: "#64748b", fontSize: "17px", lineHeight: 1.75, marginBottom: "36px" }}>
+              <p style={{ color: TEXT2, fontSize: "17px", lineHeight: 1.75, marginBottom: "36px" }}>
                 Our multi-agent orchestrator routes your queries to specialized agents — each trained with a specific pedagogical role.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {AGENTS.map((agent, i) => (
                   <motion.div key={i} whileHover={{ x: 6 }}
-                    style={{ display: "flex", alignItems: "center", gap: "16px", padding: "14px 16px", borderRadius: "14px", background: CARD_BG, border: `1px solid ${agent.color}20`, cursor: "default" }}
+                    style={{ display: "flex", alignItems: "center", gap: "16px", padding: "14px 16px", borderRadius: "14px", background: CARD_BG, border: `1px solid ${agent.color}20`, cursor: "default", boxShadow: isDark ? "none" : "0 1px 8px rgba(0,0,0,0.05)" }}
                   >
                     <div style={{ width: "38px", height: "38px", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: `${agent.color}10`, border: `1px solid ${agent.color}30` }}>
                       <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: agent.color, boxShadow: `0 0 8px ${agent.color}` }} />
                     </div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 600, fontSize: "14px", color: "#fff" }}>{agent.name} Agent</div>
-                      <div style={{ fontSize: "12px", color: "#64748b", marginTop: "2px" }}>{agent.desc}</div>
+                      <div style={{ fontWeight: 600, fontSize: "14px", color: TEXT1 }}>{agent.name} Agent</div>
+                      <div style={{ fontSize: "12px", color: TEXT2, marginTop: "2px" }}>{agent.desc}</div>
                     </div>
-                    <ChevronRight style={{ width: "16px", height: "16px", color: "#334155", flexShrink: 0 }} />
+                    <ChevronRight style={{ width: "16px", height: "16px", color: isDark ? "#334155" : "#94a3b8", flexShrink: 0 }} />
                   </motion.div>
                 ))}
               </div>
@@ -422,8 +432,8 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════════════════════════ TOPICS ════════════════════════════════════ */}
-      <section style={{ padding: "80px 0 60px", borderTop: "1px solid rgba(6,182,212,0.08)", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, background: "rgba(3,14,30,0.5)", pointerEvents: "none" }} />
+      <section style={{ padding: "80px 0 60px", borderTop: `1px solid ${DIVIDER}`, position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, background: SECT_BG, pointerEvents: "none" }} />
         <div style={{ position: "relative", ...W, textAlign: "center" }}>
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}>
             <div style={{ display: "inline-block", color: "#06b6d4", fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", padding: "4px 14px", borderRadius: "999px", background: "rgba(6,182,212,0.08)", border: "1px solid rgba(6,182,212,0.2)", marginBottom: "16px" }}>
@@ -439,7 +449,7 @@ export default function LandingPage() {
               <motion.div key={i}
                 initial={{ opacity: 0, scale: 0.85 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.04 }}
                 whileHover={{ scale: 1.08, borderColor: "rgba(6,182,212,0.4)", color: "#fff" }}
-                style={{ padding: "10px 20px", borderRadius: "999px", fontSize: "14px", color: "#94a3b8", cursor: "default", background: CARD_BG, border: `1px solid ${BORDER}`, fontWeight: 500 }}
+                style={{ padding: "10px 20px", borderRadius: "999px", fontSize: "14px", color: TEXT3, cursor: "default", background: CARD_BG, border: `1px solid ${BORDER}`, fontWeight: 500, boxShadow: isDark ? "none" : "0 1px 6px rgba(0,0,0,0.05)" }}
               >
                 {topic}
               </motion.div>
@@ -454,16 +464,16 @@ export default function LandingPage() {
         {/* ── Video background ── */}
         <video
           autoPlay muted loop playsInline
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "blur(3px) brightness(0.28) saturate(0.6)" }}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: isDark ? "blur(3px) brightness(0.28) saturate(0.6)" : "blur(3px) brightness(0.75) saturate(0.3)" }}
         >
           <source src="/typing.mp4" type="video/mp4" />
         </video>
 
         {/* ── Dark overlay ── */}
-        <div style={{ position: "absolute", inset: 0, background: "rgba(2,8,18,0.55)" }} />
+        <div style={{ position: "absolute", inset: 0, background: isDark ? "rgba(2,8,18,0.55)" : "rgba(241,245,249,0.65)" }} />
 
         {/* ── Gradient blend: fade into page bg at top & bottom ── */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, #020b18 0%, transparent 18%, transparent 82%, #020b18 100%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, ${PAGE_BG} 0%, transparent 18%, transparent 82%, ${PAGE_BG} 100%)`, pointerEvents: "none" }} />
 
         {/* ── Gold glow behind content ── */}
         <div style={{ position: "absolute", width: "600px", height: "300px", borderRadius: "50%", filter: "blur(100px)", background: "#f59e0b", opacity: 0.07, top: "50%", left: "50%", transform: "translate(-50%,-50%)", pointerEvents: "none" }} />
@@ -504,9 +514,9 @@ export default function LandingPage() {
             </Link>
             <Link href="/dashboard">
               <motion.button
-                whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.1)" }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
-                style={{ display: "flex", alignItems: "center", gap: "10px", padding: "16px 32px", background: "rgba(255,255,255,0.06)", color: "#fff", fontWeight: 600, fontSize: "16px", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.18)", cursor: "pointer", backdropFilter: "blur(12px)" }}
+                style={{ display: "flex", alignItems: "center", gap: "10px", padding: "16px 32px", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.9)", color: isDark ? "#fff" : "#0f172a", fontWeight: 600, fontSize: "16px", borderRadius: "999px", border: isDark ? "1px solid rgba(255,255,255,0.18)" : "1px solid rgba(15,23,42,0.15)", cursor: "pointer", backdropFilter: "blur(12px)" }}
               >
                 <BarChart3 style={{ width: "18px", height: "18px", color: "#f59e0b" }} />
                 View Dashboard
@@ -526,7 +536,7 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════════════════════════ FOOTER ════════════════════════════════════ */}
-      <footer style={{ padding: "52px 0 32px", borderTop: "1px solid rgba(6,182,212,0.08)", background: "rgba(2,8,18,0.95)" }}>
+      <footer style={{ padding: "52px 0 32px", borderTop: `1px solid ${DIVIDER}`, background: isDark ? "rgba(2,8,18,0.95)" : "rgba(241,245,249,0.95)" }}>
         <div style={W}>
 
           {/* ── Top row: logo | nav links | social icons ── */}
@@ -540,7 +550,7 @@ export default function LandingPage() {
                   <Brain style={{ width: "17px", height: "17px", color: "#000" }} />
                 </div>
               </div>
-              <span style={{ fontWeight: 800, fontSize: "16px", color: "#fff" }}>DSA<span style={{ color: "#f59e0b" }}> Tutor</span></span>
+              <span style={{ fontWeight: 800, fontSize: "16px", color: TEXT1 }}>DSA<span style={{ color: "#f59e0b" }}> Tutor</span></span>
             </div>
 
             {/* Nav links with dividers */}
@@ -553,11 +563,11 @@ export default function LandingPage() {
                 { href: "/topics", label: "Topics" },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center" }}>
-                  {i > 0 && <span style={{ color: "rgba(255,255,255,0.12)", padding: "0 14px", fontSize: "13px", userSelect: "none" }}>|</span>}
+                  {i > 0 && <span style={{ color: isDark ? "rgba(255,255,255,0.12)" : "rgba(15,23,42,0.15)", padding: "0 14px", fontSize: "13px", userSelect: "none" }}>|</span>}
                   <Link href={item.href} style={{ textDecoration: "none" }}>
-                    <span style={{ fontSize: "14px", color: "#64748b", fontWeight: 500 }}
-                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "#e2e8f0"}
-                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "#64748b"}
+                    <span style={{ fontSize: "14px", color: TEXT2, fontWeight: 500 }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = isDark ? "#e2e8f0" : "#0f172a"}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = isDark ? "#64748b" : "#475569"}
                     >{item.label}</span>
                   </Link>
                 </div>
@@ -574,7 +584,7 @@ export default function LandingPage() {
               ].map(({ Icon, label }) => (
                 <motion.a key={label} href="#" aria-label={label}
                   whileHover={{ scale: 1.12, borderColor: "rgba(245,158,11,0.4)", color: "#f59e0b" }}
-                  style={{ width: "38px", height: "38px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)", color: "#64748b", cursor: "pointer" }}
+                  style={{ width: "38px", height: "38px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.05)", border: isDark ? "1px solid rgba(255,255,255,0.09)" : "1px solid rgba(15,23,42,0.10)", color: TEXT2, cursor: "pointer" }}
                 >
                   <Icon style={{ width: "15px", height: "15px" }} />
                 </motion.a>
@@ -583,11 +593,11 @@ export default function LandingPage() {
           </div>
 
           {/* ── Bottom row: divider + copyright ── */}
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "24px", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
-            <div style={{ fontSize: "12px", color: "#334155", textAlign: "center" }}>
+          <div style={{ borderTop: isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(15,23,42,0.08)", paddingTop: "24px", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
+            <div style={{ fontSize: "12px", color: isDark ? "#334155" : "#64748b", textAlign: "center" }}>
               © 2025–26 DSA Tutor AI — Thapar Institute of Engineering &amp; Technology Capstone Project
             </div>
-            <div style={{ fontSize: "12px", color: "#2a3f55" }}>
+            <div style={{ fontSize: "12px", color: isDark ? "#2a3f55" : "#94a3b8" }}>
               Sachin Goyal · Raghav Chhabra · Aksh Khurana · Prachi
             </div>
           </div>

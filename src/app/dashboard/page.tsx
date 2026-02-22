@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
+import { useTheme } from "@/context/ThemeContext";
 import {
   Brain, Flame, Star, TrendingUp, Clock, Target, ChevronRight,
   BookOpen, Code2, Zap, Award, Play, BarChart3, ArrowRight,
@@ -48,13 +49,6 @@ const ACHIEVEMENTS = [
 
 const WEEKLY_ACTIVITY = [28, 45, 30, 62, 55, 80, 70, 88, 65, 75, 90, 72];
 
-/* ─── Tokens ─── */
-const BG = "#070d1b";
-const CARD = "rgba(11, 19, 38, 0.95)";
-const CARD2 = "rgba(14, 24, 48, 0.9)";
-const BORDER = "rgba(255,255,255,0.07)";
-const TEXT1 = "#f0f4ff";
-const TEXT2 = "#7d8ba3";
 const W = { maxWidth: "1400px", margin: "0 auto", padding: "0 28px" } as const;
 
 /* ─── Components ─── */
@@ -65,7 +59,7 @@ function CircularProgress({ value, size = 120 }: { value: number; size?: number 
   const offset = circ - (value / 100) * circ;
   return (
     <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={stroke} />
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(127,127,127,0.12)" strokeWidth={stroke} />
       <motion.circle
         cx={size / 2} cy={size / 2} r={r} fill="none"
         stroke="url(#ringGrad)" strokeWidth={stroke}
@@ -86,6 +80,8 @@ function CircularProgress({ value, size = 120 }: { value: number; size?: number 
 }
 
 function AreaChart() {
+  const { isDark } = useTheme();
+  const TEXT2 = isDark ? "#7d8ba3" : "#64748b";
   const data = WEEKLY_ACTIVITY;
   const max = Math.max(...data);
   const W_SVG = 400, H_SVG = 90;
@@ -138,6 +134,15 @@ function DonutSegment({ value, total, color, offset }: { value: number; total: n
 }
 
 export default function DashboardPage() {
+  const { isDark } = useTheme();
+  const BG    = isDark ? "#070d1b"                : "#f4f6f9";
+  const CARD  = isDark ? "rgba(11,19,38,0.95)"   : "rgba(255,255,255,0.97)";
+  const CARD2 = isDark ? "rgba(14,24,48,0.9)"    : "rgba(248,250,252,0.95)";
+  const BORDER = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.09)";
+  const TEXT1 = isDark ? "#f0f4ff"               : "#0f172a";
+  const TEXT2 = isDark ? "#7d8ba3"               : "#64748b";
+  const SHADOW = isDark ? "none"                 : "0 2px 12px rgba(0,0,0,0.06)";
+
   const [animatedScore, setAnimatedScore] = useState(0);
 
   useEffect(() => {
@@ -207,7 +212,7 @@ export default function DashboardPage() {
                 <div style={{ width: "40px", height: "40px", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", background: `${stat.color}14`, border: `1px solid ${stat.color}25` }}>
                   <stat.icon style={{ width: "18px", height: "18px", color: stat.color }} />
                 </div>
-                <span style={{ fontSize: "11px", color: stat.trend === "up" ? "#10b981" : TEXT2, background: stat.trend === "up" ? "rgba(16,185,129,0.1)" : "rgba(255,255,255,0.05)", padding: "3px 8px", borderRadius: "999px", border: stat.trend === "up" ? "1px solid rgba(16,185,129,0.2)" : `1px solid ${BORDER}` }}>
+                <span style={{ fontSize: "11px", color: stat.trend === "up" ? "#10b981" : TEXT2, background: stat.trend === "up" ? "rgba(16,185,129,0.1)" : isDark ? "rgba(255,255,255,0.05)" : "rgba(15,23,42,0.05)", padding: "3px 8px", borderRadius: "999px", border: stat.trend === "up" ? "1px solid rgba(16,185,129,0.2)" : `1px solid ${BORDER}` }}>
                   {stat.sub}
                 </span>
               </div>
@@ -236,7 +241,7 @@ export default function DashboardPage() {
               <span style={{ fontSize: "13px", color: TEXT2 }}>Overall Progress</span>
               <span style={{ fontSize: "13px", fontWeight: 700, color: "#f59e0b" }}>54%</span>
             </div>
-            <div style={{ height: "8px", borderRadius: "999px", background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
+            <div style={{ height: "8px", borderRadius: "999px", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.08)", overflow: "hidden" }}>
               <motion.div
                 initial={{ width: 0 }} animate={{ width: "54%" }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
@@ -258,7 +263,7 @@ export default function DashboardPage() {
                   </div>
                   <span style={{ fontSize: "13px", fontWeight: 700, color: topic.color }}>{topic.progress}%</span>
                 </div>
-                <div style={{ height: "6px", borderRadius: "999px", background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
+                <div style={{ height: "6px", borderRadius: "999px", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.08)", overflow: "hidden" }}>
                   <motion.div
                     initial={{ width: 0 }} animate={{ width: `${topic.progress}%` }}
                     transition={{ duration: 1, delay: i * 0.1 + 0.4, ease: "easeOut" }}
@@ -278,7 +283,7 @@ export default function DashboardPage() {
             style={{ padding: "22px 24px", borderRadius: "14px", background: CARD, border: `1px solid ${BORDER}` }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
               <h2 style={{ fontWeight: 700, fontSize: "15px", margin: 0, color: TEXT1 }}>Monthly Learning Activity</h2>
-              <span style={{ fontSize: "12px", color: TEXT2, background: "rgba(255,255,255,0.05)", padding: "3px 10px", borderRadius: "999px", border: `1px solid ${BORDER}` }}>
+              <span style={{ fontSize: "12px", color: TEXT2, background: isDark ? "rgba(255,255,255,0.05)" : "rgba(15,23,42,0.05)", padding: "3px 10px", borderRadius: "999px", border: `1px solid ${BORDER}` }}>
                 Last 6 Months ↓
               </span>
             </div>
@@ -290,14 +295,14 @@ export default function DashboardPage() {
             style={{ padding: "22px 24px", borderRadius: "14px", background: CARD, border: `1px solid ${BORDER}` }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
               <h2 style={{ fontWeight: 700, fontSize: "15px", margin: 0, color: TEXT1 }}>Topic Distribution</h2>
-              <span style={{ fontSize: "12px", color: TEXT2, background: "rgba(255,255,255,0.05)", padding: "3px 10px", borderRadius: "999px", border: `1px solid ${BORDER}` }}>
+              <span style={{ fontSize: "12px", color: TEXT2, background: isDark ? "rgba(255,255,255,0.05)" : "rgba(15,23,42,0.05)", padding: "3px 10px", borderRadius: "999px", border: `1px solid ${BORDER}` }}>
                 By Difficulty ↓
               </span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "28px" }}>
               <div style={{ position: "relative", flexShrink: 0 }}>
                 <svg width="128" height="128" viewBox="0 0 128 128">
-                  <circle cx="64" cy="64" r="52" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="16" />
+                  <circle cx="64" cy="64" r="52" fill="none" stroke="rgba(127,127,127,0.10)" strokeWidth="16" />
                   <DonutSegment value={18} total={diffTotal} color="#10b981" offset={0} />
                   <DonutSegment value={22} total={diffTotal} color="#f59e0b" offset={18} />
                   <DonutSegment value={10} total={diffTotal} color="#ef4444" offset={40} />
@@ -348,8 +353,8 @@ export default function DashboardPage() {
             {RECENT_SESSIONS.map((s, i) => (
               <motion.div key={i}
                 initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.55 + i * 0.06 }}
-                whileHover={{ background: "rgba(255,255,255,0.03)" }}
-                style={{ display: "grid", gridTemplateColumns: "1fr 100px 100px 80px", gap: "0 12px", padding: "12px", borderRadius: "10px", alignItems: "center", cursor: "default", borderBottom: i < RECENT_SESSIONS.length - 1 ? `1px solid rgba(255,255,255,0.04)` : "none" }}
+                whileHover={{ background: isDark ? "rgba(255,255,255,0.03)" : "rgba(15,23,42,0.03)" }}
+                style={{ display: "grid", gridTemplateColumns: "1fr 100px 100px 80px", gap: "0 12px", padding: "12px", borderRadius: "10px", alignItems: "center", cursor: "default", borderBottom: i < RECENT_SESSIONS.length - 1 ? `1px solid ${isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.06)"}` : "none" }}
               >
                 {/* Topic */}
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -393,7 +398,7 @@ export default function DashboardPage() {
               <p style={{ fontSize: "12px", color: TEXT2, margin: "0 0 14px" }}>8 of 20 DSA topics mastered</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
                 {[{ l: "Easy", v: 18, c: "#10b981" }, { l: "Medium", v: 22, c: "#f59e0b" }, { l: "Hard", v: 10, c: "#ef4444" }].map(d => (
-                  <div key={d.l} style={{ textAlign: "center", padding: "8px 4px", borderRadius: "8px", background: "rgba(255,255,255,0.03)", border: `1px solid ${BORDER}` }}>
+                  <div key={d.l} style={{ textAlign: "center", padding: "8px 4px", borderRadius: "8px", background: isDark ? "rgba(255,255,255,0.03)" : "rgba(15,23,42,0.03)", border: `1px solid ${BORDER}` }}>
                     <div style={{ fontSize: "16px", fontWeight: 800, color: d.c }}>{d.v}</div>
                     <div style={{ fontSize: "10px", color: TEXT2 }}>{d.l}</div>
                   </div>
@@ -411,7 +416,7 @@ export default function DashboardPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {RECOMMENDED.map((item, i) => (
                   <motion.div key={i} whileHover={item.unlocked ? { x: 3 } : {}}
-                    style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "10px", border: `1px solid ${BORDER}`, opacity: item.unlocked ? 1 : 0.45, cursor: item.unlocked ? "pointer" : "not-allowed", background: "rgba(255,255,255,0.02)" }}>
+                    style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "10px", border: `1px solid ${BORDER}`, opacity: item.unlocked ? 1 : 0.45, cursor: item.unlocked ? "pointer" : "not-allowed", background: isDark ? "rgba(255,255,255,0.02)" : "rgba(15,23,42,0.02)" }}>
                     <div style={{ width: "32px", height: "32px", borderRadius: "8px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: `${item.color}12` }}>
                       {item.unlocked
                         ? <item.icon style={{ width: "15px", height: "15px", color: item.color }} />
@@ -446,7 +451,7 @@ export default function DashboardPage() {
                     <motion.div whileHover={{ scale: 1.04, borderColor: `${a.color}30` }} whileTap={{ scale: 0.97 }}
                       style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", padding: "14px 8px", borderRadius: "10px", border: `1px solid ${BORDER}`, background: `${a.color}07`, cursor: "pointer", textAlign: "center" }}>
                       <a.icon style={{ width: "18px", height: "18px", color: a.color }} />
-                      <span style={{ fontSize: "12px", fontWeight: 500, color: "#cbd5e1" }}>{a.label}</span>
+                      <span style={{ fontSize: "12px", fontWeight: 500, color: TEXT1 }}>{a.label}</span>
                     </motion.div>
                   </Link>
                 ))}
@@ -463,7 +468,7 @@ export default function DashboardPage() {
               <Award style={{ width: "16px", height: "16px", color: "#f59e0b" }} />
               Achievements
             </h2>
-            <span style={{ fontSize: "12px", color: TEXT2, background: "rgba(255,255,255,0.05)", padding: "3px 10px", borderRadius: "999px", border: `1px solid ${BORDER}` }}>3 / 6 earned</span>
+            <span style={{ fontSize: "12px", color: TEXT2, background: isDark ? "rgba(255,255,255,0.05)" : "rgba(15,23,42,0.05)", padding: "3px 10px", borderRadius: "999px", border: `1px solid ${BORDER}` }}>3 / 6 earned</span>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "12px" }}>
             {ACHIEVEMENTS.map((ach, i) => (
@@ -497,7 +502,7 @@ export default function DashboardPage() {
               return (
                 <motion.div key={i}
                   initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: i * 0.018 }}
-                  style={{ width: "34px", height: "34px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: 600, cursor: "default", outline: today ? "2px solid #f59e0b" : "none", outlineOffset: "2px", background: active ? "rgba(245,158,11,0.18)" : "rgba(255,255,255,0.04)", color: active ? "#f59e0b" : TEXT2, border: active ? "1px solid rgba(245,158,11,0.3)" : `1px solid ${BORDER}` }}
+                  style={{ width: "34px", height: "34px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: 600, cursor: "default", outline: today ? "2px solid #f59e0b" : "none", outlineOffset: "2px", background: active ? "rgba(245,158,11,0.18)" : isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.04)", color: active ? "#f59e0b" : TEXT2, border: active ? "1px solid rgba(245,158,11,0.3)" : `1px solid ${BORDER}` }}
                 >
                   {i + 1}
                 </motion.div>

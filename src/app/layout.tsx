@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
   title: "DSA Tutor AI — Your Smart Learning Companion",
@@ -21,11 +22,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body
-        className="antialiased"
-        style={{ backgroundColor: "#080810", color: "#e2e8f0", overflowX: "hidden" }}
-      >
-        {children}
+      <body className="antialiased" style={{ overflowX: "hidden" }}>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
