@@ -23,7 +23,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased" style={{ overflowX: "hidden" }}>
+      <body className="antialiased" style={{ overflowX: "hidden" }} suppressHydrationWarning>
         <AuthProvider>
           <ThemeProvider>
             {children}

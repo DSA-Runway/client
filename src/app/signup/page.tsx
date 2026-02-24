@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { AuthLeftPanel } from "@/components/auth/AuthLeftPanel";
 
 const inputBase: React.CSSProperties = {
@@ -36,7 +36,6 @@ export default function SignupPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [, setSuccess] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -113,25 +112,8 @@ export default function SignupPage() {
             <span className="text-gray-900 font-semibold text-[1.1rem] tracking-tight">DSA Tutor AI</span>
           </div>
 
-          {/* Success state */}
-          {success ? (
-            <div className="w-full max-w-85 flex flex-col items-center text-center gap-4">
-              <CheckCircle2 size={52} className="text-green-500" />
-              <h2 className="text-gray-900 text-xl font-semibold">Account Created!</h2>
-              <p className="text-gray-500 text-sm">
-                Your account has been created. You can now sign in and start your DSA journey.
-              </p>
-              <Link
-                href="/login"
-                className="w-full py-3 rounded-2xl text-white text-sm font-semibold text-center transition-colors"
-                style={{ background: "#111827" }}
-              >
-                Sign In
-              </Link>
-            </div>
-          ) : (
-            /* Form section */
-            <div className="w-full max-w-85">
+          {/* Form section */}
+          <div className="w-full max-w-85">
               <h1
                 className="text-gray-900 text-center mb-2"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(1.8rem, 3vw, 2.3rem)", fontWeight: 400 }}
@@ -248,7 +230,6 @@ export default function SignupPage() {
                 Sign Up with Google
               </button>
             </div>
-          )}
 
           {/* Footer */}
           <p className="text-sm text-gray-500">

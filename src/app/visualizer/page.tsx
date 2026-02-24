@@ -11,6 +11,7 @@ import {
   Plus, Trash2, Zap, GitBranch, Network, Layers, BarChart2, ArrowRight
 } from "lucide-react";
 
+
 type VizType = "linkedlist" | "graph" | "tree" | "sorting";
 
 // ─── LINKED LIST ────────────────────────────────────────────────────────────
@@ -699,100 +700,122 @@ export default function VisualizerPage() {
   const BORDER = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.09)";
   const TEXT1  = isDark ? "#ffffff"               : "#0f172a";
   const TEXT2  = isDark ? "#6b7280"               : "#64748b";
-  const CANVAS = isDark ? "rgba(7,13,27,0.9)"     : "rgba(240,244,250,0.9)";
-  const CBORD  = isDark ? "rgba(30,30,58,0.8)"    : "rgba(15,23,42,0.12)";
 
   useEffect(() => {
-    gsap.fromTo(headerRef.current, { y:-20,opacity:0 }, { y:0,opacity:1,duration:0.6,ease:"power3.out" });
+    gsap.fromTo(headerRef.current, { y:-20, opacity:0 }, { y:0, opacity:1, duration:0.6, ease:"power3.out" });
   }, []);
 
-  return (
-    <div style={{ minHeight:"100vh", background:BG, color:TEXT1, transition:"background 0.3s, color 0.3s" }}>
-      <Navbar/>
-      <div className="h-16" />
-      <div className="pb-16 w-full px-4 sm:px-8 lg:px-12 pt-8 max-w-[1600px] mx-auto">
+  const activeTab = VIZ_TABS.find(t => t.id === activeViz)!;
 
-        {/* Header */}
-        <div ref={headerRef} className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#f59e0b]/10 border border-[#f59e0b]/20 flex items-center justify-center">
-              <Zap className="w-5 h-5 text-[#f59e0b]"/>
+  return (
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT1 }}>
+      <Navbar />
+      <div style={{ height: "74px" }} />
+
+      <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "32px 28px 64px" }}>
+
+        {/* ── Header ── */}
+        <div ref={headerRef} style={{ marginBottom: "28px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+            <div style={{
+              width: "44px", height: "44px", borderRadius: "12px", flexShrink: 0,
+              background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.2)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <Zap style={{ width: "20px", height: "20px", color: "#f59e0b" }} />
             </div>
             <div>
-              <h1 className="text-2xl font-black" style={{ color:TEXT1 }}>DSA Visualizer</h1>
-              <p className="text-sm" style={{ color:TEXT2 }}>Watch algorithms run step-by-step</p>
+              <h1 style={{ fontSize: "22px", fontWeight: 900, margin: 0, color: TEXT1 }}>DSA Visualizer</h1>
+              <p style={{ fontSize: "13px", color: TEXT2, margin: 0 }}>Watch algorithms run step-by-step</p>
             </div>
           </div>
         </div>
 
-        {/* Tab selector */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+        {/* ── Tab selector ── */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gap: "12px",
+          marginBottom: "24px",
+        }}>
           {VIZ_TABS.map(tab => (
             <motion.button
               key={tab.id}
               onClick={() => setActiveViz(tab.id)}
-              whileHover={{ y:-2 }}
-              whileTap={{ scale:0.97 }}
-              className="p-4 rounded-xl text-left transition-all duration-200"
-              style={activeViz===tab.id
-                ? { background:`${tab.color}0d`, border:`1px solid ${tab.color}40`, boxShadow:`0 0 20px ${tab.color}15` }
-                : { background:CARD, border:`1px solid ${BORDER}` }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                padding: "16px",
+                borderRadius: "12px",
+                textAlign: "left",
+                cursor: "pointer",
+                border: "none",
+                transition: "all 0.2s",
+                ...(activeViz === tab.id
+                  ? { background: `${tab.color}0d`, border: `1px solid ${tab.color}40`, boxShadow: `0 0 20px ${tab.color}15` }
+                  : { background: CARD, border: `1px solid ${BORDER}` }),
+              }}
             >
-              <tab.icon className="w-5 h-5 mb-2" style={{ color:activeViz===tab.id?tab.color:TEXT2 }}/>
-              <div className="font-semibold text-sm" style={{ color:activeViz===tab.id?tab.color:TEXT1 }}>{tab.label}</div>
-              <div className="text-[11px] mt-0.5" style={{ color:TEXT2 }}>{tab.desc}</div>
+              <tab.icon style={{ width: "18px", height: "18px", marginBottom: "8px", color: activeViz === tab.id ? tab.color : TEXT2 }} />
+              <div style={{ fontSize: "13px", fontWeight: 600, color: activeViz === tab.id ? tab.color : TEXT1 }}>{tab.label}</div>
+              <div style={{ fontSize: "11px", marginTop: "3px", color: TEXT2 }}>{tab.desc}</div>
             </motion.button>
           ))}
         </div>
 
-        {/* Visualization area */}
+        {/* ── Visualization area ── */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeViz}
-            initial={{ opacity:0, y:20 }}
-            animate={{ opacity:1, y:0 }}
-            exit={{ opacity:0, y:-20 }}
-            transition={{ duration:0.3 }}
-            style={{ padding:"24px", borderRadius:"16px", background:CARD, border:`1px solid ${BORDER}` }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.25 }}
+            style={{ padding: "24px", borderRadius: "16px", background: CARD, border: `1px solid ${BORDER}`, marginBottom: "20px" }}
           >
-            <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom:`1px solid ${BORDER}` }}>
-              {(() => { const t = VIZ_TABS.find(t=>t.id===activeViz)!; return (
-                <>
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:`${t.color}15`,border:`1px solid ${t.color}30` }}>
-                    <t.icon className="w-4 h-4" style={{ color:t.color }}/>
-                  </div>
-                  <div>
-                    <h2 className="font-bold" style={{ color:TEXT1 }}>{t.label}</h2>
-                    <p className="text-xs" style={{ color:TEXT2 }}>{t.desc}</p>
-                  </div>
-                  <div className="ml-auto flex items-center gap-1.5 text-xs text-[#10b981] bg-[#10b981]/10 px-2 py-1 rounded-full border border-[#10b981]/20">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse"/>Interactive
-                  </div>
-                </>
-              ); })()}
+            {/* Card header */}
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px", paddingBottom: "16px", borderBottom: `1px solid ${BORDER}` }}>
+              <div style={{ width: "32px", height: "32px", borderRadius: "8px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: `${activeTab.color}15`, border: `1px solid ${activeTab.color}30` }}>
+                <activeTab.icon style={{ width: "15px", height: "15px", color: activeTab.color }} />
+              </div>
+              <div>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: TEXT1 }}>{activeTab.label}</div>
+                <div style={{ fontSize: "11px", color: TEXT2 }}>{activeTab.desc}</div>
+              </div>
+              <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#10b981", background: "rgba(16,185,129,0.1)", padding: "4px 10px", borderRadius: "999px", border: "1px solid rgba(16,185,129,0.2)" }}>
+                <span style={{ width: "6px", height: "6px", borderRadius: "999px", background: "#10b981", display: "inline-block" }} />
+                Interactive
+              </div>
             </div>
 
-            {activeViz === "linkedlist" && <LinkedListViz/>}
-            {activeViz === "graph" && <GraphViz/>}
-            {activeViz === "tree" && <TreeViz/>}
-            {activeViz === "sorting" && <SortingViz/>}
+            {activeViz === "linkedlist" && <LinkedListViz />}
+            {activeViz === "graph"      && <GraphViz />}
+            {activeViz === "tree"       && <TreeViz />}
+            {activeViz === "sorting"    && <SortingViz />}
           </motion.div>
         </AnimatePresence>
 
-        {/* Algorithm info cards */}
-        <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* ── Algorithm info cards ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
           {[
-            { label:"Linked List", ops:["Insert Head: O(1)","Insert Tail: O(n)","Delete: O(n)","Access: O(n)"], color:"#f59e0b" },
-            { label:"Graph (BFS)", ops:["Time: O(V + E)","Space: O(V)","Uses: Queue","Finds: Shortest path"], color:"#8b5cf6" },
-            { label:"Binary Tree", ops:["Insert: O(log n)","Search: O(log n)","Inorder = sorted","Height: O(log n)"], color:"#06b6d4" },
-            { label:"Bubble Sort", ops:["Best: O(n)","Avg: O(n²)","Worst: O(n²)","Space: O(1) in-place"], color:"#10b981" },
-          ].map((card,i) => (
-            <motion.div key={i} initial={{ opacity:0,y:20 }} whileInView={{ opacity:1,y:0 }} viewport={{ once:true }} transition={{ delay:i*0.1 }} className="p-4 rounded-xl transition-all duration-200" style={{ background:CARD, border:`1px solid ${card.color}30` }}>
-              <div className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color:card.color }}>{card.label}</div>
-              <div className="flex flex-col gap-1.5">
-                {card.ops.map((op,j) => (
-                  <div key={j} className="flex items-center gap-2 text-xs" style={{ color:TEXT2 }}>
-                    <div className="w-1 h-1 rounded-full flex-shrink-0" style={{ background:card.color }}/>
+            { label: "Linked List", ops: ["Insert Head: O(1)", "Insert Tail: O(n)", "Delete: O(n)", "Access: O(n)"],       color: "#f59e0b" },
+            { label: "Graph (BFS)", ops: ["Time: O(V + E)",    "Space: O(V)",        "Uses: Queue",    "Finds: Shortest path"], color: "#8b5cf6" },
+            { label: "Binary Tree", ops: ["Insert: O(log n)",  "Search: O(log n)",   "Inorder = sorted","Height: O(log n)"],   color: "#06b6d4" },
+            { label: "Bubble Sort", ops: ["Best: O(n)",         "Avg: O(n²)",          "Worst: O(n²)",   "Space: O(1) in-place"], color: "#10b981" },
+          ].map((card, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+              style={{ padding: "16px", borderRadius: "12px", background: CARD, border: `1px solid ${card.color}25` }}
+            >
+              <div style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: card.color, marginBottom: "12px" }}>
+                {card.label}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
+                {card.ops.map((op, j) => (
+                  <div key={j} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: TEXT2 }}>
+                    <div style={{ width: "4px", height: "4px", borderRadius: "999px", flexShrink: 0, background: card.color }} />
                     {op}
                   </div>
                 ))}
@@ -800,6 +823,7 @@ export default function VisualizerPage() {
             </motion.div>
           ))}
         </div>
+
       </div>
     </div>
   );
