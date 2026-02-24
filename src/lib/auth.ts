@@ -13,14 +13,14 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "email", placeholder: "Enter your email" },
         password: { label: "Password", type: "password", placeholder: "Enter your password" },
+        name: { label: "Name", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        // Demo mode — accepts any credentials. Replace with real DB lookup later.
         return {
           id: "demo-1",
-          name: credentials.email.split("@")[0],
+          name: (credentials as Record<string, string>).name || credentials.email.split("@")[0],
           email: credentials.email,
         };
       },

@@ -11,6 +11,7 @@ import {
   CheckCircle2, Circle, Lock, Sparkles, Bot, MessageSquare,
   Calendar, Users, Building2, Download, SlidersHorizontal
 } from "lucide-react";
+import { useProfileName } from "@/lib/useProfileName";
 
 /* ─── Data ─── */
 const TOPIC_PROGRESS = [
@@ -135,6 +136,8 @@ function DonutSegment({ value, total, color, offset }: { value: number; total: n
 
 export default function DashboardPage() {
   const { isDark } = useTheme();
+  const { name: profileName } = useProfileName();
+  const displayName = profileName || "there";
   const BG    = isDark ? "#070d1b"                : "#f4f6f9";
   const CARD  = isDark ? "rgba(11,19,38,0.95)"   : "rgba(255,255,255,0.97)";
   const CARD2 = isDark ? "rgba(14,24,48,0.9)"    : "rgba(248,250,252,0.95)";
@@ -171,7 +174,7 @@ export default function DashboardPage() {
           style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", marginBottom: "28px" }}>
           <div>
             <h1 style={{ fontSize: "26px", fontWeight: 900, margin: 0 }}>
-              Welcome back, <span style={{ color: "#f59e0b" }}>Sachin</span> 👋
+              Welcome back, <span style={{ color: "#f59e0b" }}>{displayName}</span> 👋
             </h1>
             <p style={{ color: TEXT2, marginTop: "4px", fontSize: "14px" }}>
               Continue your DSA journey — you&apos;re making great progress!

@@ -36,7 +36,7 @@ export default function SignupPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [, setSuccess] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,18 +54,15 @@ export default function SignupPage() {
 
     setIsLoading(true);
     try {
-      // TODO: Replace with your actual registration API call
-      // const res = await fetch("/api/auth/register", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ fullName, email, password }),
-      // });
-      // if (!res.ok) { const { message } = await res.json(); throw new Error(message); }
+      // Save name to localStorage so profile can use it
+      if (typeof window !== "undefined") {
+        localStorage.setItem("user_display_name", fullName);
+      }
 
-      // Auto sign-in after successful registration
-      const result = await signIn("credentials", { email, password, redirect: false });
+      // Auto sign-in with name included
+      const result = await signIn("credentials", { email, password, name: fullName, redirect: false });
       if (result?.error) {
-        setSuccess(true); // registration succeeded but auto-login needs setup
+        setError("Sign in failed. Please try logging in manually.");
       } else {
         router.push("/dashboard");
       }

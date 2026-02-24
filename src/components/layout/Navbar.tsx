@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, Settings, LogOut, User } from "lucide-react";
 import { LogoRolodex, LogoItem } from "@/components/animated-logo-rolodex";
 import { useTheme } from "@/context/ThemeContext";
+import { useSession, signOut } from "next-auth/react";
+import { useProfileName } from "@/lib/useProfileName";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -21,8 +23,15 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [avatarOpen, setAvatarOpen] = useState(false);
+  const avatarRef = useRef<HTMLDivElement>(null);
   const { isDark, toggleTheme } = useTheme();
   const pathname = usePathname();
+  const { data: session, status } = useSession();
+  const { name: profileName } = useProfileName();
+  const isLoggedIn = status === "authenticated";
+  const displayName = profileName || session?.user?.name || session?.user?.email?.split("@")[0] || "User";
+  const initials = displayName.split(" ").map((w: string) => w[0]).slice(0, 2).join("").toUpperCase();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -34,6 +43,16 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", checkMobile);
     };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (avatarRef.current && !avatarRef.current.contains(e.target as Node)) {
+        setAvatarOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // ── Dark: TUF-inspired — more transparent, prominent clean border outline ──
@@ -249,27 +268,119 @@ export default function Navbar() {
                   </AnimatePresence>
                 </motion.button>
 
-                {/* Log In */}
-                <Link href="/learn" style={{ textDecoration: "none" }}>
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.96 }}
-                    style={{ padding: "6px 16px", fontSize: "12px", fontWeight: 500, color: C.loginColor, background: "transparent", border: `1px solid ${C.loginBorder}`, borderRadius: "999px", cursor: "pointer", transition: "color 0.2s, border-color 0.2s" }}
-                  >
-                    Log In
-                  </motion.button>
-                </Link>
+                {isLoggedIn ? (
+                  /* ── User Avatar + Dropdown ── */
+                  <div ref={avatarRef} style={{ position: "relative" }}>
+                    <motion.button
+                      onClick={() => setAvatarOpen(!avatarOpen)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      style={{
+                        width: "34px", height: "34px", borderRadius: "999px",
+                        background: "linear-gradient(135deg, #f59e0b, #d97706)",
+                        border: "2px solid rgba(245,158,11,0.4)",
+                        cursor: "pointer", display: "flex", alignItems: "center",
+                        justifyContent: "center", fontSize: "12px", fontWeight: 800,
+                        color: "#000", letterSpacing: "-0.5px",
+                      }}
+                    >
+                      {initials}
+                    </motion.button>
 
-                {/* Start Learning */}
-                <Link href="/learn" style={{ textDecoration: "none" }}>
-                  <motion.button
-                    whileHover={{ scale: 1.04, boxShadow: "0 0 18px rgba(245,158,11,0.4)" }}
-                    whileTap={{ scale: 0.96 }}
-                    style={{ padding: "6px 16px", fontSize: "12px", fontWeight: 700, background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#000", borderRadius: "999px", border: "none", cursor: "pointer" }}
-                  >
-                    Start Learning
-                  </motion.button>
-                </Link>
+                    <AnimatePresence>
+                      {avatarOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                          transition={{ duration: 0.15 }}
+                          style={{
+                            position: "absolute", top: "calc(100% + 10px)", right: 0,
+                            minWidth: "200px", borderRadius: "14px",
+                            background: isDark ? "rgba(4,9,22,0.97)" : "rgba(255,255,255,0.99)",
+                            border: `1px solid ${C.navBorder}`,
+                            boxShadow: isDark ? "0 20px 50px rgba(0,0,0,0.6)" : "0 12px 40px rgba(0,0,0,0.13)",
+                            overflow: "hidden", zIndex: 100,
+                            backdropFilter: "blur(20px)",
+                          }}
+                        >
+                          {/* User info header */}
+                          <div style={{ padding: "14px 16px 12px", borderBottom: `1px solid ${C.navBorder}` }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                              <div style={{ width: "36px", height: "36px", borderRadius: "999px", background: "linear-gradient(135deg, #f59e0b, #d97706)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: 800, color: "#000", flexShrink: 0 }}>
+                                {initials}
+                              </div>
+                              <div style={{ minWidth: 0 }}>
+                                <div style={{ fontSize: "13px", fontWeight: 700, color: isDark ? "#f0f4ff" : "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                  {displayName}
+                                </div>
+                                <div style={{ fontSize: "11px", color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                  {session?.user?.email}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Menu items */}
+                          <div style={{ padding: "6px" }}>
+                            <Link href="/profile" style={{ textDecoration: "none" }} onClick={() => setAvatarOpen(false)}>
+                              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "9px 10px", borderRadius: "9px", cursor: "pointer", color: C.text, fontSize: "13px", fontWeight: 500, transition: "background 0.15s" }}
+                                onMouseEnter={e => (e.currentTarget.style.background = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.06)")}
+                                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                              >
+                                <User style={{ width: "14px", height: "14px", flexShrink: 0 }} />
+                                Profile Settings
+                              </div>
+                            </Link>
+                            <Link href="/dashboard" style={{ textDecoration: "none" }} onClick={() => setAvatarOpen(false)}>
+                              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "9px 10px", borderRadius: "9px", cursor: "pointer", color: C.text, fontSize: "13px", fontWeight: 500, transition: "background 0.15s" }}
+                                onMouseEnter={e => (e.currentTarget.style.background = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.06)")}
+                                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                              >
+                                <Settings style={{ width: "14px", height: "14px", flexShrink: 0 }} />
+                                Dashboard
+                              </div>
+                            </Link>
+                            <div style={{ margin: "4px 0", borderTop: `1px solid ${C.navBorder}` }} />
+                            <button
+                              onClick={() => { setAvatarOpen(false); signOut({ callbackUrl: "/login" }); }}
+                              style={{ display: "flex", alignItems: "center", gap: "10px", padding: "9px 10px", borderRadius: "9px", cursor: "pointer", color: "#ef4444", fontSize: "13px", fontWeight: 500, background: "transparent", border: "none", width: "100%", transition: "background 0.15s" }}
+                              onMouseEnter={e => (e.currentTarget.style.background = "rgba(239,68,68,0.08)")}
+                              onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                            >
+                              <LogOut style={{ width: "14px", height: "14px", flexShrink: 0 }} />
+                              Sign Out
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <>
+                    {/* Log In */}
+                    <Link href="/login" style={{ textDecoration: "none" }}>
+                      <motion.button
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.96 }}
+                        style={{ padding: "6px 16px", fontSize: "12px", fontWeight: 500, color: C.loginColor, background: "transparent", border: `1px solid ${C.loginBorder}`, borderRadius: "999px", cursor: "pointer", transition: "color 0.2s, border-color 0.2s" }}
+                      >
+                        Log In
+                      </motion.button>
+                    </Link>
+
+                    {/* Start Learning */}
+                    <Link href="/learn" style={{ textDecoration: "none" }}>
+                      <motion.button
+                        whileHover={{ scale: 1.04, boxShadow: "0 0 18px rgba(245,158,11,0.4)" }}
+                        whileTap={{ scale: 0.96 }}
+                        style={{ padding: "6px 16px", fontSize: "12px", fontWeight: 700, background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#000", borderRadius: "999px", border: "none", cursor: "pointer" }}
+                      >
+                        Start Learning
+                      </motion.button>
+                    </Link>
+                  </>
+                )}
               </div>
             )}
 
