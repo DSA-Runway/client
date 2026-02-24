@@ -77,9 +77,23 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="relative w-full min-h-screen flex overflow-hidden">
-      {/* ── Card (full-bleed) ── */}
-      <div className="w-full min-h-screen flex">
+    <div
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden py-8 px-4"
+      style={{
+        background:
+          "radial-gradient(ellipse 140% 65% at 50% -5%, rgba(67,56,202,0.42) 0%, rgba(14,12,38,0.55) 38%, transparent 62%), linear-gradient(to bottom, #0c0c20 0%, #060612 50%, #010106 100%)",
+      }}
+    >
+      {/* ── Card ── */}
+      <div
+        className="relative z-10 w-full flex overflow-hidden"
+        style={{
+          maxWidth: "1040px",
+          minHeight: "640px",
+          borderRadius: "22px",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.05)",
+        }}
+      >
         {/* Left image panel */}
         <AuthLeftPanel
           label="Join The Platform"

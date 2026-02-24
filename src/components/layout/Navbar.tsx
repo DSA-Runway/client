@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Brain, Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
+import { LogoRolodex, LogoItem } from "@/components/animated-logo-rolodex";
 import { useTheme } from "@/context/ThemeContext";
 
 const navItems = [
@@ -122,17 +123,45 @@ export default function Navbar() {
           <div style={{ height: "46px", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 6px 0 16px" }}>
 
             {/* ── Logo ── */}
-            <Link href="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", flexShrink: 0 }}>
-              <div style={{ position: "relative", width: "26px", height: "26px" }}>
-                <div style={{ position: "absolute", inset: 0, background: "#f59e0b", borderRadius: "7px", opacity: 0.2, filter: "blur(4px)" }} />
-                <div style={{ position: "relative", width: "26px", height: "26px", background: "linear-gradient(135deg, #f59e0b, #d97706)", borderRadius: "7px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Brain style={{ width: "14px", height: "14px", color: "#000" }} />
+            <Link href="/" style={{ display: "flex", alignItems: "center", gap: "9px", textDecoration: "none", flexShrink: 0 }}>
+              {/* Animated rolodex logo */}
+              <div style={{ width: "53px", height: "39px", overflow: "hidden", flexShrink: 0, borderRadius: "10px" }}>
+                <div style={{ transform: "scale(0.22)", transformOrigin: "top left" }}>
+                  <LogoRolodex
+                    items={[
+                      <LogoItem key="D" className="bg-indigo-500 text-white">D</LogoItem>,
+                      <LogoItem key="S" className="bg-violet-500 text-white">S</LogoItem>,
+                      <LogoItem key="A" className="bg-fuchsia-500 text-white">A</LogoItem>,
+                    ]}
+                  />
                 </div>
               </div>
-              <div style={{ display: "flex", alignItems: "baseline" }}>
-                <span style={{ fontWeight: 800, fontSize: "14px", color: C.logoText, letterSpacing: "-0.4px", transition: "color 0.25s" }}>DSA</span>
-                <span style={{ fontWeight: 800, fontSize: "14px", color: C.logoAccent, letterSpacing: "-0.4px", transition: "color 0.25s" }}> Tutor</span>
-                <span style={{ marginLeft: "5px", fontSize: "8px", fontWeight: 700, color: C.logoAccent, background: isDark ? "rgba(245,158,11,0.12)" : "rgba(217,119,6,0.10)", border: `1px solid ${isDark ? "rgba(245,158,11,0.3)" : "rgba(217,119,6,0.28)"}`, padding: "1px 5px", borderRadius: "999px", letterSpacing: "0.04em", transition: "all 0.25s" }}>AI</span>
+              {/* Brand name */}
+              <div style={{ display: "flex", alignItems: "baseline", gap: "0px" }}>
+                <span style={{
+                  fontWeight: 800,
+                  fontSize: "14.5px",
+                  letterSpacing: "-0.5px",
+                  background: isDark
+                    ? "linear-gradient(90deg, #e2e8f0 0%, #a78bfa 60%, #818cf8 100%)"
+                    : "linear-gradient(90deg, #1e1b4b 0%, #4f46e5 60%, #7c3aed 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  transition: "opacity 0.25s",
+                }}>DSA</span>
+                <span style={{
+                  fontWeight: 800,
+                  fontSize: "14.5px",
+                  letterSpacing: "-0.5px",
+                  background: isDark
+                    ? "linear-gradient(90deg, #a78bfa 0%, #f472b6 100%)"
+                    : "linear-gradient(90deg, #7c3aed 0%, #db2777 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  transition: "opacity 0.25s",
+                }}>&nbsp;Runway</span>
               </div>
             </Link>
 

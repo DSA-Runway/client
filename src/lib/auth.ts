@@ -17,18 +17,12 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        // TODO: Replace with your actual database/API authentication logic
-        // Example with a backend API:
-        // const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({ email: credentials.email, password: credentials.password }),
-        // });
-        // if (!res.ok) return null;
-        // const user = await res.json();
-        // return user;
-
-        return null;
+        // Demo mode — accepts any credentials. Replace with real DB lookup later.
+        return {
+          id: "demo-1",
+          name: credentials.email.split("@")[0],
+          email: credentials.email,
+        };
       },
     }),
   ],
