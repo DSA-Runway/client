@@ -35,7 +35,7 @@ const DELAY_IN_MS = 2500;
 const TRANSITION_DURATION_IN_SECS = 1.5;
 
 export const LogoRolodex = ({ items }: { items: React.ReactNode[] }) => {
-  const intervalRef = useRef(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {

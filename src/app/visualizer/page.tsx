@@ -749,7 +749,6 @@ export default function VisualizerPage() {
                 borderRadius: "12px",
                 textAlign: "left",
                 cursor: "pointer",
-                border: "none",
                 transition: "all 0.2s",
                 ...(activeViz === tab.id
                   ? { background: `${tab.color}0d`, border: `1px solid ${tab.color}40`, boxShadow: `0 0 20px ${tab.color}15` }
