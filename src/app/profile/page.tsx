@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/fakeAuth";
+// import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { User, Save, CheckCircle2, Mail, IdCard } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
@@ -25,7 +25,7 @@ const inputStyle = (isDark: boolean): React.CSSProperties => ({
 export default function ProfilePage() {
   const { isDark } = useTheme();
   const { data: session, status } = useSession();
-  const router = useRouter();
+  // const router = useRouter();
   const { name: profileName, updateName } = useProfileName();
 
   const [displayName, setDisplayName] = useState("");
@@ -37,9 +37,7 @@ export default function ProfilePage() {
   const TEXT1 = isDark ? "#f0f4ff" : "#0f172a";
   const TEXT2 = isDark ? "#7d8ba3" : "#64748b";
 
-  useEffect(() => {
-    if (status === "unauthenticated") router.push("/login");
-  }, [status, router]);
+  // Auth check removed — always logged in for demo
 
   useEffect(() => {
     if (profileName) setDisplayName(profileName);
