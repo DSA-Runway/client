@@ -5,9 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Sun, Moon, Settings, LogOut, User } from "lucide-react";
-import { LogoRolodex, LogoItem } from "@/components/animated-logo-rolodex";
 import { useTheme } from "@/context/ThemeContext";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut } from "@/lib/fakeAuth";
 import { useProfileName } from "@/lib/useProfileName";
 
 const navItems = [
@@ -142,46 +141,18 @@ export default function Navbar() {
           <div style={{ height: "46px", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 6px 0 16px" }}>
 
             {/* ── Logo ── */}
-            <Link href="/" style={{ display: "flex", alignItems: "center", gap: "9px", textDecoration: "none", flexShrink: 0 }}>
-              {/* Animated rolodex logo */}
-              <div style={{ width: "53px", height: "39px", overflow: "hidden", flexShrink: 0, borderRadius: "10px" }}>
-                <div style={{ transform: "scale(0.22)", transformOrigin: "top left" }}>
-                  <LogoRolodex
-                    items={[
-                      <LogoItem key="D" className="bg-indigo-500 text-white">D</LogoItem>,
-                      <LogoItem key="S" className="bg-violet-500 text-white">S</LogoItem>,
-                      <LogoItem key="A" className="bg-fuchsia-500 text-white">A</LogoItem>,
-                    ]}
-                  />
-                </div>
-              </div>
-              {/* Brand name */}
-              <div style={{ display: "flex", alignItems: "baseline", gap: "0px" }}>
-                <span style={{
-                  fontWeight: 800,
-                  fontSize: "14.5px",
-                  letterSpacing: "-0.5px",
-                  background: isDark
-                    ? "linear-gradient(90deg, #e2e8f0 0%, #a78bfa 60%, #818cf8 100%)"
-                    : "linear-gradient(90deg, #1e1b4b 0%, #4f46e5 60%, #7c3aed 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  transition: "opacity 0.25s",
-                }}>DSA</span>
-                <span style={{
-                  fontWeight: 800,
-                  fontSize: "14.5px",
-                  letterSpacing: "-0.5px",
-                  background: isDark
-                    ? "linear-gradient(90deg, #a78bfa 0%, #f472b6 100%)"
-                    : "linear-gradient(90deg, #7c3aed 0%, #db2777 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  transition: "opacity 0.25s",
-                }}>&nbsp;Runway</span>
-              </div>
+            <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
+              <span style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 700,
+                fontSize: "17px",
+                letterSpacing: "-0.3px",
+                color: isDark ? "#f0f4ff" : "#0f172a",
+                transition: "color 0.25s",
+              }}>
+                DSA
+                <span style={{ color: "#f59e0b" }}> Runway</span>
+              </span>
             </Link>
 
             {/* ── Desktop nav items — sliding pill ── */}

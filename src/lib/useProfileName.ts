@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/fakeAuth";
 import { useState, useEffect } from "react";
 
 export function useProfileName() {
