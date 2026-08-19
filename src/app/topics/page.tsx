@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
+import { useTheme } from "@/context/ThemeContext";
+import { SUBTOPICS, groupSubtopics } from "@/lib/subtopics";
+import { hasContent } from "@/content/manifest";
 import {
   Search, BookOpen, Code2, Zap, Brain, Target,
   Play, CheckCircle2, Clock, Filter,
@@ -17,6 +20,8 @@ const CURRICULUM = [
     color: "#f59e0b",
     glow: "rgba(245,158,11,0.12)",
     topics: [
+      { name:"Basics", difficulty:"Easy", time:"90 min", done:false, score:0, problems:["Input / Output","Loops","Functions"] },
+      { name:"Pattern Printing", difficulty:"Easy", time:"75 min", done:false, score:0, problems:["Star Patterns","Number Patterns","Alphabet Patterns"] },
       { name:"Arrays", difficulty:"Easy", time:"45 min", done:true, score:92, problems:["Two Sum","Maximum Subarray","Rotate Array"] },
       { name:"Strings", difficulty:"Easy", time:"40 min", done:true, score:88, problems:["Reverse String","Valid Palindrome","Anagram Check"] },
       { name:"Recursion", difficulty:"Medium", time:"60 min", done:false, score:0, problems:["Factorial","Fibonacci","Tower of Hanoi"] },
@@ -100,6 +105,25 @@ export default function TopicsPage() {
   const pct         = Math.round((doneTopics / totalTopics) * 100);
   const circ        = 2 * Math.PI * 20; // r=20
 
+  const { isDark } = useTheme();
+
+  // Every surface colour on this page reads from these tokens, so the light
+  // theme covers the whole page instead of just the navbar.
+  const BG       = isDark ? "#080810"                 : "#f4f6f9";
+  const CARD     = isDark ? "rgba(255,255,255,0.03)"  : "#ffffff";
+  const CARD2    = isDark ? "rgba(255,255,255,0.025)" : "#ffffff";
+  const BORDER   = isDark ? "rgba(255,255,255,0.07)"  : "rgba(15,23,42,0.09)";
+  const DIVIDER  = isDark ? "rgba(255,255,255,0.06)"  : "rgba(15,23,42,0.08)";
+  const HAIRLINE = isDark ? "rgba(255,255,255,0.04)"  : "rgba(15,23,42,0.06)";
+  const TRACK    = isDark ? "#1e1e3a"                 : "rgba(15,23,42,0.10)";
+  const PILL     = isDark ? "rgba(255,255,255,0.05)"  : "rgba(15,23,42,0.06)";
+  const HOVER    = isDark ? "rgba(255,255,255,0.04)"  : "rgba(15,23,42,0.04)";
+  const TEXT1    = isDark ? "#ffffff"                 : "#0f172a";
+  const TEXT2    = isDark ? "#6b7280"                 : "#64748b";
+  const TEXT3    = isDark ? "#9ca3af"                 : "#475569";
+  const TEXT4    = isDark ? "#4b5563"                 : "#94a3b8";
+  const SHADOW   = isDark ? "none"                    : "0 2px 12px rgba(0,0,0,0.06)";
+
   const filtered = CURRICULUM.map(cat => ({
     ...cat,
     topics: cat.topics.filter(t => {
@@ -113,7 +137,7 @@ export default function TopicsPage() {
   })).filter(cat => cat.topics.length > 0);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#080810", color: "#fff" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT1 }}>
       <Navbar />
       <div style={{ height: "74px" }} />
 
@@ -134,7 +158,7 @@ export default function TopicsPage() {
               <h1 style={{ fontSize: "clamp(28px, 4vw, 38px)", fontWeight: 900, margin: "4px 0 0", lineHeight: 1.1 }}>
                 All&nbsp;<span style={{ color: "#f59e0b" }}>Topics</span>
               </h1>
-              <p style={{ color: "#6b7280", marginTop: "6px", fontSize: "14px" }}>
+              <p style={{ color: TEXT2, marginTop: "6px", fontSize: "14px" }}>
                 {doneTopics} of {totalTopics} topics completed
               </p>
             </div>
@@ -143,12 +167,12 @@ export default function TopicsPage() {
             <div style={{
               display: "flex", alignItems: "center", gap: "12px",
               padding: "14px 18px", borderRadius: "14px",
-              background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
+              background: CARD, border: `1px solid ${BORDER}`, boxShadow: SHADOW,
               flexShrink: 0,
             }}>
               <div style={{ position: "relative", width: "52px", height: "52px" }}>
                 <svg viewBox="0 0 48 48" style={{ width: "100%", height: "100%", transform: "rotate(-90deg)" }}>
-                  <circle cx="24" cy="24" r="20" fill="none" stroke="#1e1e3a" strokeWidth="4" />
+                  <circle cx="24" cy="24" r="20" fill="none" stroke={TRACK} strokeWidth="4" />
                   <motion.circle
                     cx="24" cy="24" r="20" fill="none" stroke="#f59e0b" strokeWidth="4"
                     strokeLinecap="round"
@@ -163,8 +187,8 @@ export default function TopicsPage() {
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: "18px", fontWeight: 900, color: "#fff", lineHeight: 1 }}>{doneTopics}/{totalTopics}</div>
-                <div style={{ fontSize: "11px", color: "#6b7280", marginTop: "2px" }}>Completed</div>
+                <div style={{ fontSize: "18px", fontWeight: 900, color: TEXT1, lineHeight: 1 }}>{doneTopics}/{totalTopics}</div>
+                <div style={{ fontSize: "11px", color: TEXT2, marginTop: "2px" }}>Completed</div>
               </div>
             </div>
           </div>
@@ -174,22 +198,23 @@ export default function TopicsPage() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "32px", alignItems: "center" }}>
           {/* Search */}
           <div style={{ position: "relative", flex: "1 1 220px", minWidth: "180px" }}>
-            <Search style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", width: "15px", height: "15px", color: "#6b7280" }} />
+            <Search style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", width: "15px", height: "15px", color: TEXT2 }} />
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search topics..."
               style={{
                 width: "100%", boxSizing: "border-box",
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.07)",
+                background: CARD,
+                border: `1px solid ${BORDER}`,
+                boxShadow: SHADOW,
                 borderRadius: "10px",
                 padding: "10px 14px 10px 36px",
-                fontSize: "13px", color: "#fff",
+                fontSize: "13px", color: TEXT1,
                 outline: "none", transition: "border-color 0.2s",
               }}
               onFocus={e => (e.currentTarget.style.borderColor = "rgba(245,158,11,0.4)")}
-              onBlur={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)")}
+              onBlur={e => (e.currentTarget.style.borderColor = BORDER)}
             />
           </div>
 
@@ -203,12 +228,12 @@ export default function TopicsPage() {
                   style={{
                     padding: "7px 13px", borderRadius: "8px", fontSize: "12px", fontWeight: 600,
                     cursor: "pointer", border: "none", textTransform: "capitalize",
-                    background: active ? activeBg : "rgba(255,255,255,0.05)",
-                    color: active ? "#000" : "#9ca3af",
+                    background: active ? activeBg : PILL,
+                    color: active ? "#000" : TEXT3,
                     transition: "all 0.15s",
                   }}
-                  onMouseEnter={e => { if (!active) e.currentTarget.style.color = "#fff"; }}
-                  onMouseLeave={e => { if (!active) e.currentTarget.style.color = "#9ca3af"; }}
+                  onMouseEnter={e => { if (!active) e.currentTarget.style.color = TEXT1; }}
+                  onMouseLeave={e => { if (!active) e.currentTarget.style.color = TEXT3; }}
                 >
                   {f === "all" ? (
                     <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
@@ -237,11 +262,11 @@ export default function TopicsPage() {
                 }}>
                   <cat.icon style={{ width: "15px", height: "15px", color: cat.color }} />
                 </div>
-                <h2 style={{ fontSize: "15px", fontWeight: 700, color: "#fff", margin: 0 }}>{cat.category}</h2>
-                <span style={{ fontSize: "12px", color: "#6b7280" }}>
+                <h2 style={{ fontSize: "15px", fontWeight: 700, color: TEXT1, margin: 0 }}>{cat.category}</h2>
+                <span style={{ fontSize: "12px", color: TEXT2 }}>
                   {cat.topics.filter(t => t.done).length}/{cat.topics.length} done
                 </span>
-                <div style={{ flex: 1, height: "1px", background: "#1e1e3a", marginLeft: "4px" }} />
+                <div style={{ flex: 1, height: "1px", background: TRACK, marginLeft: "4px" }} />
               </div>
 
               {/* Topic grid */}
@@ -250,23 +275,33 @@ export default function TopicsPage() {
                 gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
                 gap: "12px",
               }}>
-                {cat.topics.map((topic, ti) => (
+                {cat.topics.map((topic, ti) => {
+                  const subtopics  = SUBTOPICS[topic.name];
+                  const isExpanded = expandedTopic === topic.name;
+                  const itemCount  = subtopics ? subtopics.length : topic.problems.length;
+
+                  return (
                   <motion.div
                     key={topic.name}
-                    onClick={() => setExpanded(expandedTopic === topic.name ? null : topic.name)}
+                    layout
+                    onClick={() => setExpanded(isExpanded ? null : topic.name)}
                     whileHover={{ y: -2, boxShadow: `0 8px 30px ${cat.glow}` }}
                     style={{
                       padding: "16px", borderRadius: "12px", cursor: "pointer",
-                      background: topic.done ? `${cat.color}08` : "rgba(255,255,255,0.025)",
-                      border: `1px solid ${expandedTopic === topic.name ? `${cat.color}40` : topic.done ? `${cat.color}20` : "rgba(255,255,255,0.07)"}`,
+                      background: topic.done ? (isDark ? `${cat.color}08` : "#ffffff") : CARD2,
+                      border: `1px solid ${isExpanded ? `${cat.color}40` : topic.done ? `${cat.color}${isDark ? "20" : "38"}` : BORDER}`,
+                      boxShadow: SHADOW,
                       transition: "border-color 0.2s",
                       display: "flex", flexDirection: "column", gap: "10px",
+                      // A topic with subtopics takes the full row when open — 40 rows
+                      // don't fit a 260px card.
+                      gridColumn: isExpanded && subtopics ? "1 / -1" : undefined,
                     }}
                   >
                     {/* Card top: name + done check */}
                     <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "8px" }}>
                       <div>
-                        <div style={{ fontSize: "14px", fontWeight: 600, color: "#f1f5f9", marginBottom: "6px" }}>
+                        <div style={{ fontSize: "14px", fontWeight: 600, color: TEXT1, marginBottom: "6px" }}>
                           {topic.name}
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -278,7 +313,7 @@ export default function TopicsPage() {
                           }}>
                             {topic.difficulty}
                           </span>
-                          <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "#6b7280" }}>
+                          <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: TEXT2 }}>
                             <Clock style={{ width: "10px", height: "10px" }} />
                             {topic.time}
                           </span>
@@ -293,10 +328,10 @@ export default function TopicsPage() {
                     {topic.done ? (
                       <div>
                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
-                          <span style={{ fontSize: "11px", color: "#6b7280" }}>Score</span>
+                          <span style={{ fontSize: "11px", color: TEXT2 }}>Score</span>
                           <span style={{ fontSize: "12px", fontWeight: 700, color: cat.color }}>{topic.score}%</span>
                         </div>
-                        <div style={{ height: "5px", borderRadius: "999px", background: "#1e1e3a", overflow: "hidden" }}>
+                        <div style={{ height: "5px", borderRadius: "999px", background: TRACK, overflow: "hidden" }}>
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${topic.score}%` }}
@@ -304,12 +339,22 @@ export default function TopicsPage() {
                             style={{ height: "100%", borderRadius: "999px", background: `linear-gradient(90deg, ${cat.color}, ${cat.color}80)` }}
                           />
                         </div>
+                        {subtopics && (
+                          <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "9px", fontSize: "12px", color: TEXT2 }}>
+                            <BookOpen style={{ width: "12px", height: "12px" }} />
+                            {itemCount} subtopics
+                            <ChevronRight style={{
+                              width: "13px", height: "13px", marginLeft: "auto",
+                              transform: isExpanded ? "rotate(90deg)" : "none", transition: "transform 0.2s",
+                            }} />
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <span style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", color: "#6b7280" }}>
+                        <span style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", color: TEXT2 }}>
                           <BookOpen style={{ width: "12px", height: "12px" }} />
-                          {topic.problems.length} problems
+                          {itemCount} {subtopics ? "subtopics" : "problems"}
                         </span>
                         <Link href="/learn" onClick={e => e.stopPropagation()}>
                           <motion.span
@@ -331,27 +376,103 @@ export default function TopicsPage() {
 
                     {/* Expanded problems list */}
                     <AnimatePresence>
-                      {expandedTopic === topic.name && (
+                      {isExpanded && subtopics && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          style={{ overflow: "hidden", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "10px" }}
+                          style={{ overflow: "hidden", borderTop: `1px solid ${DIVIDER}`, paddingTop: "14px" }}
                         >
-                          <p style={{ fontSize: "10px", color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "8px" }}>
+                          <div style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                            gap: "20px",
+                          }}>
+                            {groupSubtopics(subtopics).map(group => (
+                              <div key={group.difficulty}>
+                                {/* Group header */}
+                                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+                                  <span style={{
+                                    fontSize: "10px", fontWeight: 700,
+                                    padding: "2px 7px", borderRadius: "999px",
+                                    background: DIFF_BG[group.difficulty],
+                                    color: DIFF_COLOR[group.difficulty],
+                                  }}>
+                                    {group.difficulty}
+                                  </span>
+                                  <span style={{ fontSize: "11px", color: TEXT2 }}>
+                                    {group.items.length} subtopics
+                                  </span>
+                                  <div style={{ flex: 1, height: "1px", background: DIVIDER }} />
+                                </div>
+
+                                {/* Subtopic rows — headings only; content comes later */}
+                                {group.items.map((sub, si) => (
+                                  <div
+                                    key={sub.id}
+                                    style={{
+                                      display: "flex", alignItems: "flex-start", gap: "9px",
+                                      padding: "6px 8px", borderRadius: "7px",
+                                      fontSize: "12px", color: TEXT3, lineHeight: 1.4,
+                                      transition: "background 0.15s, color 0.15s",
+                                    }}
+                                    onMouseEnter={e => {
+                                      e.currentTarget.style.background = HOVER;
+                                      e.currentTarget.style.color = TEXT1;
+                                    }}
+                                    onMouseLeave={e => {
+                                      e.currentTarget.style.background = "transparent";
+                                      e.currentTarget.style.color = TEXT3;
+                                    }}
+                                  >
+                                    <span style={{
+                                      fontSize: "10px", fontWeight: 600, color: TEXT4,
+                                      minWidth: "16px", textAlign: "right", flexShrink: 0, paddingTop: "1px",
+                                    }}>
+                                      {si + 1}
+                                    </span>
+                                    <span>{sub.title}</span>
+                                    {hasContent(sub.id) && (
+                                      <span
+                                        title="Lesson content authored"
+                                        style={{
+                                          width: "6px", height: "6px", borderRadius: "999px",
+                                          background: "#10b981", flexShrink: 0,
+                                          marginLeft: "auto", marginTop: "5px",
+                                          boxShadow: "0 0 6px rgba(16,185,129,0.6)",
+                                        }}
+                                      />
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {isExpanded && !subtopics && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          style={{ overflow: "hidden", borderTop: `1px solid ${DIVIDER}`, paddingTop: "10px" }}
+                        >
+                          <p style={{ fontSize: "10px", color: TEXT2, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "8px" }}>
                             Problems
                           </p>
                           {topic.problems.map((prob, pi) => (
                             <Link key={pi} href="/learn">
                               <div style={{
                                 display: "flex", alignItems: "center", justifyContent: "space-between",
-                                padding: "6px 0", fontSize: "12px", color: "#9ca3af",
-                                borderBottom: pi < topic.problems.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                                padding: "6px 0", fontSize: "12px", color: TEXT3,
+                                borderBottom: pi < topic.problems.length - 1 ? `1px solid ${HAIRLINE}` : "none",
                                 cursor: "pointer", transition: "color 0.15s",
                               }}
-                                onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-                                onMouseLeave={e => (e.currentTarget.style.color = "#9ca3af")}
+                                onMouseEnter={e => (e.currentTarget.style.color = TEXT1)}
+                                onMouseLeave={e => (e.currentTarget.style.color = TEXT3)}
                               >
                                 <span style={{ display: "flex", alignItems: "center", gap: "7px" }}>
                                   <div style={{ width: "5px", height: "5px", borderRadius: "999px", background: cat.color, flexShrink: 0 }} />
@@ -365,7 +486,8 @@ export default function TopicsPage() {
                       )}
                     </AnimatePresence>
                   </motion.div>
-                ))}
+                  );
+                })}
               </div>
             </motion.div>
           ))}
@@ -374,8 +496,8 @@ export default function TopicsPage() {
         {/* Empty state */}
         {filtered.length === 0 && (
           <div style={{ textAlign: "center", padding: "80px 0" }}>
-            <Search style={{ width: "44px", height: "44px", color: "#374151", margin: "0 auto 16px" }} />
-            <p style={{ color: "#6b7280", fontSize: "15px" }}>No topics found matching &quot;{search}&quot;</p>
+            <Search style={{ width: "44px", height: "44px", color: TEXT4, margin: "0 auto 16px" }} />
+            <p style={{ color: TEXT2, fontSize: "15px" }}>No topics found matching &quot;{search}&quot;</p>
             <button
               onClick={() => { setSearch(""); setFilter("all"); }}
               style={{ marginTop: "12px", color: "#f59e0b", fontSize: "13px", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
@@ -390,17 +512,17 @@ export default function TopicsPage() {
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           style={{
             marginTop: "48px", padding: "24px 28px", borderRadius: "16px",
-            border: "1px solid rgba(245,158,11,0.2)", background: "rgba(245,158,11,0.04)",
+            border: `1px solid rgba(245,158,11,${isDark ? "0.2" : "0.3"})`, background: isDark ? "rgba(245,158,11,0.04)" : "rgba(245,158,11,0.08)",
             display: "flex", alignItems: "center", justifyContent: "space-between",
             flexWrap: "wrap", gap: "16px",
           }}
         >
           <div>
-            <h3 style={{ fontSize: "17px", fontWeight: 700, color: "#fff", margin: "0 0 4px", display: "flex", alignItems: "center", gap: "8px" }}>
+            <h3 style={{ fontSize: "17px", fontWeight: 700, color: TEXT1, margin: "0 0 4px", display: "flex", alignItems: "center", gap: "8px" }}>
               <TrendingUp style={{ width: "18px", height: "18px", color: "#f59e0b" }} />
               Ready to level up?
             </h3>
-            <p style={{ fontSize: "13px", color: "#6b7280", margin: 0 }}>Your AI tutor is waiting. Pick a topic and start learning.</p>
+            <p style={{ fontSize: "13px", color: TEXT2, margin: 0 }}>Your AI tutor is waiting. Pick a topic and start learning.</p>
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
             <Link href="/visualizer">
