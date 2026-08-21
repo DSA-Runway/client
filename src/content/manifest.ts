@@ -77,6 +77,19 @@ export const CONTENT_IDS = [
   "count-subarrays-with-given-xor-k",
   "find-the-repeating-and-missing-number",
   "count-inversions",
+  "reverse-pairs",
+  "maximum-product-subarray-in-an-array",
+  "pattern-1-rectangular-star-pattern",
+  "pattern-2-right-angled-star-triangle",
+  "pattern-3-right-angled-number-triangle",
+  "pattern-4-right-angled-repeating-number-triangle",
+  "pattern-5-inverted-right-angled-star-triangle",
+  "pattern-6-inverted-right-angled-number-triangle",
+  "pattern-7-star-pyramid",
+  "pattern-8-inverted-star-pyramid",
+  "pattern-9-diamond-star-pattern",
+  "pattern-10-half-diamond-star-pattern",
+  "pattern-11-binary-number-triangle",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];

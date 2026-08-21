@@ -9,7 +9,7 @@ import { SUBTOPICS, groupSubtopics } from "@/lib/subtopics";
 import { hasContent } from "@/content/manifest";
 import {
   Search, BookOpen, Code2, Zap, Brain, Target,
-  Play, CheckCircle2, Clock, Filter,
+  Play, CheckCircle2, Filter,
   Layers, GitBranch, Network, TrendingUp, ArrowUpRight, ChevronRight
 } from "lucide-react";
 
@@ -20,12 +20,14 @@ const CURRICULUM = [
     color: "#f59e0b",
     glow: "rgba(245,158,11,0.12)",
     topics: [
-      { name:"Basics", difficulty:"Easy", time:"90 min", done:false, score:0, problems:["Input / Output","Loops","Functions"] },
-      { name:"Pattern Printing", difficulty:"Easy", time:"75 min", done:false, score:0, problems:["Star Patterns","Number Patterns","Alphabet Patterns"] },
-      { name:"Arrays", difficulty:"Easy", time:"45 min", done:true, score:92, problems:["Two Sum","Maximum Subarray","Rotate Array"] },
-      { name:"Strings", difficulty:"Easy", time:"40 min", done:true, score:88, problems:["Reverse String","Valid Palindrome","Anagram Check"] },
-      { name:"Recursion", difficulty:"Medium", time:"60 min", done:false, score:0, problems:["Factorial","Fibonacci","Tower of Hanoi"] },
-      { name:"Bit Manipulation", difficulty:"Hard", time:"50 min", done:false, score:0, problems:["Count Bits","Single Number","Power of Two"] },
+      { name:"Basics", difficulty:"Easy", done:false, score:0, problems:["Input / Output","Loops","Functions"] },
+      { name:"Pattern Printing", difficulty:"Easy", done:false, score:0, problems:["Star Patterns","Number Patterns","Alphabet Patterns"] },
+      { name:"Arrays", difficulty:"Easy", done:true, score:92, problems:["Two Sum","Maximum Subarray","Rotate Array"] },
+      { name:"Basic Sorting Algorithms", difficulty:"Easy", done:false, score:0, problems:["Selection Sort","Bubble Sort","Insertion Sorting"] },
+      { name:"Strings", difficulty:"Easy", done:true, score:88, problems:["Reverse String","Valid Palindrome","Anagram Check"] },
+      { name:"Basic Recursion", difficulty:"Easy", done:false, score:0, problems:["Factorial","Fibonacci","Sum of First N"] },
+      { name:"Advanced Recursion", difficulty:"Hard", done:false, score:0, problems:["Subsequences","Combination Sum","Tower of Hanoi"] },
+      { name:"Bit Manipulation", difficulty:"Hard", done:false, score:0, problems:["Count Bits","Single Number","Power of Two"] },
     ],
   },
   {
@@ -34,10 +36,10 @@ const CURRICULUM = [
     color: "#8b5cf6",
     glow: "rgba(139,92,246,0.12)",
     topics: [
-      { name:"Linked Lists", difficulty:"Easy", time:"55 min", done:true, score:78, problems:["Reverse LL","Detect Cycle","Merge Sorted Lists"] },
-      { name:"Stacks", difficulty:"Medium", time:"45 min", done:true, score:83, problems:["Valid Parentheses","Min Stack","Daily Temperatures"] },
-      { name:"Queues", difficulty:"Medium", time:"40 min", done:false, score:0, problems:["Implement Queue","Sliding Window Max","BFS Basics"] },
-      { name:"Deque", difficulty:"Hard", time:"35 min", done:false, score:0, problems:["Sliding Window","K-th Largest","Monotonic Deque"] },
+      { name:"Linked Lists", difficulty:"Easy", done:true, score:78, problems:["Reverse LL","Detect Cycle","Merge Sorted Lists"] },
+      { name:"Stacks", difficulty:"Medium", done:true, score:83, problems:["Valid Parentheses","Min Stack","Daily Temperatures"] },
+      { name:"Queues", difficulty:"Medium", done:false, score:0, problems:["Implement Queue","Sliding Window Max","BFS Basics"] },
+      { name:"Deque", difficulty:"Hard", done:false, score:0, problems:["Sliding Window","K-th Largest","Monotonic Deque"] },
     ],
   },
   {
@@ -46,11 +48,11 @@ const CURRICULUM = [
     color: "#06b6d4",
     glow: "rgba(6,182,212,0.12)",
     topics: [
-      { name:"Binary Trees", difficulty:"Medium", time:"70 min", done:false, score:0, problems:["Inorder Traversal","Level Order","Max Depth"] },
-      { name:"Binary Search Tree", difficulty:"Medium", time:"65 min", done:false, score:0, problems:["Search BST","Insert/Delete","Validate BST"] },
-      { name:"AVL Trees", difficulty:"Hard", time:"90 min", done:false, score:0, problems:["Rotations","Balance Factor","Self-balancing"] },
-      { name:"Heaps", difficulty:"Hard", time:"60 min", done:false, score:0, problems:["K-th Largest","Merge K Lists","Heap Sort"] },
-      { name:"Tries", difficulty:"Hard", time:"55 min", done:false, score:0, problems:["Implement Trie","Word Search","Prefix Search"] },
+      { name:"Binary Trees", difficulty:"Medium", done:false, score:0, problems:["Inorder Traversal","Level Order","Max Depth"] },
+      { name:"Binary Search Tree", difficulty:"Medium", done:false, score:0, problems:["Search BST","Insert/Delete","Validate BST"] },
+      { name:"AVL Trees", difficulty:"Hard", done:false, score:0, problems:["Rotations","Balance Factor","Self-balancing"] },
+      { name:"Heaps", difficulty:"Hard", done:false, score:0, problems:["K-th Largest","Merge K Lists","Heap Sort"] },
+      { name:"Tries", difficulty:"Hard", done:false, score:0, problems:["Implement Trie","Word Search","Prefix Search"] },
     ],
   },
   {
@@ -59,10 +61,10 @@ const CURRICULUM = [
     color: "#10b981",
     glow: "rgba(16,185,129,0.12)",
     topics: [
-      { name:"BFS / DFS", difficulty:"Medium", time:"75 min", done:false, score:0, problems:["Number of Islands","Word Ladder","Connected Components"] },
-      { name:"Shortest Path", difficulty:"Hard", time:"80 min", done:false, score:0, problems:["Dijkstra","Bellman-Ford","Floyd-Warshall"] },
-      { name:"Topological Sort", difficulty:"Hard", time:"65 min", done:false, score:0, problems:["Course Schedule","Alien Dictionary","Job Scheduling"] },
-      { name:"MST", difficulty:"Hard", time:"70 min", done:false, score:0, problems:["Kruskal's","Prim's","Min Cost to Connect"] },
+      { name:"BFS / DFS", difficulty:"Medium", done:false, score:0, problems:["Number of Islands","Word Ladder","Connected Components"] },
+      { name:"Shortest Path", difficulty:"Hard", done:false, score:0, problems:["Dijkstra","Bellman-Ford","Floyd-Warshall"] },
+      { name:"Topological Sort", difficulty:"Hard", done:false, score:0, problems:["Course Schedule","Alien Dictionary","Job Scheduling"] },
+      { name:"MST", difficulty:"Hard", done:false, score:0, problems:["Kruskal's","Prim's","Min Cost to Connect"] },
     ],
   },
   {
@@ -71,10 +73,10 @@ const CURRICULUM = [
     color: "#ec4899",
     glow: "rgba(236,72,153,0.12)",
     topics: [
-      { name:"Sorting", difficulty:"Medium", time:"60 min", done:false, score:0, problems:["Merge Sort","Quick Sort","Counting Sort"] },
-      { name:"Binary Search", difficulty:"Medium", time:"50 min", done:false, score:0, problems:["Search in Rotated","Find Peak","Sqrt(x)"] },
-      { name:"Divide & Conquer", difficulty:"Hard", time:"70 min", done:false, score:0, problems:["Merge Sort","Karatsuba","Closest Pair"] },
-      { name:"Greedy", difficulty:"Hard", time:"65 min", done:false, score:0, problems:["Activity Selection","Huffman Coding","Coin Change"] },
+      { name:"Sorting", difficulty:"Medium", done:false, score:0, problems:["Merge Sort","Quick Sort","Counting Sort"] },
+      { name:"Binary Search", difficulty:"Medium", done:false, score:0, problems:["Search in Rotated","Find Peak","Sqrt(x)"] },
+      { name:"Divide & Conquer", difficulty:"Hard", done:false, score:0, problems:["Merge Sort","Karatsuba","Closest Pair"] },
+      { name:"Greedy", difficulty:"Hard", done:false, score:0, problems:["Activity Selection","Huffman Coding","Coin Change"] },
     ],
   },
   {
@@ -83,9 +85,9 @@ const CURRICULUM = [
     color: "#f59e0b",
     glow: "rgba(245,158,11,0.12)",
     topics: [
-      { name:"Dynamic Programming", difficulty:"Hard", time:"120 min", done:false, score:0, problems:["0/1 Knapsack","LCS","Edit Distance"] },
-      { name:"Backtracking", difficulty:"Hard", time:"90 min", done:false, score:0, problems:["N-Queens","Sudoku","Subset Sum"] },
-      { name:"Segment Trees", difficulty:"Hard", time:"80 min", done:false, score:0, problems:["Range Query","Lazy Propagation","Point Update"] },
+      { name:"Dynamic Programming", difficulty:"Hard", done:false, score:0, problems:["0/1 Knapsack","LCS","Edit Distance"] },
+      { name:"Backtracking", difficulty:"Hard", done:false, score:0, problems:["N-Queens","Sudoku","Subset Sum"] },
+      { name:"Segment Trees", difficulty:"Hard", done:false, score:0, problems:["Range Query","Lazy Propagation","Point Update"] },
     ],
   },
 ];
@@ -312,10 +314,6 @@ export default function TopicsPage() {
                             color: DIFF_COLOR[topic.difficulty],
                           }}>
                             {topic.difficulty}
-                          </span>
-                          <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: TEXT2 }}>
-                            <Clock style={{ width: "10px", height: "10px" }} />
-                            {topic.time}
                           </span>
                         </div>
                       </div>

@@ -16,7 +16,7 @@ import {
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const TOPICS_SIDEBAR = [
-  { category: "Fundamentals",      color: "#f59e0b", items: ["Arrays", "Strings", "Recursion", "Bit Manipulation"] },
+  { category: "Fundamentals",      color: "#f59e0b", items: ["Arrays", "Strings", "Basic Recursion", "Advanced Recursion", "Bit Manipulation"] },
   { category: "Linear Structures", color: "#06b6d4", items: ["Linked Lists", "Stacks", "Queues", "Deque"] },
   { category: "Trees",             color: "#10b981", items: ["Binary Trees", "BST", "AVL Trees", "Heaps", "Tries"] },
   { category: "Graphs",            color: "#8b5cf6", items: ["BFS / DFS", "Shortest Path", "Topological Sort", "MST"] },

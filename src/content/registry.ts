@@ -87,6 +87,19 @@ const FILES: Record<ContentId, string> = {
   "count-subarrays-with-given-xor-k": "arrays/count-subarrays-with-given-xor-k.md",
   "find-the-repeating-and-missing-number": "arrays/find-the-repeating-and-missing-number.md",
   "count-inversions": "arrays/count-inversions.md",
+  "reverse-pairs": "arrays/reverse-pairs.md",
+  "maximum-product-subarray-in-an-array": "arrays/maximum-product-subarray-in-an-array.md",
+  "pattern-1-rectangular-star-pattern": "pattern-printing/pattern-1-rectangular-star-pattern.md",
+  "pattern-2-right-angled-star-triangle": "pattern-printing/pattern-2-right-angled-star-triangle.md",
+  "pattern-3-right-angled-number-triangle": "pattern-printing/pattern-3-right-angled-number-triangle.md",
+  "pattern-4-right-angled-repeating-number-triangle": "pattern-printing/pattern-4-right-angled-repeating-number-triangle.md",
+  "pattern-5-inverted-right-angled-star-triangle": "pattern-printing/pattern-5-inverted-right-angled-star-triangle.md",
+  "pattern-6-inverted-right-angled-number-triangle": "pattern-printing/pattern-6-inverted-right-angled-number-triangle.md",
+  "pattern-7-star-pyramid": "pattern-printing/pattern-7-star-pyramid.md",
+  "pattern-8-inverted-star-pyramid": "pattern-printing/pattern-8-inverted-star-pyramid.md",
+  "pattern-9-diamond-star-pattern": "pattern-printing/pattern-9-diamond-star-pattern.md",
+  "pattern-10-half-diamond-star-pattern": "pattern-printing/pattern-10-half-diamond-star-pattern.md",
+  "pattern-11-binary-number-triangle": "pattern-printing/pattern-11-binary-number-triangle.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
