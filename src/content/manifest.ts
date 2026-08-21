@@ -90,6 +90,23 @@ export const CONTENT_IDS = [
   "pattern-9-diamond-star-pattern",
   "pattern-10-half-diamond-star-pattern",
   "pattern-11-binary-number-triangle",
+  "pattern-12-number-crown-pattern",
+  "pattern-13-increasing-number-triangle",
+  "pattern-14-increasing-letter-triangle",
+  "pattern-15-reverse-letter-triangle",
+  "pattern-16-alpha-ramp-pattern",
+  "pattern-17-alpha-hill-pattern",
+  "pattern-18-alpha-triangle-pattern",
+  "pattern-19-symmetric-void-pattern",
+  "pattern-20-symmetric-butterfly-pattern",
+  "pattern-21-hollow-rectangle-pattern",
+  "pattern-22-concentric-number-rectangle",
+  "selection-sort",
+  "largest-odd-number-in-a-string",
+  "longest-common-prefix",
+  "bubble-sort",
+  "insertion-sorting",
+  "understand-recursion-by-print-something-n-times",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];

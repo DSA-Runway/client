@@ -100,6 +100,23 @@ const FILES: Record<ContentId, string> = {
   "pattern-9-diamond-star-pattern": "pattern-printing/pattern-9-diamond-star-pattern.md",
   "pattern-10-half-diamond-star-pattern": "pattern-printing/pattern-10-half-diamond-star-pattern.md",
   "pattern-11-binary-number-triangle": "pattern-printing/pattern-11-binary-number-triangle.md",
+  "pattern-12-number-crown-pattern": "pattern-printing/pattern-12-number-crown-pattern.md",
+  "pattern-13-increasing-number-triangle": "pattern-printing/pattern-13-increasing-number-triangle.md",
+  "pattern-14-increasing-letter-triangle": "pattern-printing/pattern-14-increasing-letter-triangle.md",
+  "pattern-15-reverse-letter-triangle": "pattern-printing/pattern-15-reverse-letter-triangle.md",
+  "pattern-16-alpha-ramp-pattern": "pattern-printing/pattern-16-alpha-ramp-pattern.md",
+  "pattern-17-alpha-hill-pattern": "pattern-printing/pattern-17-alpha-hill-pattern.md",
+  "pattern-18-alpha-triangle-pattern": "pattern-printing/pattern-18-alpha-triangle-pattern.md",
+  "pattern-19-symmetric-void-pattern": "pattern-printing/pattern-19-symmetric-void-pattern.md",
+  "pattern-20-symmetric-butterfly-pattern": "pattern-printing/pattern-20-symmetric-butterfly-pattern.md",
+  "pattern-21-hollow-rectangle-pattern": "pattern-printing/pattern-21-hollow-rectangle-pattern.md",
+  "pattern-22-concentric-number-rectangle": "pattern-printing/pattern-22-concentric-number-rectangle.md",
+  "selection-sort": "basic-sorting-algorithms/selection-sort.md",
+  "largest-odd-number-in-a-string": "strings/largest-odd-number-in-a-string.md",
+  "longest-common-prefix": "strings/longest-common-prefix.md",
+  "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",
+  "insertion-sorting": "basic-sorting-algorithms/insertion-sorting.md",
+  "understand-recursion-by-print-something-n-times": "basic-recursion/understand-recursion-by-print-something-n-times.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
