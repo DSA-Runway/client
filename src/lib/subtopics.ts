@@ -140,6 +140,36 @@ export const SUBTOPICS: Record<string, Subtopic[]> = {
       "Maximum Product Subarray in an Array",
     ]),
   ],
+
+  "Basic Sorting Algorithms": [
+    ...list("Easy", [
+      "Selection Sort",
+      "Bubble Sort",
+      "Insertion Sorting",
+    ]),
+  ],
+
+  Strings: [
+    ...list("Easy", [
+      "Largest Odd Number in a String",
+      "Longest Common Prefix",
+      "Isomorphic String",
+      "Rotate String",
+      "Check if two strings are anagram of each other",
+      "Sort Characters by Frequency",
+      "Count Number of Substrings",
+    ]),
+    ...list("Medium", [
+      "Remove Outermost Parentheses",
+      "Reverse words in a given string / Palindrome Check",
+      "Maximum Nesting Depth of the Parentheses",
+      "Roman to Integer",
+      "String to Integer (atoi)",
+      "Longest Palindromic Substring",
+      "Sum of Beauty of All Substrings",
+      "Reverse every word in a string",
+    ]),
+  ],
 };
 
 export const SUBTOPIC_ORDER: SubtopicDifficulty[] = ["Easy", "Medium", "Hard"];
