@@ -1,7 +1,41 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(npm -v)",
+      "Bash(npm run *)",
+      "Bash(npx tsc *)",
+      "Bash(echo \"---EXIT:$?---\")",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' http://localhost:3000/topics)",
+      "Bash(curl -s http://localhost:3000/topics)",
+      "Bash(npx eslint *)",
+      "Bash(npx tsx *)",
+      "Bash(node --experimental-strip-types -e ' *)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(curl -s http://localhost:3000/api/content/largest-element)",
+      "Bash(curl -s http://localhost:3000/api/content/reverse-pairs)",
+      "Bash(curl -s \"http://localhost:3000/api/content/for-loop?format=prompt\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>console.log\\(JSON.parse\\(d\\).systemPrompt.slice\\(0,900\\)\\)\\)\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/largest-element?format=prompt&lang=python\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\('language:',j.language\\);const m=j.systemPrompt.match\\(/\\\\`\\\\`\\\\`\\(\\\\w+\\)/g\\);console.log\\('code blocks:',m\\)}\\)\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/largest-element?format=prompt\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\('language:',j.language\\);console.log\\('code blocks:',j.systemPrompt.match\\(/\\\\`\\\\`\\\\`\\(\\\\w+\\)/g\\)\\)}\\)\")",
+      "WebFetch(domain:www.geeksforgeeks.org)",
+      "Bash(curl -s \"http://localhost:3000/api/content/introduction-to-programming\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\('id:',j.id,'| status:',j.status\\);console.log\\('approaches:',j.approaches.map\\(a=>a.name+' \\('+a.code.map\\(c=>c.language\\).join\\('/'\\)+'\\)'\\)\\);console.log\\('examples:',j.examples.length,'| doubts:',j.commonDoubts.length,'| pitfalls:',j.pitfalls.length\\)}\\)\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/introduction-to-programming?format=prompt&lang=cpp\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);const p=j.systemPrompt;console.log\\('lang:',j.language,'| prompt chars:',p.length\\);console.log\\('code blocks:',p.match\\(/\\\\`\\\\`\\\\`\\(\\\\w+\\)/g\\)\\);console.log\\('sections:',p.match\\(/^## [A-Z \\(\\)—-]+$/gm\\)\\)}\\)\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/data-types\")",
+      "Bash(node -e ' *)",
+      "Bash(curl -s \"http://localhost:3000/api/content/data-types?format=prompt&lang=java\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/variables-and-constants\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/input-and-output\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/relational-and-logical-operators\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/if-else-statements\")",
+      "WebSearch",
+      "Bash(curl -s \"http://localhost:3000/api/content/else-if-ladder\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/for-loop\")",
+      "Bash(curl -s \"http://localhost:3000/api/content/count-digits\")"
     ]
   }
 }
