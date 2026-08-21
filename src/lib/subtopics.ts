@@ -149,6 +149,20 @@ export const SUBTOPICS: Record<string, Subtopic[]> = {
     ]),
   ],
 
+  "Basic Recursion": [
+    ...list("Easy", [
+      "Understand recursion by print something N times",
+      "Print name N times using recursion",
+      "Print 1 to N using Recursion",
+      "Print N to 1 using Recursion",
+      "Sum of First N Numbers",
+      "Factorial of a given number",
+      "Reverse an array",
+      "Check if String is Palindrome or Not",
+      "Fibonacci Number",
+    ]),
+  ],
+
   Strings: [
     ...list("Easy", [
       "Largest Odd Number in a String",
