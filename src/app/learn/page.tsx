@@ -16,27 +16,27 @@ import {
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const TOPICS_SIDEBAR = [
-  { category: "Fundamentals",      color: "#f59e0b", items: ["Arrays", "Strings", "Recursion", "Bit Manipulation"] },
-  { category: "Linear Structures", color: "#06b6d4", items: ["Linked Lists", "Stacks", "Queues", "Deque"] },
+  { category: "Fundamentals",      color: "#d61f45", items: ["Arrays", "Strings", "Recursion", "Bit Manipulation"] },
+  { category: "Linear Structures", color: "#7c3aed", items: ["Linked Lists", "Stacks", "Queues", "Deque"] },
   { category: "Trees",             color: "#10b981", items: ["Binary Trees", "BST", "AVL Trees", "Heaps", "Tries"] },
   { category: "Graphs",            color: "#8b5cf6", items: ["BFS / DFS", "Shortest Path", "Topological Sort", "MST"] },
-  { category: "Algorithms",        color: "#f59e0b", items: ["Sorting", "Searching", "Divide & Conquer", "Greedy"] },
+  { category: "Algorithms",        color: "#d61f45", items: ["Sorting", "Searching", "Divide & Conquer", "Greedy"] },
   { category: "Advanced",          color: "#ec4899", items: ["Dynamic Programming", "Backtracking", "Segment Trees"] },
 ];
 
 const AGENTS = [
   { id: "teacher",    label: "Teacher",  icon: BookOpen,  color: "#8b5cf6", desc: "Explain concepts" },
-  { id: "assessment", label: "Assess",   icon: Target,    color: "#06b6d4", desc: "Quiz & evaluate"  },
+  { id: "assessment", label: "Assess",   icon: Target,    color: "#7c3aed", desc: "Quiz & evaluate"  },
   { id: "feedback",   label: "Feedback", icon: BarChart3, color: "#10b981", desc: "Review mistakes"  },
-  { id: "hint",       label: "Hint",     icon: Lightbulb, color: "#f59e0b", desc: "Guided nudge"     },
+  { id: "hint",       label: "Hint",     icon: Lightbulb, color: "#d61f45", desc: "Guided nudge"     },
 ];
 
 type Msg = { id: number; role: "user" | "ai"; content: string; agent?: string; agentColor?: string; timestamp: string; codeBlock?: string; };
 
 const INITIAL_MESSAGES: Msg[] = [{
   id: 1, role: "ai",
-  content: "Hello! I'm your DSA Tutor AI. I use a Socratic approach — I'll guide you with questions rather than giving direct answers, helping you build genuine understanding.\n\nWhat topic would you like to explore today? You can also upload a document, image of your handwritten solution, or speak to me!",
-  agent: "Orchestrator", agentColor: "#f59e0b", timestamp: "Just now",
+  content: "Hello! I'm your DSARunway. I use a Socratic approach — I'll guide you with questions rather than giving direct answers, helping you build genuine understanding.\n\nWhat topic would you like to explore today? You can also upload a document, image of your handwritten solution, or speak to me!",
+  agent: "Orchestrator", agentColor: "#d61f45", timestamp: "Just now",
 }];
 
 const QUICK_PROMPTS = [
@@ -153,9 +153,9 @@ function TypingIndicator({ agentColor }: { agentColor: string }) {
       <div style={{ width: "26px", height: "26px", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: `${agentColor}18`, border: `1px solid ${agentColor}35` }}>
         <Bot style={{ width: "13px", height: "13px", color: agentColor }} />
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "5px", padding: "8px 12px", borderRadius: "6px", background: T.msgAi, border: `1px solid rgba(6,182,212,0.12)` }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "5px", padding: "8px 12px", borderRadius: "6px", background: T.msgAi, border: `1px solid rgba(124,58,237,0.12)` }}>
         {[0, 1, 2].map(i => (
-          <div key={i} className="typing-dot" style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#06b6d4" }} />
+          <div key={i} className="typing-dot" style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#7c3aed" }} />
         ))}
         <span style={{ fontSize: "11px", color: T.text3, marginLeft: "4px", fontFamily: T.mono }}>thinking...</span>
       </div>
@@ -177,7 +177,7 @@ function renderContent(content: string, T: ReturnType<typeof getTheme>) {
     }
     if (line.includes("`")) {
       const parts = line.split(/`(.*?)`/g);
-      return <p key={li} style={{ color: T.text2, fontFamily: T.sans, fontSize: "13px" }}>{parts.map((p, pi) => pi % 2 === 1 ? <code key={pi} style={{ color: "#f59e0b", background: "rgba(245,158,11,0.1)", padding: "1px 5px", borderRadius: "3px", fontFamily: T.mono, fontSize: "11px" }}>{p}</code> : p)}</p>;
+      return <p key={li} style={{ color: T.text2, fontFamily: T.sans, fontSize: "13px" }}>{parts.map((p, pi) => pi % 2 === 1 ? <code key={pi} style={{ color: "#d61f45", background: "rgba(214,31,69,0.1)", padding: "1px 5px", borderRadius: "3px", fontFamily: T.mono, fontSize: "11px" }}>{p}</code> : p)}</p>;
     }
     return line ? <p key={li} style={{ color: T.text2, fontFamily: T.sans, fontSize: "13px", lineHeight: 1.7 }}>{line}</p> : <br key={li} />;
   });
@@ -210,7 +210,7 @@ export default function LearnPage() {
 
   const currentAgent = AGENTS.find(a => a.id === selectedAgent)!;
   const activeCategory = TOPICS_SIDEBAR.find(c => c.items.includes(activeTopic))?.category ?? "Topics";
-  const activeCategoryColor = TOPICS_SIDEBAR.find(c => c.items.includes(activeTopic))?.color ?? "#f59e0b";
+  const activeCategoryColor = TOPICS_SIDEBAR.find(c => c.items.includes(activeTopic))?.color ?? "#d61f45";
 
   useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, isTyping]);
 
@@ -250,7 +250,7 @@ export default function LearnPage() {
           <span style={{ color: T.text3 }}>—</span>
           <span style={{ color: T.text2 }}>{currentAgent.label} Agent</span>
           <span style={{ color: T.text3 }}>—</span>
-          <span style={{ color: T.text3 }}>DSA Tutor AI</span>
+          <span style={{ color: T.text3 }}>DSARunway</span>
         </div>
         {/* Right */}
         <div style={{ display: "flex", alignItems: "center", gap: "2px", flexShrink: 0 }}>
@@ -290,7 +290,7 @@ export default function LearnPage() {
                 onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = T.text2; }}
                 onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = T.text3; }}
               >
-                {isActive && <div style={{ position: "absolute", left: 0, top: "12px", bottom: "12px", width: "2px", borderRadius: "0 2px 2px 0", background: "#f59e0b" }} />}
+                {isActive && <div style={{ position: "absolute", left: 0, top: "12px", bottom: "12px", width: "2px", borderRadius: "0 2px 2px 0", background: "#d61f45" }} />}
                 <v.icon style={{ width: "21px", height: "21px" }} />
               </button>
             );
@@ -458,8 +458,8 @@ export default function LearnPage() {
           >
             {dragOver && (
               <div style={{ position: "fixed", inset: 0, zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(12,13,28,0.9)", backdropFilter: "blur(6px)" }}>
-                <div style={{ borderRadius: "8px", padding: "40px", textAlign: "center", border: "2px dashed #f59e0b" }}>
-                  <FileText style={{ width: "48px", height: "48px", margin: "0 auto 12px", color: "#f59e0b" }} />
+                <div style={{ borderRadius: "8px", padding: "40px", textAlign: "center", border: "2px dashed #d61f45" }}>
+                  <FileText style={{ width: "48px", height: "48px", margin: "0 auto 12px", color: "#d61f45" }} />
                   <p style={{ fontSize: "15px", fontWeight: 600, color: T.text1, fontFamily: T.sans }}>Drop your file here</p>
                   <p style={{ fontSize: "13px", color: T.text2, marginTop: "6px", fontFamily: T.sans }}>PDF, image, or document</p>
                 </div>
@@ -470,13 +470,13 @@ export default function LearnPage() {
             {messages.length === 1 && (
               <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ padding: "0 20px" }}>
                 <p style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "8px", color: T.text3 }}>
-                  // Quick Start
+                  {"// Quick Start"}
                 </p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                   {QUICK_PROMPTS.map((p, i) => (
                     <button key={i} onClick={() => { setInput(p); inputRef.current?.focus(); }}
                       style={{ padding: "4px 12px", fontSize: "11px", borderRadius: "4px", background: T.inputBg, border: `1px solid ${T.border2}`, color: T.text3, cursor: "pointer", fontFamily: T.mono }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = "#f59e0b55"; e.currentTarget.style.color = T.text1; }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = "#d61f4555"; e.currentTarget.style.color = T.text1; }}
                       onMouseLeave={e => { e.currentTarget.style.borderColor = T.border2; e.currentTarget.style.color = T.text3; }}>
                       {p}
                     </button>
@@ -493,12 +493,12 @@ export default function LearnPage() {
                 {/* Avatar */}
                 <div style={{ flexShrink: 0, marginTop: "2px" }}>
                   {msg.role === "ai" ? (
-                    <div style={{ width: "28px", height: "28px", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center", background: `${msg.agentColor ?? "#f59e0b"}18`, border: `1px solid ${msg.agentColor ?? "#f59e0b"}35` }}>
-                      <Bot style={{ width: "14px", height: "14px", color: msg.agentColor ?? "#f59e0b" }} />
+                    <div style={{ width: "28px", height: "28px", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center", background: `${msg.agentColor ?? "#d61f45"}18`, border: `1px solid ${msg.agentColor ?? "#d61f45"}35` }}>
+                      <Bot style={{ width: "14px", height: "14px", color: msg.agentColor ?? "#d61f45" }} />
                     </div>
                   ) : (
-                    <div style={{ width: "28px", height: "28px", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center", background: "#1a1a38", border: "1px solid #f59e0b35" }}>
-                      <User style={{ width: "14px", height: "14px", color: "#f59e0b" }} />
+                    <div style={{ width: "28px", height: "28px", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center", background: "#1a1a38", border: "1px solid #d61f4535" }}>
+                      <User style={{ width: "14px", height: "14px", color: "#d61f45" }} />
                     </div>
                   )}
                 </div>
@@ -510,7 +510,7 @@ export default function LearnPage() {
                       {msg.agent} Agent
                     </span>
                   )}
-                  <div style={{ borderRadius: "6px", padding: "10px 14px", ...(msg.role === "ai" ? { background: T.msgAi, border: "1px solid rgba(6,182,212,0.1)" } : { background: T.msgUser, border: "1px solid rgba(245,158,11,0.14)" }) }}>
+                  <div style={{ borderRadius: "6px", padding: "10px 14px", ...(msg.role === "ai" ? { background: T.msgAi, border: "1px solid rgba(124,58,237,0.1)" } : { background: T.msgUser, border: "1px solid rgba(214,31,69,0.14)" }) }}>
                     {renderContent(msg.content, T)}
                     {msg.codeBlock && <CodeBlock code={msg.codeBlock} />}
                   </div>
@@ -547,7 +547,7 @@ export default function LearnPage() {
             <div style={{ display: "flex", alignItems: "flex-end", gap: "6px" }}>
               {/* Attachment buttons */}
               <div style={{ display: "flex", gap: "2px", flexShrink: 0, paddingBottom: "4px" }}>
-                {[{ Icon: Paperclip, title: "Attach file", hover: "#f59e0b" }, { Icon: ImageIcon, title: "Upload image", hover: "#8b5cf6" }, { Icon: FileText, title: "Upload PDF", hover: "#06b6d4" }].map(({ Icon, title, hover }, i) => (
+                {[{ Icon: Paperclip, title: "Attach file", hover: "#d61f45" }, { Icon: ImageIcon, title: "Upload image", hover: "#8b5cf6" }, { Icon: FileText, title: "Upload PDF", hover: "#7c3aed" }].map(({ Icon, title, hover }, i) => (
                   <button key={i} title={title} style={{ padding: "5px", borderRadius: "4px", background: "none", border: "none", cursor: "pointer", color: T.text3 }}
                     onMouseEnter={e => { e.currentTarget.style.color = hover; e.currentTarget.style.background = `${hover}14`; }}
                     onMouseLeave={e => { e.currentTarget.style.color = T.text3; e.currentTarget.style.background = "none"; }}>
@@ -569,7 +569,7 @@ export default function LearnPage() {
               />
               {/* Mic */}
               <button title="Voice input" style={{ padding: "7px", borderRadius: "5px", flexShrink: 0, background: "none", border: "none", cursor: "pointer", color: T.text3 }}
-                onMouseEnter={e => { e.currentTarget.style.color = "#f59e0b"; e.currentTarget.style.background = "#f59e0b12"; }}
+                onMouseEnter={e => { e.currentTarget.style.color = "#d61f45"; e.currentTarget.style.background = "#d61f4512"; }}
                 onMouseLeave={e => { e.currentTarget.style.color = T.text3; e.currentTarget.style.background = "none"; }}>
                 <Mic style={{ width: "15px", height: "15px" }} />
               </button>
@@ -577,7 +577,7 @@ export default function LearnPage() {
               <motion.button onClick={sendMessage} disabled={!input.trim() || isTyping}
                 whileHover={input.trim() && !isTyping ? { scale: 1.05 } : {}}
                 whileTap={input.trim() && !isTyping ? { scale: 0.95 } : {}}
-                style={{ padding: "7px 8px", borderRadius: "5px", flexShrink: 0, border: "none", cursor: input.trim() && !isTyping ? "pointer" : "not-allowed", ...(input.trim() && !isTyping ? { background: "linear-gradient(135deg,#f59e0b,#d97706)", color: "#000" } : { background: "#131425", color: T.text3 }) }}>
+                style={{ padding: "7px 8px", borderRadius: "5px", flexShrink: 0, border: "none", cursor: input.trim() && !isTyping ? "pointer" : "not-allowed", ...(input.trim() && !isTyping ? { background: "linear-gradient(135deg,#d61f45,#b91538)", color: "#fff" } : { background: "#131425", color: T.text3 }) }}>
                 <Send style={{ width: "15px", height: "15px" }} />
               </motion.button>
             </div>
@@ -613,13 +613,13 @@ export default function LearnPage() {
                     <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <span style={{ fontSize: "10px", color: T.text3 }}>{row.op}</span>
                       <div style={{ display: "flex", gap: "8px" }}>
-                        <span style={{ fontSize: "10px", fontFamily: T.mono, color: "#f59e0b" }}>{row.tc}</span>
+                        <span style={{ fontSize: "10px", fontFamily: T.mono, color: "#d61f45" }}>{row.tc}</span>
                         <span style={{ fontSize: "10px", fontFamily: T.mono, color: "#8b5cf6" }}>{row.sc}</span>
                       </div>
                     </div>
                   ))}
                   <div style={{ display: "flex", gap: "10px", marginTop: "4px", paddingTop: "4px", borderTop: `1px solid ${T.border}` }}>
-                    {[{ c: "#f59e0b", l: "Time" }, { c: "#8b5cf6", l: "Space" }].map(x => (
+                    {[{ c: "#d61f45", l: "Time" }, { c: "#8b5cf6", l: "Space" }].map(x => (
                       <span key={x.l} style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "9px", color: T.text3 }}>
                         <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: x.c, display: "inline-block" }} />{x.l}
                       </span>
@@ -634,10 +634,10 @@ export default function LearnPage() {
               )},
               { title: "Pro Tip", content: (
                 <div style={{ padding: "0 12px 10px" }}>
-                  <div style={{ padding: "8px 10px", borderRadius: "5px", background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.2)", fontSize: "10px", color: T.text2, lineHeight: 1.6 }}>
+                  <div style={{ padding: "8px 10px", borderRadius: "5px", background: "rgba(214,31,69,0.06)", border: "1px solid rgba(214,31,69,0.2)", fontSize: "10px", color: T.text2, lineHeight: 1.6 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "5px" }}>
-                      <Lightbulb style={{ width: "11px", height: "11px", color: "#f59e0b" }} />
-                      <span style={{ fontWeight: 600, color: "#f59e0b" }}>Tip</span>
+                      <Lightbulb style={{ width: "11px", height: "11px", color: "#d61f45" }} />
+                      <span style={{ fontWeight: 600, color: "#d61f45" }}>Tip</span>
                     </div>
                     Draw the linked list on paper while coding. Visualizing pointer changes prevents bugs.
                   </div>
@@ -700,8 +700,8 @@ export default function LearnPage() {
         </div>
         {/* Right */}
         <div style={{ display: "flex", alignItems: "center", height: "100%", marginLeft: "auto" }}>
-          {["Python", "UTF-8", "DSA Tutor AI"].map(label => (
-            <button key={label} style={{ padding: "0 12px", height: "100%", background: "none", border: "none", cursor: "pointer", color: label === "DSA Tutor AI" ? "#f59e0b90" : T.text2 }}
+          {["Python", "UTF-8", "DSARunway"].map(label => (
+            <button key={label} style={{ padding: "0 12px", height: "100%", background: "none", border: "none", cursor: "pointer", color: label === "DSARunway" ? "#d61f4590" : T.text2 }}
               onMouseEnter={e => (e.currentTarget.style.background = T.hoverBg)}
               onMouseLeave={e => (e.currentTarget.style.background = "none")}>
               {label}

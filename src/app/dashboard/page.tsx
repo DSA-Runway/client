@@ -16,26 +16,26 @@ import { useProfileName } from "@/lib/useProfileName";
 /* ─── Data ─── */
 const TOPIC_PROGRESS = [
   { name: "Arrays", progress: 92, mastery: "Expert", color: "#10b981", topics: 8 },
-  { name: "Linked Lists", progress: 78, mastery: "Advanced", color: "#f59e0b", topics: 6 },
+  { name: "Linked Lists", progress: 78, mastery: "Advanced", color: "#d61f45", topics: 6 },
   { name: "Stacks & Queues", progress: 65, mastery: "Intermediate", color: "#8b5cf6", topics: 5 },
-  { name: "Trees", progress: 45, mastery: "Learning", color: "#06b6d4", topics: 9 },
+  { name: "Trees", progress: 45, mastery: "Learning", color: "#7c3aed", topics: 9 },
   { name: "Graphs", progress: 30, mastery: "Beginner", color: "#ec4899", topics: 7 },
-  { name: "Dynamic Programming", progress: 12, mastery: "Novice", color: "#f59e0b", topics: 10 },
+  { name: "Dynamic Programming", progress: 12, mastery: "Novice", color: "#d61f45", topics: 10 },
 ];
 
 const RECENT_SESSIONS = [
-  { topic: "Reverse a Linked List", type: "Problem", score: 95, time: "2h ago", agent: "Teacher Agent", color: "#f59e0b", date: "Feb 23 · 10:30 AM" },
+  { topic: "Reverse a Linked List", type: "Problem", score: 95, time: "2h ago", agent: "Teacher Agent", color: "#d61f45", date: "Feb 23 · 10:30 AM" },
   { topic: "BFS vs DFS", type: "Concept", score: 88, time: "Yesterday", agent: "Assessment Agent", color: "#8b5cf6", date: "Feb 22 · 3:15 PM" },
-  { topic: "Stack using Queue", type: "Problem", score: 72, time: "2d ago", agent: "Feedback Agent", color: "#06b6d4", date: "Feb 21 · 6:00 PM" },
+  { topic: "Stack using Queue", type: "Problem", score: 72, time: "2d ago", agent: "Feedback Agent", color: "#7c3aed", date: "Feb 21 · 6:00 PM" },
   { topic: "Binary Search Tree", type: "Concept", score: 81, time: "3d ago", agent: "Teacher Agent", color: "#10b981", date: "Feb 20 · 2:45 PM" },
   { topic: "Merge Sort", type: "Problem", score: 90, time: "4d ago", agent: "Assessment Agent", color: "#ec4899", date: "Feb 19 · 11:00 AM" },
-  { topic: "Hash Maps", type: "Concept", score: 77, time: "5d ago", agent: "Teacher Agent", color: "#f59e0b", date: "Feb 18 · 9:30 AM" },
+  { topic: "Hash Maps", type: "Concept", score: 77, time: "5d ago", agent: "Teacher Agent", color: "#d61f45", date: "Feb 18 · 9:30 AM" },
 ];
 
 const RECOMMENDED = [
-  { topic: "Merge Sort", difficulty: "Medium", time: "20 min", color: "#f59e0b", icon: Code2, unlocked: true },
+  { topic: "Merge Sort", difficulty: "Medium", time: "20 min", color: "#d61f45", icon: Code2, unlocked: true },
   { topic: "Graph BFS", difficulty: "Hard", time: "35 min", color: "#8b5cf6", icon: Brain, unlocked: true },
-  { topic: "Dijkstra's Algorithm", difficulty: "Hard", time: "45 min", color: "#06b6d4", icon: Zap, unlocked: false },
+  { topic: "Dijkstra's Algorithm", difficulty: "Hard", time: "45 min", color: "#7c3aed", icon: Zap, unlocked: false },
   { topic: "DP — Knapsack", difficulty: "Hard", time: "40 min", color: "#ec4899", icon: Target, unlocked: false },
 ];
 
@@ -68,12 +68,12 @@ function CircularProgress({ value, size = 120 }: { value: number; size?: number 
         initial={{ strokeDashoffset: circ }}
         animate={{ strokeDashoffset: offset }}
         transition={{ duration: 1.4, ease: "easeOut", delay: 0.3 }}
-        style={{ filter: "drop-shadow(0 0 8px rgba(245,158,11,0.5))" }}
+        style={{ filter: "drop-shadow(0 0 8px rgba(214,31,69,0.5))" }}
       />
       <defs>
         <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#f59e0b" />
-          <stop offset="100%" stopColor="#d97706" />
+          <stop offset="0%" stopColor="#d61f45" />
+          <stop offset="100%" stopColor="#b91538" />
         </linearGradient>
       </defs>
     </svg>
@@ -98,14 +98,14 @@ function AreaChart() {
       <svg viewBox={`0 0 ${W_SVG} ${H_SVG}`} style={{ width: "100%", height: "80px" }} preserveAspectRatio="none">
         <defs>
           <linearGradient id="areaG" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.01" />
+            <stop offset="0%" stopColor="#d61f45" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#d61f45" stopOpacity="0.01" />
           </linearGradient>
         </defs>
         <path d={area} fill="url(#areaG)" />
-        <path d={`M${line}`} fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={`M${line}`} fill="none" stroke="#d61f45" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         {pts.map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r="3" fill="#f59e0b" opacity={i === pts.length - 1 ? 1 : 0} />
+          <circle key={i} cx={x} cy={y} r="3" fill="#d61f45" opacity={i === pts.length - 1 ? 1 : 0} />
         ))}
       </svg>
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px" }}>
@@ -138,8 +138,8 @@ export default function DashboardPage() {
   const { isDark } = useTheme();
   const { name: profileName } = useProfileName();
   const displayName = profileName || "there";
-  const BG    = isDark ? "#070d1b"                : "#f4f6f9";
-  const CARD  = isDark ? "rgba(11,19,38,0.95)"   : "rgba(255,255,255,0.97)";
+  const BG    = isDark ? "#0c0e12"                : "#f7f6f2";
+  const CARD  = isDark ? "rgba(18,21,28,0.95)"   : "rgba(255,255,255,0.97)";
   const CARD2 = isDark ? "rgba(14,24,48,0.9)"    : "rgba(248,250,252,0.95)";
   const BORDER = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.09)";
   const TEXT1 = isDark ? "#f0f4ff"               : "#0f172a";
@@ -174,7 +174,7 @@ export default function DashboardPage() {
           style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", marginBottom: "28px" }}>
           <div>
             <h1 style={{ fontSize: "26px", fontWeight: 900, margin: 0 }}>
-              Welcome back, <span style={{ color: "#f59e0b" }}>{displayName}</span> 👋
+              Welcome back, <span style={{ color: "#d61f45" }}>{displayName}</span> 👋
             </h1>
             <p style={{ color: TEXT2, marginTop: "4px", fontSize: "14px" }}>
               Continue your DSA journey — you&apos;re making great progress!
@@ -187,9 +187,9 @@ export default function DashboardPage() {
             </div>
             <Link href="/learn">
               <motion.button
-                whileHover={{ scale: 1.04, boxShadow: "0 0 24px rgba(245,158,11,0.35)" }}
+                whileHover={{ scale: 1.04, boxShadow: "0 0 24px rgba(214,31,69,0.35)" }}
                 whileTap={{ scale: 0.97 }}
-                style={{ display: "flex", alignItems: "center", gap: "8px", padding: "9px 20px", background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#000", fontWeight: 700, fontSize: "14px", borderRadius: "10px", border: "none", cursor: "pointer" }}
+                style={{ display: "flex", alignItems: "center", gap: "8px", padding: "9px 20px", background: "linear-gradient(135deg, #d61f45, #b91538)", color: "#fff", fontWeight: 700, fontSize: "14px", borderRadius: "10px", border: "none", cursor: "pointer" }}
               >
                 <Play style={{ width: "14px", height: "14px" }} />
                 Resume Learning
@@ -201,7 +201,7 @@ export default function DashboardPage() {
         {/* ─── TOP STAT CARDS ─── */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px", marginBottom: "20px" }}>
           {[
-            { label: "XP Score", value: animatedScore.toLocaleString(), icon: Star, color: "#f59e0b", sub: "+120 XP today", trend: "up" },
+            { label: "XP Score", value: animatedScore.toLocaleString(), icon: Star, color: "#d61f45", sub: "+120 XP today", trend: "up" },
             { label: "Day Streak", value: "12", icon: Flame, color: "#ef4444", sub: "Personal best!", trend: "up" },
             { label: "Topics Done", value: "8/20", icon: BookOpen, color: "#8b5cf6", sub: "40% complete", trend: "neutral" },
             { label: "Avg Score", value: "84%", icon: BarChart3, color: "#10b981", sub: "↑ 6% this week", trend: "up" },
@@ -230,10 +230,10 @@ export default function DashboardPage() {
           style={{ padding: "24px 28px", borderRadius: "14px", background: CARD, border: `1px solid ${BORDER}`, marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "22px" }}>
             <h2 style={{ fontWeight: 700, fontSize: "16px", display: "flex", alignItems: "center", gap: "8px", margin: 0 }}>
-              <TrendingUp style={{ width: "18px", height: "18px", color: "#f59e0b" }} />
+              <TrendingUp style={{ width: "18px", height: "18px", color: "#d61f45" }} />
               DSA Progress
             </h2>
-            <Link href="/topics" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "4px", fontSize: "13px", color: "#f59e0b" }}>
+            <Link href="/topics" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "4px", fontSize: "13px", color: "#d61f45" }}>
               View all <ChevronRight style={{ width: "14px", height: "14px" }} />
             </Link>
           </div>
@@ -242,13 +242,13 @@ export default function DashboardPage() {
           <div style={{ marginBottom: "22px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
               <span style={{ fontSize: "13px", color: TEXT2 }}>Overall Progress</span>
-              <span style={{ fontSize: "13px", fontWeight: 700, color: "#f59e0b" }}>54%</span>
+              <span style={{ fontSize: "13px", fontWeight: 700, color: "#d61f45" }}>54%</span>
             </div>
             <div style={{ height: "8px", borderRadius: "999px", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.08)", overflow: "hidden" }}>
               <motion.div
                 initial={{ width: 0 }} animate={{ width: "54%" }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
-                style={{ height: "100%", borderRadius: "999px", background: "linear-gradient(90deg, #f59e0b, #d97706)", boxShadow: "0 0 10px rgba(245,158,11,0.4)" }}
+                style={{ height: "100%", borderRadius: "999px", background: "linear-gradient(90deg, #d61f45, #b91538)", boxShadow: "0 0 10px rgba(214,31,69,0.4)" }}
               />
             </div>
           </div>
@@ -307,18 +307,18 @@ export default function DashboardPage() {
                 <svg width="128" height="128" viewBox="0 0 128 128">
                   <circle cx="64" cy="64" r="52" fill="none" stroke="rgba(127,127,127,0.10)" strokeWidth="16" />
                   <DonutSegment value={18} total={diffTotal} color="#10b981" offset={0} />
-                  <DonutSegment value={22} total={diffTotal} color="#f59e0b" offset={18} />
+                  <DonutSegment value={22} total={diffTotal} color="#d61f45" offset={18} />
                   <DonutSegment value={10} total={diffTotal} color="#ef4444" offset={40} />
                 </svg>
                 <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontSize: "18px", fontWeight: 900, color: "#f59e0b" }}>50</span>
+                  <span style={{ fontSize: "18px", fontWeight: 900, color: "#d61f45" }}>50</span>
                   <span style={{ fontSize: "10px", color: TEXT2 }}>problems</span>
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 {[
                   { label: "Easy", value: 18, color: "#10b981" },
-                  { label: "Medium", value: 22, color: "#f59e0b" },
+                  { label: "Medium", value: 22, color: "#d61f45" },
                   { label: "Hard", value: 10, color: "#ef4444" },
                 ].map(d => (
                   <div key={d.label} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -375,7 +375,7 @@ export default function DashboardPage() {
                 <span style={{ fontSize: "11px", color: TEXT2 }}>{s.date}</span>
                 {/* Score */}
                 <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                  <span style={{ fontSize: "14px", fontWeight: 700, color: s.score >= 85 ? "#10b981" : s.score >= 70 ? "#f59e0b" : "#ef4444" }}>
+                  <span style={{ fontSize: "14px", fontWeight: 700, color: s.score >= 85 ? "#10b981" : s.score >= 70 ? "#d61f45" : "#ef4444" }}>
                     {s.score}%
                   </span>
                   <ArrowRight style={{ width: "13px", height: "13px", color: "#374151" }} />
@@ -394,13 +394,13 @@ export default function DashboardPage() {
               <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px", position: "relative" }}>
                 <CircularProgress value={54} size={110} />
                 <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontSize: "22px", fontWeight: 900, color: "#f59e0b" }}>54%</span>
+                  <span style={{ fontSize: "22px", fontWeight: 900, color: "#d61f45" }}>54%</span>
                   <span style={{ fontSize: "10px", color: TEXT2 }}>Complete</span>
                 </div>
               </div>
               <p style={{ fontSize: "12px", color: TEXT2, margin: "0 0 14px" }}>8 of 20 DSA topics mastered</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
-                {[{ l: "Easy", v: 18, c: "#10b981" }, { l: "Medium", v: 22, c: "#f59e0b" }, { l: "Hard", v: 10, c: "#ef4444" }].map(d => (
+                {[{ l: "Easy", v: 18, c: "#10b981" }, { l: "Medium", v: 22, c: "#d61f45" }, { l: "Hard", v: 10, c: "#ef4444" }].map(d => (
                   <div key={d.l} style={{ textAlign: "center", padding: "8px 4px", borderRadius: "8px", background: isDark ? "rgba(255,255,255,0.03)" : "rgba(15,23,42,0.03)", border: `1px solid ${BORDER}` }}>
                     <div style={{ fontSize: "16px", fontWeight: 800, color: d.c }}>{d.v}</div>
                     <div style={{ fontSize: "10px", color: TEXT2 }}>{d.l}</div>
@@ -413,7 +413,7 @@ export default function DashboardPage() {
             <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.58 }}
               style={{ padding: "20px 22px", borderRadius: "14px", background: CARD, border: `1px solid ${BORDER}` }}>
               <h2 style={{ fontWeight: 700, fontSize: "11px", color: TEXT2, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "14px", display: "flex", alignItems: "center", gap: "6px" }}>
-                <Sparkles style={{ width: "13px", height: "13px", color: "#f59e0b" }} />
+                <Sparkles style={{ width: "13px", height: "13px", color: "#d61f45" }} />
                 AI Recommends
               </h2>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -428,7 +428,7 @@ export default function DashboardPage() {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: "13px", fontWeight: 600, color: TEXT1 }}>{item.topic}</div>
                       <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "2px" }}>
-                        <span style={{ fontSize: "11px", color: item.difficulty === "Hard" ? "#ef4444" : item.difficulty === "Medium" ? "#f59e0b" : "#10b981" }}>{item.difficulty}</span>
+                        <span style={{ fontSize: "11px", color: item.difficulty === "Hard" ? "#ef4444" : item.difficulty === "Medium" ? "#d61f45" : "#10b981" }}>{item.difficulty}</span>
                         <span style={{ fontSize: "11px", color: "#374151" }}>·</span>
                         <span style={{ fontSize: "11px", color: TEXT2 }}>{item.time}</span>
                       </div>
@@ -445,9 +445,9 @@ export default function DashboardPage() {
               <h2 style={{ fontWeight: 700, fontSize: "11px", color: TEXT2, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "14px" }}>Quick Actions</h2>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
                 {[
-                  { label: "Ask Tutor", href: "/learn", icon: MessageSquare, color: "#f59e0b" },
+                  { label: "Ask Tutor", href: "/learn", icon: MessageSquare, color: "#d61f45" },
                   { label: "Visualize", href: "/visualizer", icon: Code2, color: "#8b5cf6" },
-                  { label: "All Topics", href: "/topics", icon: BookOpen, color: "#06b6d4" },
+                  { label: "All Topics", href: "/topics", icon: BookOpen, color: "#7c3aed" },
                   { label: "Progress", href: "/dashboard", icon: BarChart3, color: "#10b981" },
                 ].map((a, i) => (
                   <Link key={i} href={a.href} style={{ textDecoration: "none" }}>
@@ -468,7 +468,7 @@ export default function DashboardPage() {
           style={{ padding: "22px 24px", borderRadius: "14px", background: CARD, border: `1px solid ${BORDER}`, marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "18px" }}>
             <h2 style={{ fontWeight: 700, fontSize: "15px", display: "flex", alignItems: "center", gap: "8px", margin: 0, color: TEXT1 }}>
-              <Award style={{ width: "16px", height: "16px", color: "#f59e0b" }} />
+              <Award style={{ width: "16px", height: "16px", color: "#d61f45" }} />
               Achievements
             </h2>
             <span style={{ fontSize: "12px", color: TEXT2, background: isDark ? "rgba(255,255,255,0.05)" : "rgba(15,23,42,0.05)", padding: "3px 10px", borderRadius: "999px", border: `1px solid ${BORDER}` }}>3 / 6 earned</span>
@@ -476,7 +476,7 @@ export default function DashboardPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "12px" }}>
             {ACHIEVEMENTS.map((ach, i) => (
               <motion.div key={i} whileHover={{ scale: ach.earned ? 1.04 : 1 }}
-                style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", padding: "18px 10px", borderRadius: "12px", textAlign: "center", border: `1px solid ${ach.earned ? "rgba(245,158,11,0.2)" : BORDER}`, background: ach.earned ? "rgba(245,158,11,0.05)" : "rgba(255,255,255,0.02)", opacity: ach.earned ? 1 : 0.45, cursor: ach.earned ? "default" : "not-allowed" }}>
+                style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", padding: "18px 10px", borderRadius: "12px", textAlign: "center", border: `1px solid ${ach.earned ? "rgba(214,31,69,0.2)" : BORDER}`, background: ach.earned ? "rgba(214,31,69,0.05)" : "rgba(255,255,255,0.02)", opacity: ach.earned ? 1 : 0.45, cursor: ach.earned ? "default" : "not-allowed" }}>
                 <div style={{ fontSize: "26px" }}>{ach.icon}</div>
                 <div style={{ fontSize: "12px", fontWeight: 600, color: TEXT1 }}>{ach.title}</div>
                 <div style={{ fontSize: "10px", color: TEXT2 }}>{ach.desc}</div>
@@ -505,7 +505,7 @@ export default function DashboardPage() {
               return (
                 <motion.div key={i}
                   initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: i * 0.018 }}
-                  style={{ width: "34px", height: "34px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: 600, cursor: "default", outline: today ? "2px solid #f59e0b" : "none", outlineOffset: "2px", background: active ? "rgba(245,158,11,0.18)" : isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.04)", color: active ? "#f59e0b" : TEXT2, border: active ? "1px solid rgba(245,158,11,0.3)" : `1px solid ${BORDER}` }}
+                  style={{ width: "34px", height: "34px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: 600, cursor: "default", outline: today ? "2px solid #d61f45" : "none", outlineOffset: "2px", background: active ? "rgba(214,31,69,0.18)" : isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.04)", color: active ? "#d61f45" : TEXT2, border: active ? "1px solid rgba(214,31,69,0.3)" : `1px solid ${BORDER}` }}
                 >
                   {i + 1}
                 </motion.div>

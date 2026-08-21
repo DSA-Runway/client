@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Sun, Moon, Settings, LogOut, User } from "lucide-react";
@@ -9,7 +10,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useSession, signOut } from "@/lib/fakeAuth";
 import { useProfileName } from "@/lib/useProfileName";
 
-const navItems = [
+const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/learn", label: "Learn" },
@@ -17,424 +18,267 @@ const navItems = [
   { href: "/topics", label: "Topics" },
 ];
 
+const MENU_ITEM =
+  "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] font-medium text-slate-600 transition-colors hover:bg-slate-900/5 dark:text-slate-300 dark:hover:bg-white/5";
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
   const [avatarOpen, setAvatarOpen] = useState(false);
   const avatarRef = useRef<HTMLDivElement>(null);
   const { isDark, toggleTheme } = useTheme();
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const { name: profileName } = useProfileName();
+
   const isLoggedIn = status === "authenticated";
   const displayName = profileName || session?.user?.name || session?.user?.email?.split("@")[0] || "User";
-  const initials = displayName.split(" ").map((w: string) => w[0]).slice(0, 2).join("").toUpperCase();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", checkMobile);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", checkMobile);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (avatarRef.current && !avatarRef.current.contains(e.target as Node)) {
-        setAvatarOpen(false);
-      }
+    const onClickOutside = (e: MouseEvent) => {
+      if (avatarRef.current && !avatarRef.current.contains(e.target as Node)) setAvatarOpen(false);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
-
-  // ── Dark: TUF-inspired — more transparent, prominent clean border outline ──
-  const D = {
-    navBg:              scrolled ? "rgba(4,9,22,0.90)"         : "rgba(4,9,22,0.68)",
-    navBorder:          scrolled ? "rgba(255,255,255,0.14)"    : "rgba(255,255,255,0.11)",
-    navShadow:          scrolled ? "0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)" : "0 4px 24px rgba(0,0,0,0.3)",
-    text:               "#8b99b5",
-    textHover:          "#e2e8f0",
-    textActive:         "#f59e0b",
-    pillActive:         "rgba(245,158,11,0.12)",
-    pillActiveBorder:   "rgba(245,158,11,0.25)",
-    pillHover:          "rgba(255,255,255,0.07)",
-    pillHoverBorder:    "rgba(255,255,255,0.10)",
-    loginColor:         "#8b99b5",
-    loginBorder:        "rgba(255,255,255,0.10)",
-    logoText:           "#fff",
-    logoAccent:         "#f59e0b",
-    toggleBg:           "rgba(255,255,255,0.07)",
-    toggleBorder:       "rgba(255,255,255,0.11)",
-    toggleColor:        "#94a3b8",
-    mobileBg:           "rgba(3,7,18,0.98)",
-    mobileBorder:       "rgba(255,255,255,0.08)",
-    mobileItemActive:   "#f59e0b",
-    mobileItemActiveBg: "rgba(245,158,11,0.08)",
-    mobileItemActiveBr: "rgba(245,158,11,0.2)",
-    mobileItemColor:    "#94a3b8",
-    mobileDivider:      "rgba(255,255,255,0.06)",
-  };
-
-  // ── Light: etail.me-inspired — clean white, subtle shadow, dark text ──
-  const L = {
-    navBg:              scrolled ? "rgba(255,255,255,0.97)"    : "rgba(255,255,255,0.88)",
-    navBorder:          scrolled ? "rgba(15,23,42,0.11)"       : "rgba(15,23,42,0.08)",
-    navShadow:          scrolled ? "0 4px 28px rgba(0,0,0,0.09), inset 0 -1px 0 rgba(0,0,0,0.04)" : "0 2px 16px rgba(0,0,0,0.06)",
-    text:               "#64748b",
-    textHover:          "#0f172a",
-    textActive:         "#d97706",
-    pillActive:         "rgba(217,119,6,0.09)",
-    pillActiveBorder:   "rgba(217,119,6,0.28)",
-    pillHover:          "rgba(15,23,42,0.05)",
-    pillHoverBorder:    "rgba(15,23,42,0.08)",
-    loginColor:         "#475569",
-    loginBorder:        "rgba(15,23,42,0.13)",
-    logoText:           "#0f172a",
-    logoAccent:         "#d97706",
-    toggleBg:           "rgba(15,23,42,0.05)",
-    toggleBorder:       "rgba(15,23,42,0.11)",
-    toggleColor:        "#475569",
-    mobileBg:           "rgba(255,255,255,0.99)",
-    mobileBorder:       "rgba(15,23,42,0.09)",
-    mobileItemActive:   "#d97706",
-    mobileItemActiveBg: "rgba(217,119,6,0.07)",
-    mobileItemActiveBr: "rgba(217,119,6,0.25)",
-    mobileItemColor:    "#64748b",
-    mobileDivider:      "rgba(15,23,42,0.07)",
-  };
-
-  const C = isDark ? D : L;
 
   return (
     <>
-      {/* ── Outer wrapper ── */}
-      <div style={{
-        position:  "fixed",
-        top:       "14px",
-        left:      "50%",
-        transform: "translateX(-50%)",
-        width:     "calc(100% - 48px)",
-        maxWidth:  "1200px",
-        zIndex:    50,
-      }}>
+      <div className="fixed inset-x-0 top-3.5 z-50 flex justify-center px-5">
         <motion.nav
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          style={{
-            borderRadius:       "999px",
-            background:         C.navBg,
-            backdropFilter:     "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            border:             `1px solid ${C.navBorder}`,
-            boxShadow:          C.navShadow,
-            transition:         "background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease",
-          }}
+          className={[
+            "w-full rounded-full border backdrop-blur-2xl",
+            "transition-[max-width,box-shadow,background-color,border-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            scrolled ? "max-w-[880px]" : "max-w-[1100px]",
+            "border-slate-900/10 bg-white/85 dark:border-white/10 dark:bg-ink-900/85",
+            scrolled
+              ? "shadow-[0_10px_40px_rgba(12,14,18,0.14)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.55)]"
+              : "shadow-[0_4px_20px_rgba(12,14,18,0.06)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)]",
+          ].join(" ")}
         >
-          <div style={{ height: "46px", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 6px 0 16px" }}>
-
-            {/* ── Logo ── */}
-            <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
-              <span style={{
-                fontFamily: "'Playfair Display', serif",
-                fontWeight: 700,
-                fontSize: "17px",
-                letterSpacing: "-0.3px",
-                color: isDark ? "#f0f4ff" : "#0f172a",
-                transition: "color 0.25s",
-              }}>
-                DSA
-                <span style={{ color: "#f59e0b" }}> Runway</span>
+          <div
+            className={[
+              "flex items-center justify-between pl-5 pr-2",
+              "transition-[height] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+              scrolled ? "h-[52px]" : "h-[64px]",
+            ].join(" ")}
+          >
+            {/* Wordmark */}
+            <Link href="/" className="flex shrink-0 items-center gap-2.5 no-underline">
+              <Image
+                src="/coe/coe-logo.jpg"
+                alt="TIET-UQ Centre of Excellence in Data Science and AI"
+                width={200}
+                height={200}
+                className={[
+                  "rounded-full transition-[width,height] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  scrolled ? "h-7 w-7" : "h-9 w-9",
+                ].join(" ")}
+                priority
+              />
+              <span className="font-display text-[19px] font-bold tracking-tight text-slate-900 dark:text-white">
+                DSA<em className="brand-text font-semibold">Runway</em>
               </span>
             </Link>
 
-            {/* ── Desktop nav items — sliding pill ── */}
-            {!isMobile && (
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "2px" }}
-                onMouseLeave={() => setHoveredItem(null)}
-              >
-                {navItems.map((item) => {
-                  const isActive  = pathname === item.href;
-                  const isHovered = hoveredItem === item.href;
-                  const showPill  = isHovered || (!hoveredItem && isActive);
-                  return (
-                    <Link key={item.href} href={item.href} style={{ textDecoration: "none" }}>
-                      <div
-                        onMouseEnter={() => setHoveredItem(item.href)}
-                        style={{ position: "relative", padding: "5px 13px", borderRadius: "999px", cursor: "pointer" }}
-                      >
-                        {showPill && (
-                          <motion.div
-                            layoutId="nav-pill"
-                            style={{
-                              position: "absolute",
-                              inset: 0,
-                              borderRadius: "999px",
-                              background: isActive ? C.pillActive : C.pillHover,
-                              border:     isActive ? `1px solid ${C.pillActiveBorder}` : `1px solid ${C.pillHoverBorder}`,
-                            }}
-                            transition={{ type: "spring", stiffness: 500, damping: 38 }}
-                          />
-                        )}
-                        <span style={{
-                          position:   "relative",
-                          zIndex:     1,
-                          fontSize:   "13px",
-                          fontWeight: isActive ? 600 : 500,
-                          color:      isActive ? C.textActive : isHovered ? C.textHover : C.text,
-                          whiteSpace: "nowrap",
-                          transition: "color 0.15s",
-                          display:    "block",
-                        }}>
-                          {item.label}
-                        </span>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* ── Right side: theme toggle + CTA ── */}
-            {!isMobile && (
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
-
-                {/* Theme toggle */}
-                <motion.button
-                  onClick={toggleTheme}
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.92 }}
-                  style={{
-                    width:          "32px",
-                    height:         "32px",
-                    borderRadius:   "999px",
-                    background:     C.toggleBg,
-                    border:         `1px solid ${C.toggleBorder}`,
-                    cursor:         "pointer",
-                    display:        "flex",
-                    alignItems:     "center",
-                    justifyContent: "center",
-                    color:          C.toggleColor,
-                    transition:     "background 0.25s, border 0.25s",
-                  }}
-                >
-                  <AnimatePresence mode="wait">
-                    {isDark ? (
-                      <motion.span key="sun" initial={{ opacity: 0, rotate: -90, scale: 0.5 }} animate={{ opacity: 1, rotate: 0, scale: 1 }} exit={{ opacity: 0, rotate: 90, scale: 0.5 }} transition={{ duration: 0.2 }} style={{ display: "flex" }}>
-                        <Sun style={{ width: "14px", height: "14px" }} />
-                      </motion.span>
-                    ) : (
-                      <motion.span key="moon" initial={{ opacity: 0, rotate: 90, scale: 0.5 }} animate={{ opacity: 1, rotate: 0, scale: 1 }} exit={{ opacity: 0, rotate: -90, scale: 0.5 }} transition={{ duration: 0.2 }} style={{ display: "flex" }}>
-                        <Moon style={{ width: "14px", height: "14px" }} />
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </motion.button>
-
-                {isLoggedIn ? (
-                  /* ── User Avatar + Dropdown ── */
-                  <div ref={avatarRef} style={{ position: "relative" }}>
-                    <motion.button
-                      onClick={() => setAvatarOpen(!avatarOpen)}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      style={{
-                        width: "34px", height: "34px", borderRadius: "999px",
-                        background: "linear-gradient(135deg, #f59e0b, #d97706)",
-                        border: "2px solid rgba(245,158,11,0.4)",
-                        cursor: "pointer", display: "flex", alignItems: "center",
-                        justifyContent: "center", fontSize: "12px", fontWeight: 800,
-                        color: "#000", letterSpacing: "-0.5px",
-                      }}
-                    >
-                      {initials}
-                    </motion.button>
-
-                    <AnimatePresence>
-                      {avatarOpen && (
+            {/* Desktop nav — sliding pill */}
+            <div className="hidden items-center gap-0.5 md:flex" onMouseLeave={() => setHovered(null)}>
+              {NAV_ITEMS.map((item) => {
+                const isActive = pathname === item.href;
+                const showPill = hovered === item.href || (!hovered && isActive);
+                return (
+                  <Link key={item.href} href={item.href} className="no-underline">
+                    <div onMouseEnter={() => setHovered(item.href)} className="relative rounded-full px-3.5 py-1.5">
+                      {showPill && (
                         <motion.div
-                          initial={{ opacity: 0, y: -8, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                          transition={{ duration: 0.15 }}
-                          style={{
-                            position: "absolute", top: "calc(100% + 10px)", right: 0,
-                            minWidth: "200px", borderRadius: "14px",
-                            background: isDark ? "rgba(4,9,22,0.97)" : "rgba(255,255,255,0.99)",
-                            border: `1px solid ${C.navBorder}`,
-                            boxShadow: isDark ? "0 20px 50px rgba(0,0,0,0.6)" : "0 12px 40px rgba(0,0,0,0.13)",
-                            overflow: "hidden", zIndex: 100,
-                            backdropFilter: "blur(20px)",
-                          }}
-                        >
-                          {/* User info header */}
-                          <div style={{ padding: "14px 16px 12px", borderBottom: `1px solid ${C.navBorder}` }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                              <div style={{ width: "36px", height: "36px", borderRadius: "999px", background: "linear-gradient(135deg, #f59e0b, #d97706)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: 800, color: "#000", flexShrink: 0 }}>
-                                {initials}
-                              </div>
-                              <div style={{ minWidth: 0 }}>
-                                <div style={{ fontSize: "13px", fontWeight: 700, color: isDark ? "#f0f4ff" : "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                                  {displayName}
-                                </div>
-                                <div style={{ fontSize: "11px", color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                                  {session?.user?.email}
-                                </div>
-                              </div>
+                          layoutId="nav-pill"
+                          transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                          className={[
+                            "absolute inset-0 rounded-full border",
+                            isActive
+                              ? "border-crimson-500/25 bg-crimson-500/10"
+                              : "border-slate-900/10 bg-slate-900/5 dark:border-white/10 dark:bg-white/5",
+                          ].join(" ")}
+                        />
+                      )}
+                      <span
+                        className={[
+                          "relative z-[1] block whitespace-nowrap text-[13.5px] transition-colors duration-150",
+                          isActive
+                            ? "font-bold text-crimson-600 dark:text-crimson-400"
+                            : "font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white",
+                        ].join(" ")}
+                      >
+                        {item.label}
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Right cluster */}
+            <div className="flex shrink-0 items-center gap-1.5">
+              {/* Theme toggle */}
+              <motion.button
+                onClick={toggleTheme}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.92 }}
+                aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-900/10 bg-slate-900/5 text-slate-500 transition-colors dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={isDark ? "sun" : "moon"}
+                    initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
+                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                    exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex"
+                  >
+                    {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                  </motion.span>
+                </AnimatePresence>
+              </motion.button>
+
+              {isLoggedIn ? (
+                /* Avatar + dropdown */
+                <div ref={avatarRef} className="relative">
+                  <motion.button
+                    onClick={() => setAvatarOpen(!avatarOpen)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    aria-label="Account menu"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-crimson-500 to-royal-600 text-white ring-2 ring-crimson-500/30"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-white" aria-hidden>
+                      <path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.05 0-7.5 2.4-7.5 5.4 0 .88.72 1.6 1.6 1.6h11.8c.88 0 1.6-.72 1.6-1.6 0-3-3.45-5.4-7.5-5.4Z" />
+                    </svg>
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {avatarOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute right-0 top-[calc(100%+12px)] z-[100] min-w-[210px] overflow-hidden rounded-2xl border border-slate-900/10 bg-white/98 shadow-[0_16px_50px_rgba(12,14,18,0.16)] backdrop-blur-2xl dark:border-white/10 dark:bg-ink-900/98 dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+                      >
+                        <div className="border-b border-slate-900/10 px-4 py-3.5 dark:border-white/10">
+                          <div className="flex items-center gap-2.5">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-crimson-500 to-royal-600 text-white">
+                              <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-white" aria-hidden>
+                                <path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.05 0-7.5 2.4-7.5 5.4 0 .88.72 1.6 1.6 1.6h11.8c.88 0 1.6-.72 1.6-1.6 0-3-3.45-5.4-7.5-5.4Z" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="truncate text-[13px] font-bold text-slate-900 dark:text-white">{displayName}</div>
+                              <div className="truncate text-[11px] text-slate-500 dark:text-slate-400">{session?.user?.email}</div>
                             </div>
                           </div>
-
-                          {/* Menu items */}
-                          <div style={{ padding: "6px" }}>
-                            <Link href="/profile" style={{ textDecoration: "none" }} onClick={() => setAvatarOpen(false)}>
-                              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "9px 10px", borderRadius: "9px", cursor: "pointer", color: C.text, fontSize: "13px", fontWeight: 500, transition: "background 0.15s" }}
-                                onMouseEnter={e => (e.currentTarget.style.background = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.06)")}
-                                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-                              >
-                                <User style={{ width: "14px", height: "14px", flexShrink: 0 }} />
-                                Profile Settings
-                              </div>
-                            </Link>
-                            <Link href="/dashboard" style={{ textDecoration: "none" }} onClick={() => setAvatarOpen(false)}>
-                              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "9px 10px", borderRadius: "9px", cursor: "pointer", color: C.text, fontSize: "13px", fontWeight: 500, transition: "background 0.15s" }}
-                                onMouseEnter={e => (e.currentTarget.style.background = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.06)")}
-                                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-                              >
-                                <Settings style={{ width: "14px", height: "14px", flexShrink: 0 }} />
-                                Dashboard
-                              </div>
-                            </Link>
-                            <div style={{ margin: "4px 0", borderTop: `1px solid ${C.navBorder}` }} />
-                            <button
-                              onClick={() => { setAvatarOpen(false); signOut({ callbackUrl: "/login" }); }}
-                              style={{ display: "flex", alignItems: "center", gap: "10px", padding: "9px 10px", borderRadius: "9px", cursor: "pointer", color: "#ef4444", fontSize: "13px", fontWeight: 500, background: "transparent", border: "none", width: "100%", transition: "background 0.15s" }}
-                              onMouseEnter={e => (e.currentTarget.style.background = "rgba(239,68,68,0.08)")}
-                              onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-                            >
-                              <LogOut style={{ width: "14px", height: "14px", flexShrink: 0 }} />
-                              Sign Out
-                            </button>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ) : (
-                  <>
-                    {/* Log In */}
-                    <Link href="/login" style={{ textDecoration: "none" }}>
-                      <motion.button
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.96 }}
-                        style={{ padding: "6px 16px", fontSize: "12px", fontWeight: 500, color: C.loginColor, background: "transparent", border: `1px solid ${C.loginBorder}`, borderRadius: "999px", cursor: "pointer", transition: "color 0.2s, border-color 0.2s" }}
-                      >
-                        Log In
-                      </motion.button>
-                    </Link>
-
-                    {/* Start Learning */}
-                    <Link href="/learn" style={{ textDecoration: "none" }}>
-                      <motion.button
-                        whileHover={{ scale: 1.04, boxShadow: "0 0 18px rgba(245,158,11,0.4)" }}
-                        whileTap={{ scale: 0.96 }}
-                        style={{ padding: "6px 16px", fontSize: "12px", fontWeight: 700, background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#000", borderRadius: "999px", border: "none", cursor: "pointer" }}
-                      >
-                        Start Learning
-                      </motion.button>
-                    </Link>
-                  </>
-                )}
-              </div>
-            )}
-
-            {/* ── Mobile: theme toggle + hamburger ── */}
-            {isMobile && (
-              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <motion.button
-                  onClick={toggleTheme}
-                  whileTap={{ scale: 0.9 }}
-                  style={{ width: "32px", height: "32px", borderRadius: "999px", background: C.toggleBg, border: `1px solid ${C.toggleBorder}`, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: C.toggleColor }}
-                >
-                  <AnimatePresence mode="wait">
-                    {isDark ? (
-                      <motion.span key="sun" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.5 }} transition={{ duration: 0.15 }} style={{ display: "flex" }}>
-                        <Sun style={{ width: "13px", height: "13px" }} />
-                      </motion.span>
-                    ) : (
-                      <motion.span key="moon" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.5 }} transition={{ duration: 0.15 }} style={{ display: "flex" }}>
-                        <Moon style={{ width: "13px", height: "13px" }} />
-                      </motion.span>
+                        </div>
+                        <div className="p-1.5">
+                          <Link href="/profile" className="no-underline" onClick={() => setAvatarOpen(false)}>
+                            <span className={MENU_ITEM}>
+                              <User className="h-3.5 w-3.5 shrink-0" />
+                              Profile Settings
+                            </span>
+                          </Link>
+                          <Link href="/dashboard" className="no-underline" onClick={() => setAvatarOpen(false)}>
+                            <span className={MENU_ITEM}>
+                              <Settings className="h-3.5 w-3.5 shrink-0" />
+                              Dashboard
+                            </span>
+                          </Link>
+                          <div className="my-1 border-t border-slate-900/10 dark:border-white/10" />
+                          <button
+                            onClick={() => { setAvatarOpen(false); signOut({ callbackUrl: "/login" }); }}
+                            className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] font-medium text-red-500 transition-colors hover:bg-red-500/10"
+                          >
+                            <LogOut className="h-3.5 w-3.5 shrink-0" />
+                            Sign Out
+                          </button>
+                        </div>
+                      </motion.div>
                     )}
                   </AnimatePresence>
-                </motion.button>
-                <button
-                  onClick={() => setMobileOpen(!mobileOpen)}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "34px", height: "34px", background: C.toggleBg, border: `1px solid ${C.toggleBorder}`, borderRadius: "999px", cursor: "pointer", color: C.toggleColor }}
-                >
-                  {mobileOpen ? <X style={{ width: "15px", height: "15px" }} /> : <Menu style={{ width: "15px", height: "15px" }} />}
-                </button>
-              </div>
-            )}
+                </div>
+              ) : (
+                <div className="hidden items-center gap-1.5 md:flex">
+                  <Link
+                    href="/login"
+                    className="rounded-full border border-slate-900/10 px-4 py-1.5 text-xs font-semibold text-slate-600 no-underline transition-colors hover:border-slate-900/25 hover:text-slate-900 dark:border-white/10 dark:text-slate-300 dark:hover:border-white/25 dark:hover:text-white"
+                  >
+                    Log In
+                  </Link>
+                  <Link
+                    href="/learn"
+                    className="rounded-full bg-slate-900 px-4 py-1.5 text-xs font-bold text-white no-underline transition-all hover:bg-crimson-600 dark:bg-white dark:text-slate-900 dark:hover:bg-crimson-500 dark:hover:text-white"
+                  >
+                    Start Learning
+                  </Link>
+                </div>
+              )}
+
+              {/* Mobile hamburger */}
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label={mobileOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileOpen}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-900/10 bg-slate-900/5 text-slate-500 md:hidden dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
+              >
+                {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              </button>
+            </div>
           </div>
         </motion.nav>
       </div>
 
-      {/* ── Mobile menu ── */}
+      {/* Mobile menu */}
       <AnimatePresence>
-        {mobileOpen && isMobile && (
+        {mobileOpen && (
           <motion.div
             initial={{ opacity: 0, y: -8, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.18 }}
-            style={{
-              position:           "fixed",
-              top:                "74px",
-              left:               "24px",
-              right:              "24px",
-              zIndex:             49,
-              background:         C.mobileBg,
-              backdropFilter:     "blur(24px)",
-              WebkitBackdropFilter: "blur(24px)",
-              borderRadius:       "22px",
-              border:             `1px solid ${C.mobileBorder}`,
-              overflow:           "hidden",
-              boxShadow:          isDark ? "0 20px 60px rgba(0,0,0,0.5)" : "0 12px 40px rgba(0,0,0,0.12)",
-            }}
+            className="fixed inset-x-5 top-[86px] z-[49] overflow-hidden rounded-3xl border border-slate-900/10 bg-white/98 shadow-[0_16px_50px_rgba(12,14,18,0.14)] backdrop-blur-2xl md:hidden dark:border-white/10 dark:bg-ink-900/98 dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
           >
-            <div style={{ padding: "10px", display: "flex", flexDirection: "column", gap: "3px" }}>
-              {navItems.map((item) => {
+            <div className="flex flex-col gap-1 p-2.5">
+              {NAV_ITEMS.map((item) => {
                 const isActive = pathname === item.href;
                 return (
-                  <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} style={{ textDecoration: "none" }}>
-                    <div style={{
-                      padding:    "10px 14px",
-                      borderRadius: "12px",
-                      fontSize:   "14px",
-                      fontWeight: isActive ? 600 : 500,
-                      color:      isActive ? C.mobileItemActive : C.mobileItemColor,
-                      background: isActive ? C.mobileItemActiveBg : "transparent",
-                      border:     isActive ? `1px solid ${C.mobileItemActiveBr}` : "1px solid transparent",
-                      cursor:     "pointer",
-                    }}>
+                  <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} className="no-underline">
+                    <span
+                      className={[
+                        "block rounded-xl border px-3.5 py-2.5 text-sm",
+                        isActive
+                          ? "border-crimson-500/25 bg-crimson-500/10 font-bold text-crimson-600 dark:text-crimson-400"
+                          : "border-transparent font-medium text-slate-500 dark:text-slate-400",
+                      ].join(" ")}
+                    >
                       {item.label}
-                    </div>
+                    </span>
                   </Link>
                 );
               })}
-              <div style={{ paddingTop: "8px", marginTop: "3px", borderTop: `1px solid ${C.mobileDivider}` }}>
-                <Link href="/learn" onClick={() => setMobileOpen(false)} style={{ textDecoration: "none" }}>
-                  <button style={{ width: "100%", padding: "11px", fontSize: "14px", fontWeight: 700, background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#000", borderRadius: "12px", border: "none", cursor: "pointer" }}>
+              <div className="mt-1 border-t border-slate-900/10 pt-2.5 dark:border-white/10">
+                <Link href="/learn" onClick={() => setMobileOpen(false)} className="no-underline">
+                  <span className="block rounded-xl bg-slate-900 py-2.5 text-center text-sm font-bold text-white dark:bg-white dark:text-slate-900">
                     Start Learning
-                  </button>
+                  </span>
                 </Link>
               </div>
             </div>

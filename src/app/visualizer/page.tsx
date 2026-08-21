@@ -75,7 +75,7 @@ function LinkedListViz() {
             className="w-20 rounded-lg px-3 py-2 text-sm outline-none"
             style={{ background: inputBg, border: `1px solid ${inputBorder}`, color: isDark ? "#fff" : "#0f172a" }}
           />
-          <motion.button onClick={addNode} whileHover={{ scale:1.05 }} whileTap={{ scale:0.95 }} className="flex items-center gap-1.5 px-3 py-2 bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] rounded-lg text-sm font-medium hover:bg-[#f59e0b]/20 transition-colors">
+          <motion.button onClick={addNode} whileHover={{ scale:1.05 }} whileTap={{ scale:0.95 }} className="flex items-center gap-1.5 px-3 py-2 bg-[#d61f45]/10 border border-[#d61f45]/30 text-[#d61f45] rounded-lg text-sm font-medium hover:bg-[#d61f45]/20 transition-colors">
             <Plus className="w-4 h-4"/>Add Node
           </motion.button>
         </div>
@@ -85,7 +85,7 @@ function LinkedListViz() {
         <motion.button onClick={() => setNodes([{ id:1,value:12 },{ id:2,value:8 },{ id:3,value:23 },{ id:4,value:5 },{ id:5,value:17 }])} whileHover={{ scale:1.05 }} className="p-2 rounded-lg transition-colors" style={{ color: dimText }}>
           <RotateCcw className="w-4 h-4"/>
         </motion.button>
-        {operation && <span className="text-xs text-[#f59e0b] px-2 py-1 rounded-full bg-[#f59e0b]/10 border border-[#f59e0b]/20">{operation}</span>}
+        {operation && <span className="text-xs text-[#d61f45] px-2 py-1 rounded-full bg-[#d61f45]/10 border border-[#d61f45]/20">{operation}</span>}
       </div>
 
       {/* Visualization */}
@@ -94,9 +94,9 @@ function LinkedListViz() {
         <div className="flex items-center gap-0">
           {/* Head pointer */}
           <div className="flex flex-col items-center mr-4 flex-shrink-0">
-            <span className="text-[#f59e0b] text-xs font-bold font-mono mb-1">HEAD</span>
-            <div className="w-px h-8 bg-[#f59e0b]/50"/>
-            <ArrowRight className="w-4 h-4 text-[#f59e0b] -mt-1"/>
+            <span className="text-[#d61f45] text-xs font-bold font-mono mb-1">HEAD</span>
+            <div className="w-px h-8 bg-[#d61f45]/50"/>
+            <ArrowRight className="w-4 h-4 text-[#d61f45] -mt-1"/>
           </div>
 
           <AnimatePresence mode="popLayout">
@@ -111,20 +111,20 @@ function LinkedListViz() {
               >
                 {/* Node */}
                 <motion.div
-                  animate={animStep === i ? { scale:[1,1.2,1], boxShadow:["0 0 0px transparent","0 0 25px rgba(245,158,11,0.8)","0 0 10px rgba(245,158,11,0.4)"] } : {}}
+                  animate={animStep === i ? { scale:[1,1.2,1], boxShadow:["0 0 0px transparent","0 0 25px rgba(214,31,69,0.8)","0 0 10px rgba(214,31,69,0.4)"] } : {}}
                   transition={{ duration:0.4 }}
                   className="relative group flex-shrink-0"
                 >
                   <div
                     className="w-16 h-16 rounded-xl flex flex-col items-center justify-center border-2 transition-all duration-300 cursor-pointer"
                     style={animStep === i
-                      ? { borderColor:"#f59e0b", background:"rgba(245,158,11,0.2)", boxShadow:"0 0 20px rgba(245,158,11,0.5)" }
+                      ? { borderColor:"#d61f45", background:"rgba(214,31,69,0.2)", boxShadow:"0 0 20px rgba(214,31,69,0.5)" }
                       : node.highlighted
                       ? { borderColor:"#10b981", background:"rgba(16,185,129,0.15)" }
                       : { borderColor: nodeBord, background: nodeBg }}
                   >
                     <div className="text-xs font-mono" style={{ color: dimText }}>val</div>
-                    <div className="text-lg font-black font-mono" style={{ color: animStep===i?"#f59e0b":node.highlighted?"#10b981":isDark?"#ffffff":"#0f172a" }}>{node.value}</div>
+                    <div className="text-lg font-black font-mono" style={{ color: animStep===i?"#d61f45":node.highlighted?"#10b981":isDark?"#ffffff":"#0f172a" }}>{node.value}</div>
                     <div className="text-[9px] font-mono" style={{ color: dimText2 }}>next→</div>
                   </div>
                   {/* Delete button */}
@@ -142,8 +142,8 @@ function LinkedListViz() {
                     animate={animStep === i ? { opacity:[0.5,1,0.5] } : { opacity:0.5 }}
                     transition={animStep === i ? { duration:0.4,repeat:0 } : {}}
                   >
-                    <div style={{ height:"1px", width:"32px", background: animStep===i?"#f59e0b":arrowCol, transition:"background 0.3s" }}/>
-                    <div style={{ width:0, height:0, borderTop:"5px solid transparent", borderBottom:"5px solid transparent", borderLeft:`8px solid ${animStep===i?"#f59e0b":arrowCol}`, transition:"border-left-color 0.3s" }}/>
+                    <div style={{ height:"1px", width:"32px", background: animStep===i?"#d61f45":arrowCol, transition:"background 0.3s" }}/>
+                    <div style={{ width:0, height:0, borderTop:"5px solid transparent", borderBottom:"5px solid transparent", borderLeft:`8px solid ${animStep===i?"#d61f45":arrowCol}`, transition:"border-left-color 0.3s" }}/>
                   </motion.div>
                 )}
               </motion.div>
@@ -162,7 +162,7 @@ function LinkedListViz() {
 
       {/* Legend */}
       <div className="flex gap-4 text-xs" style={{ color: dimText }}>
-        <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded border-2 border-[#f59e0b] bg-[#f59e0b]/20"/><span className="text-[#f59e0b]">Active</span></span>
+        <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded border-2 border-[#d61f45] bg-[#d61f45]/20"/><span className="text-[#d61f45]">Active</span></span>
         <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded border-2 border-[#10b981] bg-[#10b981]/20"/><span>Newly added</span></span>
         <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{ borderWidth:"2px", borderStyle:"solid", borderColor: nodeBord, background: nodeBg }}/><span>Normal</span></span>
       </div>
@@ -280,7 +280,7 @@ function GraphViz() {
             {m.toUpperCase()}
           </button>
         ))}
-        <motion.button onClick={() => { resetViz(); if (mode==="bfs") runBFS(); else runDFS(); }} disabled={isRunning} whileHover={{ scale:1.05 }} whileTap={{ scale:0.95 }} className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-black rounded-lg text-sm font-bold disabled:opacity-50">
+        <motion.button onClick={() => { resetViz(); if (mode==="bfs") runBFS(); else runDFS(); }} disabled={isRunning} whileHover={{ scale:1.05 }} whileTap={{ scale:0.95 }} className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-[#d61f45] to-[#b91538] text-black rounded-lg text-sm font-bold disabled:opacity-50">
           <Play className="w-4 h-4"/>Run {mode.toUpperCase()}
         </motion.button>
         <motion.button onClick={resetViz} whileHover={{ scale:1.05 }} className="p-2 rounded-lg transition-colors" style={{ color:TEXT2 }}>
@@ -306,11 +306,11 @@ function GraphViz() {
             return (
               <motion.line
                 key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y}
-                stroke={isActive ? "#f59e0b" : edgeCol}
+                stroke={isActive ? "#d61f45" : edgeCol}
                 strokeWidth={isActive ? 2.5 : 1.5}
-                animate={{ stroke: isActive ? "#f59e0b" : edgeCol, strokeWidth: isActive ? 2.5 : 1.5 }}
+                animate={{ stroke: isActive ? "#d61f45" : edgeCol, strokeWidth: isActive ? 2.5 : 1.5 }}
                 transition={{ duration:0.3 }}
-                style={isActive ? { filter:"drop-shadow(0 0 4px rgba(245,158,11,0.6))" } : {}}
+                style={isActive ? { filter:"drop-shadow(0 0 4px rgba(214,31,69,0.6))" } : {}}
               />
             );
           })}
@@ -324,24 +324,24 @@ function GraphViz() {
               <g key={node.id}>
                 {isCurrent && (
                   <motion.circle cx={node.x} cy={node.y} r="28"
-                    fill="rgba(245,158,11,0.15)"
+                    fill="rgba(214,31,69,0.15)"
                     animate={{ r:[24,32,24], opacity:[0.4,0.8,0.4] }}
                     transition={{ duration:0.8, repeat:Infinity }}
                   />
                 )}
                 <motion.circle
                   cx={node.x} cy={node.y} r="22"
-                  fill={isCurrent ? "rgba(245,158,11,0.3)" : isVisited ? "rgba(16,185,129,0.2)" : isInQueue ? "rgba(139,92,246,0.2)" : nodeFill}
-                  stroke={isCurrent ? "#f59e0b" : isVisited ? "#10b981" : isInQueue ? "#8b5cf6" : edgeCol}
+                  fill={isCurrent ? "rgba(214,31,69,0.3)" : isVisited ? "rgba(16,185,129,0.2)" : isInQueue ? "rgba(139,92,246,0.2)" : nodeFill}
+                  stroke={isCurrent ? "#d61f45" : isVisited ? "#10b981" : isInQueue ? "#8b5cf6" : edgeCol}
                   strokeWidth={isCurrent ? 2.5 : 2}
                   animate={{
-                    fill: isCurrent ? "rgba(245,158,11,0.3)" : isVisited ? "rgba(16,185,129,0.2)" : nodeFill,
-                    stroke: isCurrent ? "#f59e0b" : isVisited ? "#10b981" : edgeCol,
+                    fill: isCurrent ? "rgba(214,31,69,0.3)" : isVisited ? "rgba(16,185,129,0.2)" : nodeFill,
+                    stroke: isCurrent ? "#d61f45" : isVisited ? "#10b981" : edgeCol,
                   }}
                   transition={{ duration:0.3 }}
-                  style={isCurrent ? { filter:"drop-shadow(0 0 8px rgba(245,158,11,0.7))" } : isVisited ? { filter:"drop-shadow(0 0 5px rgba(16,185,129,0.4))" } : {}}
+                  style={isCurrent ? { filter:"drop-shadow(0 0 8px rgba(214,31,69,0.7))" } : isVisited ? { filter:"drop-shadow(0 0 5px rgba(16,185,129,0.4))" } : {}}
                 />
-                <text x={node.x} y={node.y+1} textAnchor="middle" dominantBaseline="middle" fill={isCurrent?"#f59e0b":isVisited?"#10b981":TEXT1} fontSize="13" fontWeight="bold" fontFamily="monospace">
+                <text x={node.x} y={node.y+1} textAnchor="middle" dominantBaseline="middle" fill={isCurrent?"#d61f45":isVisited?"#10b981":TEXT1} fontSize="13" fontWeight="bold" fontFamily="monospace">
                   {node.id}
                 </text>
               </g>
@@ -352,7 +352,7 @@ function GraphViz() {
         {/* Legend overlay */}
         <div className="absolute top-3 right-3 flex flex-col gap-1.5 backdrop-blur-sm rounded-lg p-2.5" style={{ background: overlayBg, border:`1px solid ${isDark?"rgba(255,255,255,0.05)":"rgba(15,23,42,0.1)"}` }}>
           {[
-            { color:"#f59e0b", label:"Current" },
+            { color:"#d61f45", label:"Current" },
             { color:"#10b981", label:"Visited" },
             { color:"#8b5cf6", label:"In Queue" },
           ].map(l => (
@@ -483,17 +483,17 @@ function SortingViz() {
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-3">
         {(["bubble","selection","insertion"] as const).map(alg => (
-          <button key={alg} onClick={() => setAlgorithm(alg)} className={`px-3 py-1.5 rounded-lg text-sm font-medium capitalize transition-all duration-200 ${algorithm===alg?"bg-[#f59e0b]/15 text-[#f59e0b] border border-[#f59e0b]/30":"border border-transparent"}`} style={algorithm!==alg?{color:TEXT2}:{}}>
+          <button key={alg} onClick={() => setAlgorithm(alg)} className={`px-3 py-1.5 rounded-lg text-sm font-medium capitalize transition-all duration-200 ${algorithm===alg?"bg-[#d61f45]/15 text-[#d61f45] border border-[#d61f45]/30":"border border-transparent"}`} style={algorithm!==alg?{color:TEXT2}:{}}>
             {alg} Sort
           </button>
         ))}
-        <motion.button onClick={runSort} disabled={isRunning} whileHover={{ scale:1.05 }} whileTap={{ scale:0.95 }} className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-black rounded-lg text-sm font-bold disabled:opacity-50">
+        <motion.button onClick={runSort} disabled={isRunning} whileHover={{ scale:1.05 }} whileTap={{ scale:0.95 }} className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-[#d61f45] to-[#b91538] text-black rounded-lg text-sm font-bold disabled:opacity-50">
           <Play className="w-4 h-4"/>Sort
         </motion.button>
         <motion.button onClick={randomize} disabled={isRunning} whileHover={{ scale:1.05 }} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors disabled:opacity-50" style={{ border:`1px solid ${isDark?"#1e1e3a":"#e2e8f0"}`, color:TEXT2 }}>
           <Zap className="w-4 h-4"/>Randomize
         </motion.button>
-        {stepCount > 0 && <span className="text-xs" style={{ color:TEXT2 }}>Comparisons: <span className="text-[#f59e0b] font-bold">{stepCount}</span></span>}
+        {stepCount > 0 && <span className="text-xs" style={{ color:TEXT2 }}>Comparisons: <span className="text-[#d61f45] font-bold">{stepCount}</span></span>}
       </div>
 
       {/* Bars */}
@@ -510,12 +510,12 @@ function SortingViz() {
                 style={{
                   height,
                   background: isComparing
-                    ? "linear-gradient(180deg,#f59e0b,#d97706)"
+                    ? "linear-gradient(180deg,#d61f45,#b91538)"
                     : isSorted
                     ? "linear-gradient(180deg,#10b981,#059669)"
                     : "linear-gradient(180deg,#3a3a6a,#252545)",
-                  boxShadow: isComparing ? "0 0 15px rgba(245,158,11,0.6)" : isSorted ? "0 0 10px rgba(16,185,129,0.4)" : "none",
-                  border: isComparing ? "1px solid rgba(245,158,11,0.5)" : isSorted ? "1px solid rgba(16,185,129,0.4)" : "1px solid rgba(42,42,74,0.5)",
+                  boxShadow: isComparing ? "0 0 15px rgba(214,31,69,0.6)" : isSorted ? "0 0 10px rgba(16,185,129,0.4)" : "none",
+                  border: isComparing ? "1px solid rgba(214,31,69,0.5)" : isSorted ? "1px solid rgba(16,185,129,0.4)" : "1px solid rgba(42,42,74,0.5)",
                 }}
                 animate={{ height }}
                 transition={{ type:"spring", stiffness:300, damping:30 }}
@@ -532,7 +532,7 @@ function SortingViz() {
 
       {/* Legend */}
       <div className="flex gap-4 text-xs" style={{ color:TEXT2 }}>
-        <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{ background:"linear-gradient(180deg,#f59e0b,#d97706)" }}/><span className="text-[#f59e0b]">Comparing</span></span>
+        <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{ background:"linear-gradient(180deg,#d61f45,#b91538)" }}/><span className="text-[#d61f45]">Comparing</span></span>
         <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{ background:"linear-gradient(180deg,#10b981,#059669)" }}/><span className="text-[#10b981]">Sorted</span></span>
         <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{ background:isDark?"linear-gradient(180deg,#3a3a6a,#252545)":"linear-gradient(180deg,#94a3b8,#7b90a8)" }}/><span>Unsorted</span></span>
         <div className="ml-auto" style={{ color:TEXT2 }}>
@@ -599,11 +599,11 @@ function TreeViz() {
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-3">
         {(["inorder","preorder","postorder"] as const).map(m => (
-          <button key={m} onClick={() => setMode(m)} className={`px-3 py-1.5 rounded-lg text-sm font-medium capitalize transition-all duration-200 ${mode===m?"bg-[#06b6d4]/15 text-[#06b6d4] border border-[#06b6d4]/30":"border border-transparent"}`} style={mode!==m?{color:TEXT2}:{}}>
+          <button key={m} onClick={() => setMode(m)} className={`px-3 py-1.5 rounded-lg text-sm font-medium capitalize transition-all duration-200 ${mode===m?"bg-[#7c3aed]/15 text-[#7c3aed] border border-[#7c3aed]/30":"border border-transparent"}`} style={mode!==m?{color:TEXT2}:{}}>
             {m}
           </button>
         ))}
-        <motion.button onClick={runTraversal} disabled={isRunning} whileHover={{ scale:1.05 }} whileTap={{ scale:0.95 }} className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-black rounded-lg text-sm font-bold disabled:opacity-50">
+        <motion.button onClick={runTraversal} disabled={isRunning} whileHover={{ scale:1.05 }} whileTap={{ scale:0.95 }} className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-[#d61f45] to-[#b91538] text-black rounded-lg text-sm font-bold disabled:opacity-50">
           <Play className="w-4 h-4"/>Traverse
         </motion.button>
         <motion.button onClick={() => { setTraversalOrder([]); setHighlighted(null); }} whileHover={{ scale:1.05 }} className="p-2 rounded-lg transition-colors" style={{ color:TEXT2 }}>
@@ -618,9 +618,9 @@ function TreeViz() {
             const t = NODE_POSITIONS[to];
             return (
               <motion.line key={i} x1={f.x} y1={f.y} x2={t.x} y2={t.y}
-                stroke={highlighted===from||highlighted===to?"#f59e0b":edgeCol}
+                stroke={highlighted===from||highlighted===to?"#d61f45":edgeCol}
                 strokeWidth={highlighted===from||highlighted===to?2:1.5}
-                animate={{ stroke:highlighted===from||highlighted===to?"#f59e0b":edgeCol }}
+                animate={{ stroke:highlighted===from||highlighted===to?"#d61f45":edgeCol }}
                 transition={{ duration:0.2 }}
               />
             );
@@ -633,21 +633,21 @@ function TreeViz() {
               <g key={val}>
                 {isHL && (
                   <motion.circle cx={pos.x} cy={pos.y} r="26"
-                    fill="rgba(245,158,11,0.15)"
+                    fill="rgba(214,31,69,0.15)"
                     animate={{ r:[22,30,22],opacity:[0.4,0.8,0.4] }}
                     transition={{ duration:0.6,repeat:Infinity }}
                   />
                 )}
                 <motion.circle cx={pos.x} cy={pos.y} r="22"
-                  fill={isHL?"rgba(245,158,11,0.25)":isDone?"rgba(16,185,129,0.15)":nodeFill}
-                  stroke={isHL?"#f59e0b":isDone?"#10b981":edgeCol}
+                  fill={isHL?"rgba(214,31,69,0.25)":isDone?"rgba(16,185,129,0.15)":nodeFill}
+                  stroke={isHL?"#d61f45":isDone?"#10b981":edgeCol}
                   strokeWidth={isHL?2.5:isDone?2:1.5}
-                  animate={{ fill:isHL?"rgba(245,158,11,0.25)":isDone?"rgba(16,185,129,0.15)":nodeFill }}
+                  animate={{ fill:isHL?"rgba(214,31,69,0.25)":isDone?"rgba(16,185,129,0.15)":nodeFill }}
                   transition={{ duration:0.3 }}
-                  style={isHL?{filter:"drop-shadow(0 0 8px rgba(245,158,11,0.7))"}:isDone?{filter:"drop-shadow(0 0 5px rgba(16,185,129,0.4))"}:{}}
+                  style={isHL?{filter:"drop-shadow(0 0 8px rgba(214,31,69,0.7))"}:isDone?{filter:"drop-shadow(0 0 5px rgba(16,185,129,0.4))"}:{}}
                 />
                 <text x={pos.x} y={pos.y+1} textAnchor="middle" dominantBaseline="middle"
-                  fill={isHL?"#f59e0b":isDone?"#10b981":TEXT1} fontSize="12" fontWeight="bold" fontFamily="monospace">
+                  fill={isHL?"#d61f45":isDone?"#10b981":TEXT1} fontSize="12" fontWeight="bold" fontFamily="monospace">
                   {val}
                 </text>
               </g>
@@ -684,9 +684,9 @@ function TreeViz() {
 // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
 
 const VIZ_TABS: { id: VizType; label: string; icon: LucideIcon; color: string; desc: string }[] = [
-  { id:"linkedlist", label:"Linked List", icon:Layers, color:"#f59e0b", desc:"Node traversal & pointer manipulation" },
+  { id:"linkedlist", label:"Linked List", icon:Layers, color:"#d61f45", desc:"Node traversal & pointer manipulation" },
   { id:"graph", label:"Graph", icon:Network, color:"#8b5cf6", desc:"BFS / DFS traversal" },
-  { id:"tree", label:"Binary Tree", icon:GitBranch, color:"#06b6d4", desc:"Inorder / Preorder / Postorder" },
+  { id:"tree", label:"Binary Tree", icon:GitBranch, color:"#7c3aed", desc:"Inorder / Preorder / Postorder" },
   { id:"sorting", label:"Sorting", icon:BarChart2, color:"#10b981", desc:"Bubble / Selection / Insertion" },
 ];
 
@@ -695,8 +695,8 @@ export default function VisualizerPage() {
   const headerRef = useRef<HTMLDivElement>(null);
   const { isDark } = useTheme();
 
-  const BG     = isDark ? "#070d1b"                : "#f4f6f9";
-  const CARD   = isDark ? "rgba(11,19,38,0.95)"   : "rgba(255,255,255,0.97)";
+  const BG     = isDark ? "#0c0e12"                : "#f7f6f2";
+  const CARD   = isDark ? "rgba(18,21,28,0.95)"   : "rgba(255,255,255,0.97)";
   const BORDER = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.09)";
   const TEXT1  = isDark ? "#ffffff"               : "#0f172a";
   const TEXT2  = isDark ? "#6b7280"               : "#64748b";
@@ -719,10 +719,10 @@ export default function VisualizerPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
             <div style={{
               width: "44px", height: "44px", borderRadius: "12px", flexShrink: 0,
-              background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.2)",
+              background: "rgba(214,31,69,0.1)", border: "1px solid rgba(214,31,69,0.2)",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>
-              <Zap style={{ width: "20px", height: "20px", color: "#f59e0b" }} />
+              <Zap style={{ width: "20px", height: "20px", color: "#d61f45" }} />
             </div>
             <div>
               <h1 style={{ fontSize: "22px", fontWeight: 900, margin: 0, color: TEXT1 }}>DSA Visualizer</h1>
@@ -797,9 +797,9 @@ export default function VisualizerPage() {
         {/* ── Algorithm info cards ── */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
           {[
-            { label: "Linked List", ops: ["Insert Head: O(1)", "Insert Tail: O(n)", "Delete: O(n)", "Access: O(n)"],       color: "#f59e0b" },
+            { label: "Linked List", ops: ["Insert Head: O(1)", "Insert Tail: O(n)", "Delete: O(n)", "Access: O(n)"],       color: "#d61f45" },
             { label: "Graph (BFS)", ops: ["Time: O(V + E)",    "Space: O(V)",        "Uses: Queue",    "Finds: Shortest path"], color: "#8b5cf6" },
-            { label: "Binary Tree", ops: ["Insert: O(log n)",  "Search: O(log n)",   "Inorder = sorted","Height: O(log n)"],   color: "#06b6d4" },
+            { label: "Binary Tree", ops: ["Insert: O(log n)",  "Search: O(log n)",   "Inorder = sorted","Height: O(log n)"],   color: "#7c3aed" },
             { label: "Bubble Sort", ops: ["Best: O(n)",         "Avg: O(n²)",          "Worst: O(n²)",   "Space: O(1) in-place"], color: "#10b981" },
           ].map((card, i) => (
             <motion.div

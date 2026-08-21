@@ -69,7 +69,7 @@ export default function ForgotPasswordPage() {
               <ellipse cx="13" cy="13" rx="7.5" ry="3.5" stroke="#1a1a2e" strokeWidth="1.6" fill="none" />
               <ellipse cx="13" cy="13" rx="4" ry="1.8" fill="#1a1a2e" />
             </svg>
-            <span className="text-gray-900 font-semibold text-[1.1rem] tracking-tight">DSA Tutor AI</span>
+            <span className="text-gray-900 font-semibold text-[1.1rem] tracking-tight">DSARunway</span>
           </div>
 
           {/* Content */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession } from "@/lib/fakeAuth";
 // import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -28,21 +28,18 @@ export default function ProfilePage() {
   // const router = useRouter();
   const { name: profileName, updateName } = useProfileName();
 
-  const [displayName, setDisplayName] = useState("");
+  const [editedName, setEditedName] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const displayName = editedName ?? (profileName || session?.user?.name || "");
+  const setDisplayName = setEditedName;
 
-  const BG    = isDark ? "#070d1b" : "#f4f6f9";
-  const CARD  = isDark ? "rgba(11,19,38,0.95)" : "rgba(255,255,255,0.97)";
+  const BG    = isDark ? "#0c0e12" : "#f7f6f2";
+  const CARD  = isDark ? "rgba(18,21,28,0.95)" : "rgba(255,255,255,0.97)";
   const BORDER = isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.09)";
   const TEXT1 = isDark ? "#f0f4ff" : "#0f172a";
   const TEXT2 = isDark ? "#7d8ba3" : "#64748b";
 
   // Auth check removed — always logged in for demo
-
-  useEffect(() => {
-    if (profileName) setDisplayName(profileName);
-    else if (session?.user?.name) setDisplayName(session.user.name);
-  }, [profileName, session]);
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,13 +48,6 @@ export default function ProfilePage() {
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
-
-  const initials = displayName
-    .split(" ")
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase() || "?";
 
   if (status === "loading") {
     return (
@@ -85,19 +75,20 @@ export default function ProfilePage() {
           <div style={{ padding: "24px", borderRadius: "16px", background: CARD, border: `1px solid ${BORDER}`, marginBottom: "20px", display: "flex", alignItems: "center", gap: "18px" }}>
             <div style={{
               width: "68px", height: "68px", borderRadius: "999px", flexShrink: 0,
-              background: "linear-gradient(135deg, #f59e0b, #d97706)",
+              background: "linear-gradient(135deg, #d61f45, #7c3aed)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "22px", fontWeight: 900, color: "#000",
-              border: "3px solid rgba(245,158,11,0.3)",
+              border: "3px solid rgba(214,31,69,0.3)",
             }}>
-              {initials}
+              <svg viewBox="0 0 24 24" style={{ width: "32px", height: "32px", fill: "#fff" }} aria-hidden>
+                <path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.05 0-7.5 2.4-7.5 5.4 0 .88.72 1.6 1.6 1.6h11.8c.88 0 1.6-.72 1.6-1.6 0-3-3.45-5.4-7.5-5.4Z" />
+              </svg>
             </div>
             <div>
               <div style={{ fontSize: "17px", fontWeight: 700, color: TEXT1 }}>{displayName || "—"}</div>
               <div style={{ fontSize: "13px", color: TEXT2, marginTop: "2px" }}>{session?.user?.email}</div>
-              <div style={{ fontSize: "11px", color: "#f59e0b", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
+              <div style={{ fontSize: "11px", color: "#d61f45", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
                 <User style={{ width: "11px", height: "11px" }} />
-                DSA Tutor AI Member
+                DSARunway Member
               </div>
             </div>
           </div>
@@ -113,7 +104,7 @@ export default function ProfilePage() {
               {/* Display Name */}
               <div>
                 <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 600, color: TEXT1, marginBottom: "8px" }}>
-                  <IdCard style={{ width: "14px", height: "14px", color: "#f59e0b" }} />
+                  <IdCard style={{ width: "14px", height: "14px", color: "#d61f45" }} />
                   Display Name
                 </label>
                 <input
@@ -124,8 +115,8 @@ export default function ProfilePage() {
                   required
                   style={inputStyle(isDark)}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = "#f59e0b";
-                    e.currentTarget.style.boxShadow = "0 0 0 3px rgba(245,158,11,0.12)";
+                    e.currentTarget.style.borderColor = "#d61f45";
+                    e.currentTarget.style.boxShadow = "0 0 0 3px rgba(214,31,69,0.12)";
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor = isDark ? "rgba(255,255,255,0.1)" : "#e5e7eb";
@@ -157,13 +148,13 @@ export default function ProfilePage() {
               {/* Save button */}
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(245,158,11,0.3)" }}
+                whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(214,31,69,0.3)" }}
                 whileTap={{ scale: 0.98 }}
                 style={{
                   display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
                   padding: "12px 24px", borderRadius: "10px", border: "none", cursor: "pointer",
-                  background: saved ? "#10b981" : "linear-gradient(135deg, #f59e0b, #d97706)",
-                  color: "#000", fontWeight: 700, fontSize: "14px",
+                  background: saved ? "#10b981" : "linear-gradient(135deg, #d61f45, #b91538)",
+                  color: "#fff", fontWeight: 700, fontSize: "14px",
                   transition: "background 0.3s",
                   marginTop: "4px",
                 }}

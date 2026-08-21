@@ -1,27 +1,31 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { useSession } from "@/lib/fakeAuth";
-import { useState, useEffect } from "react";
+
+const NAME_EVENT = "profile-name-change";
+
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener(NAME_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(NAME_EVENT, callback);
+  };
+}
 
 export function useProfileName() {
   const { data: session } = useSession();
-  const [name, setName] = useState<string>("");
-
-  useEffect(() => {
-    const stored = typeof window !== "undefined" ? localStorage.getItem("user_display_name") : null;
-    if (stored) {
-      setName(stored);
-    } else if (session?.user?.name) {
-      setName(session.user.name);
-    }
-  }, [session]);
+  const stored = useSyncExternalStore(
+    subscribe,
+    () => localStorage.getItem("user_display_name"),
+    () => null,
+  );
 
   const updateName = (newName: string) => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("user_display_name", newName);
-    }
-    setName(newName);
+    localStorage.setItem("user_display_name", newName);
+    window.dispatchEvent(new Event(NAME_EVENT));
   };
 
-  return { name, updateName };
+  return { name: stored || session?.user?.name || "", updateName };
 }

@@ -1,6 +1,8 @@
-# DSA Tutor AI
+# DSARunway
 
 An AI-powered learning platform for Data Structures & Algorithms — featuring personalized tutoring, algorithm visualizations, and adaptive curriculum tracking.
+
+A capstone project under the [TIET-UQ Centre of Excellence in Data Science and Artificial Intelligence](https://dsai.thapar.edu/) — a collaboration between Thapar Institute of Engineering & Technology and The University of Queensland.
 
 ## Tech Stack
 

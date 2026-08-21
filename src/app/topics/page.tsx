@@ -17,8 +17,8 @@ const CURRICULUM = [
   {
     category: "Fundamentals",
     icon: Layers,
-    color: "#f59e0b",
-    glow: "rgba(245,158,11,0.12)",
+    color: "#d61f45",
+    glow: "rgba(214,31,69,0.12)",
     topics: [
       { name:"Basics", difficulty:"Easy", time:"90 min", done:false, score:0, problems:["Input / Output","Loops","Functions"] },
       { name:"Pattern Printing", difficulty:"Easy", time:"75 min", done:false, score:0, problems:["Star Patterns","Number Patterns","Alphabet Patterns"] },
@@ -43,8 +43,8 @@ const CURRICULUM = [
   {
     category: "Trees",
     icon: GitBranch,
-    color: "#06b6d4",
-    glow: "rgba(6,182,212,0.12)",
+    color: "#7c3aed",
+    glow: "rgba(124,58,237,0.12)",
     topics: [
       { name:"Binary Trees", difficulty:"Medium", time:"70 min", done:false, score:0, problems:["Inorder Traversal","Level Order","Max Depth"] },
       { name:"Binary Search Tree", difficulty:"Medium", time:"65 min", done:false, score:0, problems:["Search BST","Insert/Delete","Validate BST"] },
@@ -80,8 +80,8 @@ const CURRICULUM = [
   {
     category: "Advanced",
     icon: Brain,
-    color: "#f59e0b",
-    glow: "rgba(245,158,11,0.12)",
+    color: "#d61f45",
+    glow: "rgba(214,31,69,0.12)",
     topics: [
       { name:"Dynamic Programming", difficulty:"Hard", time:"120 min", done:false, score:0, problems:["0/1 Knapsack","LCS","Edit Distance"] },
       { name:"Backtracking", difficulty:"Hard", time:"90 min", done:false, score:0, problems:["N-Queens","Sudoku","Subset Sum"] },
@@ -90,8 +90,8 @@ const CURRICULUM = [
   },
 ];
 
-const DIFF_COLOR: Record<string, string> = { Easy: "#10b981", Medium: "#f59e0b", Hard: "#ef4444" };
-const DIFF_BG: Record<string, string>    = { Easy: "rgba(16,185,129,0.12)", Medium: "rgba(245,158,11,0.12)", Hard: "rgba(239,68,68,0.12)" };
+const DIFF_COLOR: Record<string, string> = { Easy: "#10b981", Medium: "#d61f45", Hard: "#ef4444" };
+const DIFF_BG: Record<string, string>    = { Easy: "rgba(16,185,129,0.12)", Medium: "rgba(214,31,69,0.12)", Hard: "rgba(239,68,68,0.12)" };
 const FILTERS = ["all", "done", "todo", "Easy", "Medium", "Hard"] as const;
 type Filter = typeof FILTERS[number];
 
@@ -109,7 +109,7 @@ export default function TopicsPage() {
 
   // Every surface colour on this page reads from these tokens, so the light
   // theme covers the whole page instead of just the navbar.
-  const BG       = isDark ? "#080810"                 : "#f4f6f9";
+  const BG       = isDark ? "#080810"                 : "#f7f6f2";
   const CARD     = isDark ? "rgba(255,255,255,0.03)"  : "#ffffff";
   const CARD2    = isDark ? "rgba(255,255,255,0.025)" : "#ffffff";
   const BORDER   = isDark ? "rgba(255,255,255,0.07)"  : "rgba(15,23,42,0.09)";
@@ -152,11 +152,11 @@ export default function TopicsPage() {
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "16px", marginBottom: "8px" }}>
             {/* Left */}
             <div>
-              <span style={{ color: "#f59e0b", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em" }}>
+              <span style={{ color: "#d61f45", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em" }}>
                 DSA Curriculum
               </span>
               <h1 style={{ fontSize: "clamp(28px, 4vw, 38px)", fontWeight: 900, margin: "4px 0 0", lineHeight: 1.1 }}>
-                All&nbsp;<span style={{ color: "#f59e0b" }}>Topics</span>
+                All&nbsp;<span style={{ color: "#d61f45" }}>Topics</span>
               </h1>
               <p style={{ color: TEXT2, marginTop: "6px", fontSize: "14px" }}>
                 {doneTopics} of {totalTopics} topics completed
@@ -174,16 +174,16 @@ export default function TopicsPage() {
                 <svg viewBox="0 0 48 48" style={{ width: "100%", height: "100%", transform: "rotate(-90deg)" }}>
                   <circle cx="24" cy="24" r="20" fill="none" stroke={TRACK} strokeWidth="4" />
                   <motion.circle
-                    cx="24" cy="24" r="20" fill="none" stroke="#f59e0b" strokeWidth="4"
+                    cx="24" cy="24" r="20" fill="none" stroke="#d61f45" strokeWidth="4"
                     strokeLinecap="round"
                     initial={{ strokeDasharray: `0 ${circ}` }}
                     animate={{ strokeDasharray: `${(doneTopics / totalTopics) * circ} ${circ}` }}
                     transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
-                    style={{ filter: "drop-shadow(0 0 4px rgba(245,158,11,0.5))" }}
+                    style={{ filter: "drop-shadow(0 0 4px rgba(214,31,69,0.5))" }}
                   />
                 </svg>
                 <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontSize: "11px", fontWeight: 900, color: "#f59e0b" }}>{pct}%</span>
+                  <span style={{ fontSize: "11px", fontWeight: 900, color: "#d61f45" }}>{pct}%</span>
                 </div>
               </div>
               <div>
@@ -213,7 +213,7 @@ export default function TopicsPage() {
                 fontSize: "13px", color: TEXT1,
                 outline: "none", transition: "border-color 0.2s",
               }}
-              onFocus={e => (e.currentTarget.style.borderColor = "rgba(245,158,11,0.4)")}
+              onFocus={e => (e.currentTarget.style.borderColor = "rgba(214,31,69,0.4)")}
               onBlur={e => (e.currentTarget.style.borderColor = BORDER)}
             />
           </div>
@@ -222,7 +222,7 @@ export default function TopicsPage() {
           <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
             {FILTERS.map(f => {
               const active = filter === f;
-              const activeBg = f === "Easy" ? "#10b981" : f === "Medium" ? "#f59e0b" : f === "Hard" ? "#ef4444" : f === "done" ? "#10b981" : "#f59e0b";
+              const activeBg = f === "Easy" ? "#10b981" : f === "Medium" ? "#d61f45" : f === "Hard" ? "#ef4444" : f === "done" ? "#10b981" : "#d61f45";
               return (
                 <button key={f} onClick={() => setFilter(f)}
                   style={{
@@ -500,7 +500,7 @@ export default function TopicsPage() {
             <p style={{ color: TEXT2, fontSize: "15px" }}>No topics found matching &quot;{search}&quot;</p>
             <button
               onClick={() => { setSearch(""); setFilter("all"); }}
-              style={{ marginTop: "12px", color: "#f59e0b", fontSize: "13px", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
+              style={{ marginTop: "12px", color: "#d61f45", fontSize: "13px", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
             >
               Clear filters
             </button>
@@ -512,14 +512,14 @@ export default function TopicsPage() {
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           style={{
             marginTop: "48px", padding: "24px 28px", borderRadius: "16px",
-            border: `1px solid rgba(245,158,11,${isDark ? "0.2" : "0.3"})`, background: isDark ? "rgba(245,158,11,0.04)" : "rgba(245,158,11,0.08)",
+            border: `1px solid rgba(214,31,69,${isDark ? "0.2" : "0.3"})`, background: isDark ? "rgba(214,31,69,0.04)" : "rgba(214,31,69,0.08)",
             display: "flex", alignItems: "center", justifyContent: "space-between",
             flexWrap: "wrap", gap: "16px",
           }}
         >
           <div>
             <h3 style={{ fontSize: "17px", fontWeight: 700, color: TEXT1, margin: "0 0 4px", display: "flex", alignItems: "center", gap: "8px" }}>
-              <TrendingUp style={{ width: "18px", height: "18px", color: "#f59e0b" }} />
+              <TrendingUp style={{ width: "18px", height: "18px", color: "#d61f45" }} />
               Ready to level up?
             </h3>
             <p style={{ fontSize: "13px", color: TEXT2, margin: 0 }}>Your AI tutor is waiting. Pick a topic and start learning.</p>
@@ -528,7 +528,7 @@ export default function TopicsPage() {
             <Link href="/visualizer">
               <motion.button
                 whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-                style={{ display: "flex", alignItems: "center", gap: "7px", padding: "9px 18px", borderRadius: "10px", border: "1px solid rgba(245,158,11,0.3)", color: "#f59e0b", background: "transparent", fontSize: "13px", fontWeight: 600, cursor: "pointer" }}
+                style={{ display: "flex", alignItems: "center", gap: "7px", padding: "9px 18px", borderRadius: "10px", border: "1px solid rgba(214,31,69,0.3)", color: "#d61f45", background: "transparent", fontSize: "13px", fontWeight: 600, cursor: "pointer" }}
               >
                 <Code2 style={{ width: "14px", height: "14px" }} />
                 Visualize
@@ -536,8 +536,8 @@ export default function TopicsPage() {
             </Link>
             <Link href="/learn">
               <motion.button
-                whileHover={{ scale: 1.04, boxShadow: "0 0 20px rgba(245,158,11,0.4)" }} whileTap={{ scale: 0.97 }}
-                style={{ display: "flex", alignItems: "center", gap: "7px", padding: "9px 18px", borderRadius: "10px", background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#000", border: "none", fontSize: "13px", fontWeight: 700, cursor: "pointer" }}
+                whileHover={{ scale: 1.04, boxShadow: "0 0 20px rgba(214,31,69,0.4)" }} whileTap={{ scale: 0.97 }}
+                style={{ display: "flex", alignItems: "center", gap: "7px", padding: "9px 18px", borderRadius: "10px", background: "linear-gradient(135deg, #d61f45, #b91538)", color: "#fff", border: "none", fontSize: "13px", fontWeight: 700, cursor: "pointer" }}
               >
                 <Play style={{ width: "14px", height: "14px" }} />
                 Start Learning
