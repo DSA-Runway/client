@@ -1,75 +1,119 @@
 import type { CodeLanguage, SubtopicContent } from "./types";
 import { LANGUAGES, isTeachable } from "./types";
 import { CONTENT_IDS, hasContent, type ContentId } from "./manifest";
+import { parseSubtopicMarkdown } from "./md";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 /**
  * Server-side content lookup.
  *
  * Import this from route handlers and server components only — never from a
- * "use client" file, or every subtopic's theory gets bundled into the browser.
- * Client code that only needs to know *whether* content exists should import
- * `hasContent` from ./manifest instead.
+ * "use client" file. The content lives in Markdown under src/content; this
+ * module reads and parses it, and everything downstream still receives a
+ * SubtopicContent. Client code that only needs to know *whether* content
+ * exists should import `hasContent` from ./manifest instead.
  *
- * The Record<ContentId, ...> type is deliberate: adding an id to CONTENT_IDS
- * without adding its loader here is a compile error, so the manifest and the
- * files on disk cannot silently drift apart.
+ * The Record<ContentId, string> type is deliberate: adding an id to
+ * CONTENT_IDS without adding its file here is a compile error, so the manifest
+ * and the files on disk cannot silently drift apart.
  */
-const LOADERS: Record<ContentId, () => Promise<{ default: SubtopicContent }>> = {
-  "introduction-to-programming": () => import("./basics/introduction-to-programming"),
-  "data-types": () => import("./basics/data-types"),
-  "variables-and-constants": () => import("./basics/variables-and-constants"),
-  "input-and-output": () => import("./basics/input-and-output"),
-  "arithmetic-operators": () => import("./basics/arithmetic-operators"),
-  "relational-and-logical-operators": () => import("./basics/relational-and-logical-operators"),
-  "type-conversion-and-casting": () => import("./basics/type-conversion-and-casting"),
-  "if-else-statements": () => import("./basics/if-else-statements"),
-  "else-if-ladder": () => import("./basics/else-if-ladder"),
-  "switch-case": () => import("./basics/switch-case"),
-  "for-loop": () => import("./basics/for-loop"),
-  "while-loop": () => import("./basics/while-loop"),
-  "do-while-loop": () => import("./basics/do-while-loop"),
-  "for-each-loop": () => import("./basics/for-each-loop"),
-  "break-and-continue": () => import("./basics/break-and-continue"),
-  "functions-declaration-and-calling": () => import("./basics/functions-declaration-and-calling"),
-  "nested-loops": () => import("./basics/nested-loops"),
-  "function-parameters-and-return-values": () => import("./basics/function-parameters-and-return-values"),
-  "pass-by-value-vs-pass-by-reference": () => import("./basics/pass-by-value-vs-pass-by-reference"),
-  "variable-scope-and-lifetime": () => import("./basics/variable-scope-and-lifetime"),
-  "function-overloading": () => import("./basics/function-overloading"),
-  "count-digits": () => import("./basics/count-digits"),
-  "reverse-a-number": () => import("./basics/reverse-a-number"),
-  "palindrome-number": () => import("./basics/palindrome-number"),
-  "gcd-euclidean-algorithm": () => import("./basics/gcd-euclidean-algorithm"),
-  "lcm": () => import("./basics/lcm"),
-  "prime-check": () => import("./basics/prime-check"),
-  "time-and-space-complexity-basics": () => import("./basics/time-and-space-complexity-basics"),
-  "stack-memory-and-recursion-depth": () => import("./basics/stack-memory-and-recursion-depth"),
-  "integer-overflow-and-precision-errors": () => import("./basics/integer-overflow-and-precision-errors"),
-  "largest-element": () => import("./arrays/largest-element"),
-  "second-largest-element": () => import("./arrays/second-largest-element"),
-  "check-if-array-is-sorted-and-rotated": () => import("./arrays/check-if-array-is-sorted-and-rotated"),
-  "remove-duplicates-from-sorted-array": () => import("./arrays/remove-duplicates-from-sorted-array"),
-  "left-rotate-array-by-one": () => import("./arrays/left-rotate-array-by-one"),
-  "left-rotate-array-by-k-places": () => import("./arrays/left-rotate-array-by-k-places"),
-  "move-zeros-to-end": () => import("./arrays/move-zeros-to-end"),
-  "linear-search": () => import("./arrays/linear-search"),
-  "union-of-two-sorted-arrays": () => import("./arrays/union-of-two-sorted-arrays"),
-  "find-missing-number": () => import("./arrays/find-missing-number"),
-  "maximum-consecutive-ones": () => import("./arrays/maximum-consecutive-ones"),
-  "two-sum": () => import("./arrays/two-sum"),
-  "majority-element-i": () => import("./arrays/majority-element-i"),
-  "pascals-triangle-i": () => import("./arrays/pascals-triangle-i"),
-  "find-the-number-that-appears-once-and-other-numbers-twice": () => import("./arrays/find-the-number-that-appears-once-and-other-numbers-twice"),
-  "longest-subarray-with-given-sum-k-positives": () => import("./arrays/longest-subarray-with-given-sum-k-positives"),
-  "longest-subarray-with-sum-k": () => import("./arrays/longest-subarray-with-sum-k"),
-  "sort-an-array-of-0s-1s-and-2s": () => import("./arrays/sort-an-array-of-0s-1s-and-2s"),
+const FILES: Record<ContentId, string> = {
+  "introduction-to-programming": "basics/introduction-to-programming.md",
+  "data-types": "basics/data-types.md",
+  "variables-and-constants": "basics/variables-and-constants.md",
+  "input-and-output": "basics/input-and-output.md",
+  "arithmetic-operators": "basics/arithmetic-operators.md",
+  "relational-and-logical-operators": "basics/relational-and-logical-operators.md",
+  "type-conversion-and-casting": "basics/type-conversion-and-casting.md",
+  "if-else-statements": "basics/if-else-statements.md",
+  "else-if-ladder": "basics/else-if-ladder.md",
+  "switch-case": "basics/switch-case.md",
+  "for-loop": "basics/for-loop.md",
+  "while-loop": "basics/while-loop.md",
+  "do-while-loop": "basics/do-while-loop.md",
+  "for-each-loop": "basics/for-each-loop.md",
+  "break-and-continue": "basics/break-and-continue.md",
+  "functions-declaration-and-calling": "basics/functions-declaration-and-calling.md",
+  "nested-loops": "basics/nested-loops.md",
+  "function-parameters-and-return-values": "basics/function-parameters-and-return-values.md",
+  "pass-by-value-vs-pass-by-reference": "basics/pass-by-value-vs-pass-by-reference.md",
+  "variable-scope-and-lifetime": "basics/variable-scope-and-lifetime.md",
+  "function-overloading": "basics/function-overloading.md",
+  "count-digits": "basics/count-digits.md",
+  "reverse-a-number": "basics/reverse-a-number.md",
+  "palindrome-number": "basics/palindrome-number.md",
+  "gcd-euclidean-algorithm": "basics/gcd-euclidean-algorithm.md",
+  "lcm": "basics/lcm.md",
+  "prime-check": "basics/prime-check.md",
+  "time-and-space-complexity-basics": "basics/time-and-space-complexity-basics.md",
+  "stack-memory-and-recursion-depth": "basics/stack-memory-and-recursion-depth.md",
+  "integer-overflow-and-precision-errors": "basics/integer-overflow-and-precision-errors.md",
+  "largest-element": "arrays/largest-element.md",
+  "second-largest-element": "arrays/second-largest-element.md",
+  "check-if-array-is-sorted-and-rotated": "arrays/check-if-array-is-sorted-and-rotated.md",
+  "remove-duplicates-from-sorted-array": "arrays/remove-duplicates-from-sorted-array.md",
+  "left-rotate-array-by-one": "arrays/left-rotate-array-by-one.md",
+  "left-rotate-array-by-k-places": "arrays/left-rotate-array-by-k-places.md",
+  "move-zeros-to-end": "arrays/move-zeros-to-end.md",
+  "linear-search": "arrays/linear-search.md",
+  "union-of-two-sorted-arrays": "arrays/union-of-two-sorted-arrays.md",
+  "find-missing-number": "arrays/find-missing-number.md",
+  "maximum-consecutive-ones": "arrays/maximum-consecutive-ones.md",
+  "two-sum": "arrays/two-sum.md",
+  "majority-element-i": "arrays/majority-element-i.md",
+  "pascals-triangle-i": "arrays/pascals-triangle-i.md",
+  "find-the-number-that-appears-once-and-other-numbers-twice": "arrays/find-the-number-that-appears-once-and-other-numbers-twice.md",
+  "longest-subarray-with-given-sum-k-positives": "arrays/longest-subarray-with-given-sum-k-positives.md",
+  "longest-subarray-with-sum-k": "arrays/longest-subarray-with-sum-k.md",
+  "sort-an-array-of-0s-1s-and-2s": "arrays/sort-an-array-of-0s-1s-and-2s.md",
+  "kadanes-algorithm": "arrays/kadanes-algorithm.md",
+  "print-subarray-with-maximum-subarray-sum": "arrays/print-subarray-with-maximum-subarray-sum.md",
+  "stock-buy-and-sell": "arrays/stock-buy-and-sell.md",
+  "rearrange-array-elements-by-sign": "arrays/rearrange-array-elements-by-sign.md",
+  "next-permutation": "arrays/next-permutation.md",
+  "leaders-in-an-array": "arrays/leaders-in-an-array.md",
+  "longest-consecutive-sequence-in-an-array": "arrays/longest-consecutive-sequence-in-an-array.md",
+  "set-matrix-zeroes": "arrays/set-matrix-zeroes.md",
+  "rotate-matrix-by-90-degrees": "arrays/rotate-matrix-by-90-degrees.md",
+  "print-the-matrix-in-spiral-manner": "arrays/print-the-matrix-in-spiral-manner.md",
+  "count-subarrays-with-given-sum": "arrays/count-subarrays-with-given-sum.md",
+  "3-sum": "arrays/3-sum.md",
+  "4-sum": "arrays/4-sum.md",
+  "largest-subarray-with-sum-0": "arrays/largest-subarray-with-sum-0.md",
+  "merge-overlapping-subintervals": "arrays/merge-overlapping-subintervals.md",
+  "merge-two-sorted-arrays-without-extra-space": "arrays/merge-two-sorted-arrays-without-extra-space.md",
+  "majority-element-ii": "arrays/majority-element-ii.md",
+  "count-subarrays-with-given-xor-k": "arrays/count-subarrays-with-given-xor-k.md",
+  "find-the-repeating-and-missing-number": "arrays/find-the-repeating-and-missing-number.md",
+  "count-inversions": "arrays/count-inversions.md",
 };
+
+const CONTENT_DIR = path.join(process.cwd(), "src", "content");
+
+/**
+ * Parsed containers, cached per process.
+ *
+ * Only in production, where the files genuinely cannot change while the server
+ * is running. Caching in development would serve a stale container after every
+ * edit to a .md file, which silently hides authoring changes until a restart.
+ */
+const cache = new Map<ContentId, SubtopicContent>();
+const CACHE_ENABLED = process.env.NODE_ENV === "production";
 
 /** Load one subtopic's container. Returns null when nothing is authored for that id. */
 export async function getSubtopicContent(id: string): Promise<SubtopicContent | null> {
   if (!hasContent(id)) return null;
-  const mod = await LOADERS[id]();
-  return mod.default;
+
+  if (CACHE_ENABLED) {
+    const cached = cache.get(id);
+    if (cached) return cached;
+  }
+
+  const text = await readFile(path.join(CONTENT_DIR, FILES[id]), "utf8");
+  const content = parseSubtopicMarkdown(text);
+  if (CACHE_ENABLED) cache.set(id, content);
+  return content;
 }
 
 /**
