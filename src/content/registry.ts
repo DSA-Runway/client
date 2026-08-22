@@ -128,6 +128,7 @@ const FILES: Record<ContentId, string> = {
   "find-square-root-of-a-number": "binary-search/find-square-root-of-a-number.md",
   "find-nth-root-of-a-number": "binary-search/find-nth-root-of-a-number.md",
   "koko-eating-bananas": "binary-search/koko-eating-bananas.md",
+  "minimum-days-to-make-m-bouquets": "binary-search/minimum-days-to-make-m-bouquets.md",
   "selection-sort": "basic-sorting-algorithms/selection-sort.md",
   "largest-odd-number-in-a-string": "strings/largest-odd-number-in-a-string.md",
   "longest-common-prefix": "strings/longest-common-prefix.md",
@@ -171,6 +172,7 @@ const FILES: Record<ContentId, string> = {
   "recursive-implementation-of-atoi": "advanced-recursion/recursive-implementation-of-atoi.md",
   "count-good-numbers": "advanced-recursion/count-good-numbers.md",
   "sort-a-stack-using-recursion": "advanced-recursion/sort-a-stack-using-recursion.md",
+  "reverse-a-stack": "advanced-recursion/reverse-a-stack.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");

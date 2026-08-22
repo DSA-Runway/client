@@ -118,6 +118,7 @@ export const CONTENT_IDS = [
   "find-square-root-of-a-number",
   "find-nth-root-of-a-number",
   "koko-eating-bananas",
+  "minimum-days-to-make-m-bouquets",
   "selection-sort",
   "largest-odd-number-in-a-string",
   "longest-common-prefix",
@@ -161,6 +162,7 @@ export const CONTENT_IDS = [
   "recursive-implementation-of-atoi",
   "count-good-numbers",
   "sort-a-stack-using-recursion",
+  "reverse-a-stack",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
