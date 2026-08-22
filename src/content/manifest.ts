@@ -117,6 +117,7 @@ export const CONTENT_IDS = [
   "find-peak-element",
   "find-square-root-of-a-number",
   "find-nth-root-of-a-number",
+  "koko-eating-bananas",
   "selection-sort",
   "largest-odd-number-in-a-string",
   "longest-common-prefix",
@@ -141,6 +142,7 @@ export const CONTENT_IDS = [
   "middle-of-a-linkedlist-tortoisehare-method",
   "reverse-a-linkedlist-iterative",
   "reverse-a-ll",
+  "detect-a-loop-in-ll",
   "bubble-sort",
   "insertion-sorting",
   "understand-recursion-by-print-something-n-times",
@@ -158,6 +160,7 @@ export const CONTENT_IDS = [
   "check-if-there-exists-a-subsequence-with-sum-k",
   "recursive-implementation-of-atoi",
   "count-good-numbers",
+  "sort-a-stack-using-recursion",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
