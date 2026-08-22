@@ -154,6 +154,7 @@ const FILES: Record<ContentId, string> = {
   "reverse-a-linkedlist-iterative": "linked-lists/reverse-a-linkedlist-iterative.md",
   "reverse-a-ll": "linked-lists/reverse-a-ll.md",
   "detect-a-loop-in-ll": "linked-lists/detect-a-loop-in-ll.md",
+  "find-the-starting-point-in-ll": "linked-lists/find-the-starting-point-in-ll.md",
   "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",
   "insertion-sorting": "basic-sorting-algorithms/insertion-sorting.md",
   "understand-recursion-by-print-something-n-times": "basic-recursion/understand-recursion-by-print-something-n-times.md",
@@ -173,6 +174,7 @@ const FILES: Record<ContentId, string> = {
   "count-good-numbers": "advanced-recursion/count-good-numbers.md",
   "sort-a-stack-using-recursion": "advanced-recursion/sort-a-stack-using-recursion.md",
   "reverse-a-stack": "advanced-recursion/reverse-a-stack.md",
+  "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");

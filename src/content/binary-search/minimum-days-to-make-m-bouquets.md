@@ -303,9 +303,9 @@ int minDays(const vector<int>& bloom, int m, int k) {
 ```
 
 <!-- @annotations -->
-- 18: Removing duplicates is not required for correctness, only for the probe count — repeated days would just be tested twice.
-- 22: The search runs over *indices* into the candidate list, and records the *value* at that index. Mixing the two is the easy mistake here.
-- 23: The scan still runs over the original array, not the sorted copy. Sorting destroys adjacency, which is the one thing this predicate depends on.
+- 19: Removing duplicates is not required for correctness, only for the probe count — repeated days would just be tested twice.
+- 23: The search runs over *indices* into the candidate list, and records the *value* at that index. Mixing the two is the easy mistake here.
+- 24: The scan still runs over the original array, not the sorted copy. Sorting destroys adjacency, which is the one thing this predicate depends on.
 
 <!-- @code java -->
 ```java

@@ -197,6 +197,33 @@ export const SUBTOPICS: Record<string, Subtopic[]> = {
     ]),
   ],
 
+  "Bit Manipulation": [
+    ...list("Easy", [
+      "Introduction to Bits and Tricks",
+      "Check if the i-th bit is Set or Not",
+      "Check if a Number is Odd or Not",
+      "Check if a Number is Power of 2 or Not",
+      "Count the Number of Set Bits",
+      "Set/Unset the rightmost unset bit",
+      "Swap Two Numbers",
+      "Divisors of a Number",
+      "Pow(x, n)",
+    ]),
+    ...list("Medium", [
+      "Divide two numbers without multiplication and division",
+      "Minimum Bit Flips to Convert Number",
+      "Single Number - I",
+      "Power Set Bit Manipulation",
+      "XOR of numbers in a given range",
+      "Single Number - III",
+    ]),
+    ...list("Hard", [
+      "Print Prime Factors of a Number",
+      "Count primes in range L to R",
+      "Prime factorisation of a Number",
+    ]),
+  ],
+
   "Binary Search": [
     ...list("Easy", [
       "Search X in sorted array",

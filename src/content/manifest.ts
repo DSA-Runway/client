@@ -144,6 +144,7 @@ export const CONTENT_IDS = [
   "reverse-a-linkedlist-iterative",
   "reverse-a-ll",
   "detect-a-loop-in-ll",
+  "find-the-starting-point-in-ll",
   "bubble-sort",
   "insertion-sorting",
   "understand-recursion-by-print-something-n-times",
@@ -163,6 +164,7 @@ export const CONTENT_IDS = [
   "count-good-numbers",
   "sort-a-stack-using-recursion",
   "reverse-a-stack",
+  "generate-binary-strings-without-consecutive-1s",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
