@@ -166,6 +166,7 @@ export const CONTENT_IDS = [
   "reverse-a-stack",
   "introduction-to-bits-and-tricks",
   "check-if-the-i-th-bit-is-set-or-not",
+  "check-if-a-number-is-odd-or-not",
   "generate-binary-strings-without-consecutive-1s",
 ] as const;
 
