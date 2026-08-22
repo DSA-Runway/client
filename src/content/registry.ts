@@ -118,6 +118,11 @@ const FILES: Record<ContentId, string> = {
   "floor-and-ceil-in-sorted-array": "binary-search/floor-and-ceil-in-sorted-array.md",
   "first-and-last-occurrence": "binary-search/first-and-last-occurrence.md",
   "count-occurrences-in-a-sorted-array": "binary-search/count-occurrences-in-a-sorted-array.md",
+  "find-minimum-in-rotated-sorted-array": "binary-search/find-minimum-in-rotated-sorted-array.md",
+  "find-out-how-many-times-the-array-is-rotated": "binary-search/find-out-how-many-times-the-array-is-rotated.md",
+  "find-row-with-maximum-1s": "binary-search/find-row-with-maximum-1s.md",
+  "search-in-rotated-sorted-array-i": "binary-search/search-in-rotated-sorted-array-i.md",
+  "search-in-rotated-sorted-array-ii": "binary-search/search-in-rotated-sorted-array-ii.md",
   "selection-sort": "basic-sorting-algorithms/selection-sort.md",
   "largest-odd-number-in-a-string": "strings/largest-odd-number-in-a-string.md",
   "longest-common-prefix": "strings/longest-common-prefix.md",
@@ -134,6 +139,10 @@ const FILES: Record<ContentId, string> = {
   "longest-palindromic-substring": "strings/longest-palindromic-substring.md",
   "sum-of-beauty-of-all-substrings": "strings/sum-of-beauty-of-all-substrings.md",
   "reverse-every-word-in-a-string": "strings/reverse-every-word-in-a-string.md",
+  "introduction-to-singly-linkedlist": "linked-lists/introduction-to-singly-linkedlist.md",
+  "insertion-at-the-head-of-linked-list": "linked-lists/insertion-at-the-head-of-linked-list.md",
+  "deletion-of-the-head-of-ll": "linked-lists/deletion-of-the-head-of-ll.md",
+  "find-the-length-of-the-linked-list": "linked-lists/find-the-length-of-the-linked-list.md",
   "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",
   "insertion-sorting": "basic-sorting-algorithms/insertion-sorting.md",
   "understand-recursion-by-print-something-n-times": "basic-recursion/understand-recursion-by-print-something-n-times.md",
@@ -143,6 +152,9 @@ const FILES: Record<ContentId, string> = {
   "sum-of-first-n-numbers": "basic-recursion/sum-of-first-n-numbers.md",
   "factorial-of-a-given-number": "basic-recursion/factorial-of-a-given-number.md",
   "reverse-an-array": "basic-recursion/reverse-an-array.md",
+  "check-if-string-is-palindrome-or-not": "basic-recursion/check-if-string-is-palindrome-or-not.md",
+  "fibonacci-number": "basic-recursion/fibonacci-number.md",
+  "pow-x-n": "advanced-recursion/pow-x-n.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
