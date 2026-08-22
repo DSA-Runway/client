@@ -199,8 +199,7 @@ int length(Node* head) {
 ```
 
 <!-- @annotations -->
-- 3: `current`, not `head` — a separate pointer, so the caller's list survives. `head` is a copy here, but walking it makes the function harder to extend later.
-- 3: The null is the only terminating condition. On a list whose tail links back into itself, this loop never exits.
+- 3: `current`, not `head` — a separate pointer, so the caller's list survives. `head` is a copy here, but walking it makes the function harder to extend later. The null is also the only terminating condition: on a list whose tail links back into itself, this loop never exits.
 - 1: An empty list returns 0 with no branch, because the loop body never executes.
 
 <!-- @code java -->
