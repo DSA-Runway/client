@@ -164,6 +164,7 @@ export const CONTENT_IDS = [
   "count-good-numbers",
   "sort-a-stack-using-recursion",
   "reverse-a-stack",
+  "introduction-to-bits-and-tricks",
   "generate-binary-strings-without-consecutive-1s",
 ] as const;
 
