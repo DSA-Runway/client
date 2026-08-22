@@ -110,6 +110,9 @@ export const CONTENT_IDS = [
   "count-occurrences-in-a-sorted-array",
   "find-minimum-in-rotated-sorted-array",
   "find-out-how-many-times-the-array-is-rotated",
+  "find-row-with-maximum-1s",
+  "search-in-rotated-sorted-array-i",
+  "search-in-rotated-sorted-array-ii",
   "selection-sort",
   "largest-odd-number-in-a-string",
   "longest-common-prefix",
@@ -127,6 +130,9 @@ export const CONTENT_IDS = [
   "sum-of-beauty-of-all-substrings",
   "reverse-every-word-in-a-string",
   "introduction-to-singly-linkedlist",
+  "insertion-at-the-head-of-linked-list",
+  "deletion-of-the-head-of-ll",
+  "find-the-length-of-the-linked-list",
   "bubble-sort",
   "insertion-sorting",
   "understand-recursion-by-print-something-n-times",
@@ -138,6 +144,7 @@ export const CONTENT_IDS = [
   "reverse-an-array",
   "check-if-string-is-palindrome-or-not",
   "fibonacci-number",
+  "pow-x-n",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
