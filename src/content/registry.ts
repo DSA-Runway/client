@@ -175,6 +175,7 @@ const FILES: Record<ContentId, string> = {
   "sort-a-stack-using-recursion": "advanced-recursion/sort-a-stack-using-recursion.md",
   "reverse-a-stack": "advanced-recursion/reverse-a-stack.md",
   "introduction-to-bits-and-tricks": "bit-manipulation/introduction-to-bits-and-tricks.md",
+  "check-if-the-i-th-bit-is-set-or-not": "bit-manipulation/check-if-the-i-th-bit-is-set-or-not.md",
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
 };
 
