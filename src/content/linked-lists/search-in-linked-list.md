@@ -261,8 +261,7 @@ Node* findSorted(Node* head, int target) {
 ```
 
 <!-- @annotations -->
-- 4: The whole benefit. Without this line a miss walks the entire list; with it, a miss stops on average half way — measured 50,803 nodes against 100,000.
-- 4: `>` and not `>=`. The equality case was already handled on the line above, and using `>=` here would return null on a match.
+- 4: The whole benefit. Without this line a miss walks the entire list; with it, a miss stops on average half way — measured 50,803 nodes against 100,000. It has to be `>` and not `>=`: the equality case was already handled on the line above, and `>=` here would return null on a match.
 - 1: Only valid on a list that really is sorted. Nothing in the structure enforces or records that, so it is a precondition the caller must guarantee.
 
 <!-- @code java -->

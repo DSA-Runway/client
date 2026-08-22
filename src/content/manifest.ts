@@ -114,6 +114,7 @@ export const CONTENT_IDS = [
   "search-in-rotated-sorted-array-i",
   "search-in-rotated-sorted-array-ii",
   "single-element-in-a-sorted-array",
+  "find-peak-element",
   "selection-sort",
   "largest-odd-number-in-a-string",
   "longest-common-prefix",
@@ -148,6 +149,7 @@ export const CONTENT_IDS = [
   "fibonacci-number",
   "pow-x-n",
   "learn-all-patterns-of-subsequences-theory",
+  "count-all-subsequences-with-sum-k",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
