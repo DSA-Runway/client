@@ -1,7 +1,7 @@
 ---
 id: find-the-number-that-appears-once-and-other-numbers-twice
 topic: Arrays
-title: Find the Number That Appears Once
+title: Find the Number That Appears Once, and Other Numbers Twice
 difficulty: Medium
 status: ready
 prerequisites:

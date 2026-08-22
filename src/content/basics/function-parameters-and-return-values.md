@@ -334,7 +334,7 @@ int power(int base, int exp) {               // definition — no default repeat
 
 <!-- @annotations -->
 - 5: Once greeting has a default, punct must have one too.
-- 20: Repeating the default here is a compile error, not a harmless duplicate.
+- 19: Repeating the default here is a compile error, not a harmless duplicate.
 - 28: To vary only the third argument you must supply the second as well.
 
 <!-- @code java -->

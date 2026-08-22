@@ -547,7 +547,7 @@ static String longestCommonPrefix(String[] strs) {
 
 <!-- @annotations -->
 - 6: `>>> 1` rather than `/ 2` — unsigned shift, so the midpoint is still right if `lo + hi` overflows into a negative int.
-- 10: `regionMatches` compares without allocating, where `substring(0, mid).equals(...)` would build a new String per test.
+- 9: `regionMatches` compares without allocating, where `substring(0, mid).equals(...)` would build a new String per test.
 
 <!-- @code python -->
 ```python

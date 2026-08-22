@@ -507,7 +507,7 @@ print(math.lcm(100000, 99999))   # 9999900000
 ```
 
 <!-- @annotations -->
-- 7: Verified on this machine. LCM with zero is zero, matching the mathematical convention.
+- 6: Verified on this machine. LCM with zero is zero, matching the mathematical convention.
 - 11: The empty case returns 1 rather than 0, because 1 is the multiplicative identity.
 
 <!-- @code cpp -->

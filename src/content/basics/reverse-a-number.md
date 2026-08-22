@@ -9,7 +9,6 @@ prerequisites:
   - while-loop
   - arithmetic-operators
   - data-types
-  - integer-overflow-and-precision-errors
 relatedIds:
   - count-digits
   - palindrome-number
@@ -247,7 +246,7 @@ int main() {
 
 <!-- @annotations -->
 - 5: Declaring rev as long long is the simplest overflow fix when the input is an int.
-- 8: rev * 10 shifts every existing digit one place left, opening the units slot for the new digit.
+- 9: rev * 10 shifts every existing digit one place left, opening the units slot for the new digit.
 - 17: In C++ and Java, -123 % 10 is -3 and -123 / 10 is -12, so the sign carries through automatically.
 - 23: With an int accumulator this returns 1056389759 — silent garbage. Measured with g++.
 

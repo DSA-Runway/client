@@ -19,7 +19,7 @@ relatedIds:
 ---
 
 <!-- @summary -->
-Repeatedly select the smallest remaining element and swap it into place — the only one of the three basic sorts that performs exactly n(n-1)/2 comparisons on every input, whose sole theoretical advantage is writing at most n-1 times, and where the stable variant that writes 2,671x more measured 0.92x the time, so the property you would trade stability for buys nothing on a CPU.
+Repeatedly select the smallest remaining element and swap it into place — the only one of the three basic sorts that performs exactly n(n-1)/2 comparisons on every input, whose sole theoretical advantage is writing at most n-1 times, and where the stable variant that writes 2,677x more measured 0.89x the time, so the property you would trade stability for buys nothing on a CPU.
 
 <!-- @theory -->
 ## The problem
@@ -89,8 +89,8 @@ all elements equal — the number of distinct comparison counts is **one**:
 
 **Selection sort has no best case.** Handing it an already-sorted array saves it
 nothing. That is worth stating precisely because bubble sort and insertion sort
-both finish an already-sorted array in O(n) — measured at n = 16,000, both took
-**0.01ms** where selection sort took **49.81ms**.
+both finish an already-sorted array in O(n) — measured at n = 16,000, bubble took
+**0.0053ms** and insertion **0.0070ms** where selection sort took **46.33ms**.
 
 ## What it does have: at most n - 1 swaps
 
@@ -102,11 +102,11 @@ Set against the other basic sorts, at n = 4,000 on random input:
 
 | Algorithm | Element writes |
 |---|---|
-| **Selection sort** | **11,979** |
-| Insertion sort | 4,047,888 |
-| Bubble sort | 12,131,667 |
+| **Selection sort** | **11,976** |
+| Insertion sort | 4,015,043 |
+| Bubble sort | 12,033,132 |
 
-Selection sort writes **338x less than insertion sort** and **1,013x less than
+Selection sort writes **335x less than insertion sort** and **1,005x less than
 bubble sort**. That is its entire case, and it is a real one: it is the algorithm
 to reach for when a write physically costs more than a read — flash memory with
 limited erase cycles, a structure where each assignment triggers work, a network
@@ -121,7 +121,7 @@ self-swaps — measured 0 against 2,997 at n = 1,000.
 | Already sorted | **0** |
 | All elements equal | **0** |
 | Reverse sorted | 6,000 |
-| Random | 11,979 |
+| Random | 11,976 |
 
 Note that reverse sorted costs *half* what random does. Each swap on a reversed
 array fixes two elements at once, so it needs only about n/2 of them.
@@ -155,8 +155,8 @@ hole. Nothing jumps over anything, so equal elements keep their order — verifi
 over the same 3,279 arrays with **0 unstable results.**
 
 And it destroys the one advantage selection sort had. At n = 4,000 on random
-input the shift version performs **4,047,876 writes against 11,979** — it has
-become insertion sort's write count almost exactly (4,047,888).
+input the shift version performs **4,015,034 writes against 11,976** — it has
+become insertion sort's write count almost exactly (4,015,043).
 
 So on paper the choice is stark: **minimum writes or stability, never both.**
 
@@ -166,11 +166,11 @@ Measured, median of nine runs, same random input:
 
 | n | Swap-based | Stable shift | Ratio | Writes |
 |---|---|---|---|---|
-| 4,000 | 12.13ms | 12.97ms | 1.07x | 338x |
-| 16,000 | 125.94ms | **121.62ms** | **0.97x** | 1,329x |
-| 32,000 | 436.23ms | **399.27ms** | **0.92x** | **2,671x** |
+| 4,000 | 11.23ms | 11.25ms | 1.00x | 335x |
+| 16,000 | 114.13ms | **109.19ms** | **0.96x** | 1,344x |
+| 32,000 | 368.99ms | **327.75ms** | **0.89x** | **2,677x** |
 
-**At n = 32,000 the stable version performs 2,671 times the writes and finishes
+**At n = 32,000 the stable version performs 2,677 times the writes and finishes
 measurably faster.**
 
 The reason is that neither version's writes are where the time goes. Both perform
@@ -193,12 +193,12 @@ n = 16,000, median of nine:
 
 | Input | Time |
 |---|---|
-| Already sorted | 49.81ms |
-| All equal | 55.04ms |
-| Reverse sorted | 74.22ms |
-| **Random** | **125.94ms** |
+| Already sorted | 46.33ms |
+| All equal | 50.03ms |
+| Reverse sorted | 59.15ms |
+| **Random** | **114.13ms** |
 
-**A 2.53x spread with the comparison count held exactly constant.**
+**A 2.46x spread with the comparison count held exactly constant.**
 
 Move Zeros to End found a 5.5x spread from branch misprediction, so that is the
 natural suspect — and here it is the wrong one. Clang compiles the inner loop
@@ -220,11 +220,11 @@ so the loop loads only `arr[j]`:
 
 | Input | Index only | Value cached |
 |---|---|---|
-| Sorted | 49.81ms | 89.84ms |
-| All equal | 55.04ms | 92.13ms |
-| Reverse | 74.22ms | 89.90ms |
-| Random | 125.94ms | 87.94ms |
-| **Spread** | **2.53x** | **1.05x** |
+| Sorted | 46.33ms | 89.46ms |
+| All equal | 50.03ms | 82.82ms |
+| Reverse | 59.15ms | 86.73ms |
+| Random | 114.13ms | 82.20ms |
+| **Spread** | **2.46x** | **1.09x** |
 
 Caching the value **flattens the input dependence almost completely** — and is
 slower on the inputs where the second load was cheap. The trade is real in both
@@ -236,24 +236,29 @@ draws.
 
 ## Speed, honestly
 
-At n = 16,000 on random input: selection **125.94ms**, insertion **25.83ms**, and
-`std::sort` **0.2785ms**.
+At n = 16,000 on random input: selection **114.13ms**, insertion **22.31ms**, and
+`std::sort` **0.2596ms**.
 
-Selection sort is beaten by insertion sort by 4.9x on random data and by
-`std::sort` by **452x**. Against bubble sort the two could not be separated on
-this machine — repeated alternated runs gave overlapping ranges — so treat them as
-comparable on random input and note that they diverge completely on structured
-input, where bubble sort's early exit wins by four orders of magnitude and
-selection sort's indifference to input shape is the more predictable behaviour. It is quadratic and it scales like it — 0.89ms, 3.52ms,
-12.11ms, 41.20ms and 125.94ms at n = 1,000 through 16,000, roughly quadrupling
-each time the input doubles.
+Selection sort is beaten by insertion sort by 5.1x on random data and by
+`std::sort` by **440x**. Bubble sort also came out ahead on random input —
+**75.50ms against 114.13ms**, a factor of **1.51** — and over forty alternated
+samples each the two sets did not overlap. Read that ranking weakly: 1.51x is a
+small gap by this topic's standards, and bubble sort's was the least stable
+measurement in the set, moving between 64ms and 87ms across runs of the same
+session while selection sort held near 114ms. On structured input they diverge
+completely, where bubble sort's early exit wins by four orders of magnitude and
+selection sort's indifference to input shape is the more predictable behaviour.
+
+Selection sort is quadratic and it scales like it — 0.82ms, 3.11ms, 11.23ms,
+37.54ms and 114.13ms at n = 1,000 through 16,000, roughly quadrupling each time
+the input doubles.
 
 Python is the same story with one addition: there the input-independence
 survives, because the interpreter dominates and the memory effects that produced
-the C++ spread disappear. At n = 2,000, median of seven: **53.41ms sorted, 62.79ms
-reverse, 54.44ms random** — 1.18x apart. Replacing the inner loop with
-`min()` and `index()` moves both scans into C and measured **23.82ms against
-54.44ms**, about 2.3x, at the cost of walking the tail twice.
+the C++ spread disappear. At n = 2,000, median of seven: **49.35ms sorted, 51.94ms
+reverse, 48.28ms random** — 1.08x apart. Replacing the inner loop with
+`min()` and `index()` moves both scans into C and measured **21.64ms against
+48.28ms**, about 2.23x, at the cost of walking the tail twice.
 
 ## Where this goes next
 
@@ -282,7 +287,7 @@ Repeatedly find the smallest remaining element, remove it from the input, and ap
 <!-- @complexity -->
 - time: O(n^2)
 - space: O(n) for the output, plus the shifting cost of removing from the middle
-- note: Correct — 0 wrong over 3,000 random arrays — and it allocates a second array to avoid a swap. It is worth writing once because it states the selection idea plainly before the in-place version obscures it. In Python it measured FASTER than the in-place loop, 18.48ms against 54.44ms at n = 2,000, because min and remove both run as compiled C.
+- note: Correct — 0 wrong over 3,000 random arrays — and it allocates a second array to avoid a swap. It is worth writing once because it states the selection idea plainly before the in-place version obscures it. In Python it measured FASTER than the in-place loop, 16.80ms against 48.28ms at n = 2,000, because min and remove both run as compiled C.
 
 <!-- @code cpp -->
 ```cpp
@@ -344,7 +349,7 @@ def selection_sort_copy(arr):
     return out
 
 
-# Measured 18.48ms at n = 2,000 against 54.44ms for the in-place loop,
+# Measured 16.80ms at n = 2,000 against 48.28ms for the in-place loop,
 # because min and remove are C-level scans and the loop is interpreted.
 ```
 
@@ -368,7 +373,7 @@ Find the index of the smallest element in the unsorted tail and swap it into the
 <!-- @complexity -->
 - time: O(n^2) always — exactly n(n-1)/2 comparisons on every input, with no best case
 - space: O(1)
-- note: At most n - 1 swaps, verified over 20,000 random arrays with zero exceptions — 11,979 element writes at n = 4,000 against insertion sort's 4,047,888. Measured 125.94ms at n = 16,000 on random input, against 25.83ms for insertion sort and 0.2785ms for std::sort.
+- note: At most n - 1 swaps, verified over 20,000 random arrays with zero exceptions — 11,976 element writes at n = 4,000 against insertion sort's 4,015,043. Measured 114.13ms at n = 16,000 on random input, against 22.31ms for insertion sort and 0.2596ms for std::sort.
 
 <!-- @code cpp -->
 ```cpp
@@ -431,16 +436,16 @@ def selection_sort(arr):
             arr[i], arr[min_idx] = arr[min_idx], arr[i]
 
 
-# The idiomatic shortcut, about 2.3x faster because both scans run in C:
+# The idiomatic shortcut, about 2.23x faster because both scans run in C:
 #     min_idx = i + arr[i:].index(min(arr[i:]))
-# It walks the tail twice and copies it — measured 23.82ms against
-# 54.44ms at n = 2,000.
+# It walks the tail twice and copies it — measured 21.64ms against
+# 48.28ms at n = 2,000.
 ```
 
 <!-- @annotations -->
 - 3: range(n - 1) rather than range(n), since the final one-element tail has nothing to choose from.
 - 9: Tuple assignment evaluates the right side first, so no temporary is needed and the swap cannot be written in the wrong order.
-- 12: Measured flat across input shapes in Python — 53.41ms sorted, 62.79ms reverse, 54.44ms random — 1.18x apart.
+- 12: Measured flat across input shapes in Python — 49.35ms sorted, 51.94ms reverse, 48.28ms random — 1.08x apart.
 
 <!-- @approach -->
 ### Cache the Minimum Value
@@ -458,7 +463,7 @@ Carry the minimum value beside its index so the inner loop performs one load per
 <!-- @complexity -->
 - time: O(n^2), the same n(n-1)/2 comparisons
 - space: O(1)
-- note: One load per comparison instead of two, which removes the runtime's dependence on the input shape — measured spread 1.05x against 2.53x for the index-only form. It is not uniformly faster: 87.94ms against 125.94ms on random input at n = 16,000, and 89.84ms against 49.81ms on sorted input. It also drops the swap from three writes to two, measured 7,986 against 11,979 at n = 4,000.
+- note: One load per comparison instead of two, which removes the runtime's dependence on the input shape — measured spread 1.09x against 2.46x for the index-only form. It is not uniformly faster: 82.20ms against 114.13ms on random input at n = 16,000, and 89.46ms against 46.33ms on sorted input. It also drops the swap from three writes to two, measured 7,984 against 11,976 at n = 4,000.
 
 <!-- @code cpp -->
 ```cpp
@@ -484,9 +489,9 @@ void selectionSort(vector<int>& arr) {
 
 <!-- @annotations -->
 - 8: Carrying the value as well as the index is the whole change.
-- 10: The index-only form reloads arr[minIdx] here at an address computed from the loop-carried index, which is what made its runtime vary 2.53x with the input.
+- 10: The index-only form reloads arr[minIdx] here at an address computed from the loop-carried index, which is what made its runtime vary 2.46x with the input.
 - 13: No temporary is needed because minVal already holds what arr[minIdx] contains.
-- 14: Measured spread across sorted, all-equal, reverse and random input: 1.05x, against 2.53x for the index-only form.
+- 14: Measured spread across sorted, all-equal, reverse and random input: 1.09x, against 2.46x for the index-only form.
 
 <!-- @code java -->
 ```java
@@ -526,7 +531,7 @@ def selection_sort(arr):
             arr[i] = min_val
 
 
-# Worth almost nothing in Python: 50.89ms against 54.44ms at n = 2,000.
+# Worth almost nothing in Python: 45.71ms against 48.28ms at n = 2,000.
 # The effect it removes is a memory effect, and the interpreter's own
 # cost per element dwarfs it entirely.
 ```
@@ -550,7 +555,7 @@ Move the minimum into place by shifting the block between it and the boundary ri
 <!-- @complexity -->
 - time: O(n^2), the same n(n-1)/2 comparisons plus up to O(n) shifting per pass
 - space: O(1)
-- note: Stable — verified over all 3,279 arrays of length 1 to 7 from three symbols with 0 unstable results, against 60.29% for the swap version. It performs 4,047,876 writes at n = 4,000 against 11,979, and measured 399.27ms against 436.23ms at n = 32,000 — 2,671 times the writes at 0.92x the time.
+- note: Stable — verified over all 3,279 arrays of length 1 to 7 from three symbols with 0 unstable results, against 60.29% for the swap version. It performs 4,015,034 writes at n = 4,000 against 11,976, and measured 327.75ms against 368.99ms at n = 32,000 — 2,677 times the writes at 0.89x the time.
 
 <!-- @code cpp -->
 ```cpp
@@ -578,7 +583,7 @@ void selectionSortStable(vector<int>& arr) {
 <!-- @annotations -->
 - 11: Strictly less than, not less than or equal. Using <= would latch the LAST equal minimum and reintroduce the instability this version exists to remove.
 - 14: The value must be saved before the shift, because the shift overwrites the slot it came from.
-- 15: A contiguous block move, which is the kind of write the hardware is fastest at — this is why 2,671x the writes cost nothing measurable.
+- 15: A contiguous block move, which is the kind of write the hardware is fastest at — this is why 2,677x the writes cost nothing measurable.
 - 16: The minimum lands at the boundary having passed over nothing, so equal elements keep their original order.
 
 <!-- @code java -->
@@ -673,16 +678,16 @@ The smallest input that exposes the instability, and instability turns out to be
 The stable shift variant against the swap variant at n = 32,000
 
 <!-- @output -->
-2,671 times the writes, and 0.92x the time
+2,677 times the writes, and 0.89x the time
 
 <!-- @why -->
 Selection sort's only theoretical advantage is its write count, and this is the measurement that shows the advantage buying nothing on the machine most people run.
 
 <!-- @walkthrough -->
-1. The swap version performs at most n - 1 swaps, measured 95,961 element writes at n = 32,000.
-2. The stable version shifts a block on every pass instead, measured 256,332,314 writes on the same input.
-3. That is 2,671 times as many writes, which by an operation count should be decisive.
-4. Measured median of nine runs: 436.23ms for the swap version and 399.27ms for the stable one.
+1. The swap version performs at most n - 1 swaps, measured 95,964 element writes at n = 32,000.
+2. The stable version shifts a block on every pass instead, measured 256,928,527 writes on the same input.
+3. That is 2,677 times as many writes, which by an operation count should be decisive.
+4. Measured median of nine runs: 368.99ms for the swap version and 327.75ms for the stable one.
 5. The stable version is marginally faster, so the entire write advantage is worth less than measurement noise.
 6. Both perform the identical n(n-1)/2 comparisons, and that scan is where essentially all the time goes.
 7. Left Rotate Array by K Places measured the same shape of result for the juggling algorithm, which was write-optimal and lost by 2.5x to 24.8x.
@@ -693,28 +698,28 @@ Selection sort's only theoretical advantage is its write count, and this is the 
 The same 16,000 elements arranged four ways, comparison count held constant
 
 <!-- @output -->
-49.81ms, 80.09ms, 101.54ms and 125.94ms — a 2.53x spread
+46.33ms, 50.03ms, 59.15ms and 114.13ms — a 2.46x spread
 
 <!-- @why -->
 Isolates a runtime difference that no operation count can explain, and the usual suspect from Move Zeros to End turns out to be the wrong one.
 
 <!-- @walkthrough -->
 1. Already sorted, all equal, reverse sorted and random inputs all perform exactly 127,992,000 comparisons.
-2. Measured, they took 49.81ms, 80.09ms, 101.54ms and 125.94ms respectively.
+2. Measured, they took 46.33ms, 50.03ms, 59.15ms and 114.13ms respectively.
 3. Move Zeros to End produced a 5.5x spread on a similar experiment, caused by branch misprediction.
 4. That is not the cause here: clang compiles this inner loop branchless, selecting the minimum index with a csel instruction and leaving only the loop counter as a jump.
 5. What the loop does have is two loads per comparison, and the second one's address is computed from the loop-carried minimum index.
-6. Caching the minimum value so only arr[j] is loaded reduced the spread from 2.53x to 1.05x, which confirms the second load as the cause.
-7. In Python the spread does not appear at all — 53.41ms, 62.79ms and 54.44ms — because the interpreter's per-element cost dwarfs any memory effect.
+6. Caching the minimum value so only arr[j] is loaded reduced the spread from 2.46x to 1.09x, which confirms the second load as the cause.
+7. In Python the spread does not appear at all — 49.35ms, 51.94ms and 48.28ms — because the interpreter's per-element cost dwarfs any memory effect.
 
 <!-- @visualization array -->
 
 <!-- @description -->
-The array as a horizontal strip with a hard vertical divider between the settled prefix and the unsorted tail, and the settled region tinted permanently rather than provisionally — that permanence is the invariant and it is what distinguishes this sort from the other two, so it must be visible from the first pass. A boundary marker sits at i on the divider, and a scanning marker sweeps the tail. Carry a MINIMUM badge above the strip holding an index rather than a value, and draw a visible tether from the badge down to the cell it points at, so the badge relocating is seen as a pointer moving rather than a number changing — that distinction is exactly the bug the badge exists to prevent. On each step draw the comparison arc between the scanned cell and the tethered cell; when a smaller element is found the tether snaps to the new cell and a counter ticks. Crucially, let the scan run all the way to the end of the strip every single pass, even when the minimum was found on the first cell, and label that as no early exit — the absence of a stopping condition is the reason this sort has no best case, and it should be felt as tedium rather than read as a sentence. Run a comparison counter that is identical on every input, beside a swap counter that is not. Then the swap: animate the minimum and the boundary element exchanging in a single arc, and hold the frame as the boundary element flies backwards across the array — because that flight is precisely what breaks stability. A stability panel replays [1a, 1b, 0] with the two 1s drawn in distinguishable shades: the swap track sends 1a over 1b and lands them reversed, while a parallel shift track slides the block right by one and lands them in order, both reaching the same values with different provenance. Beneath, two write counters climb — the swap track by 3 per pass at most, the shift track by up to n per pass — with the final tallies 95,961 against 256,332,314 at n = 32,000, and then a time bar underneath showing 436.23ms against 399.27ms, drawn deliberately equal. That contradiction between the write meters and the time bar is the centre of the whole figure and should be held longest. Close with an input-shape panel: four strips of identical length running side by side with a shared comparison counter that stays locked in step across all four, and four separate clocks that visibly diverge to 49.81, 80.09, 101.54 and 125.94 milliseconds — annotated with the two loads per comparison, one streaming and one at an address that follows the minimum badge.
+The array as a horizontal strip with a hard vertical divider between the settled prefix and the unsorted tail, and the settled region tinted permanently rather than provisionally — that permanence is the invariant and it is what distinguishes this sort from the other two, so it must be visible from the first pass. A boundary marker sits at i on the divider, and a scanning marker sweeps the tail. Carry a MINIMUM badge above the strip holding an index rather than a value, and draw a visible tether from the badge down to the cell it points at, so the badge relocating is seen as a pointer moving rather than a number changing — that distinction is exactly the bug the badge exists to prevent. On each step draw the comparison arc between the scanned cell and the tethered cell; when a smaller element is found the tether snaps to the new cell and a counter ticks. Crucially, let the scan run all the way to the end of the strip every single pass, even when the minimum was found on the first cell, and label that as no early exit — the absence of a stopping condition is the reason this sort has no best case, and it should be felt as tedium rather than read as a sentence. Run a comparison counter that is identical on every input, beside a swap counter that is not. Then the swap: animate the minimum and the boundary element exchanging in a single arc, and hold the frame as the boundary element flies backwards across the array — because that flight is precisely what breaks stability. A stability panel replays [1a, 1b, 0] with the two 1s drawn in distinguishable shades: the swap track sends 1a over 1b and lands them reversed, while a parallel shift track slides the block right by one and lands them in order, both reaching the same values with different provenance. Beneath, two write counters climb — the swap track by 3 per pass at most, the shift track by up to n per pass — with the final tallies 95,964 against 256,928,527 at n = 32,000, and then a time bar underneath showing 368.99ms against 327.75ms, drawn deliberately equal. That contradiction between the write meters and the time bar is the centre of the whole figure and should be held longest. Close with an input-shape panel: four strips of identical length running side by side with a shared comparison counter that stays locked in step across all four, and four separate clocks that visibly diverge to 46.33, 50.03, 59.15 and 114.13 milliseconds — annotated with the two loads per comparison, one streaming and one at an address that follows the minimum badge.
 
 <!-- @sampleInput -->
 ```json
-{"primary":{"array":[64,25,12,22,11],"trace":[{"i":0,"scanned":[25,12,22,11],"minIdx":4,"minVal":11,"swapped":true,"after":[11,25,12,22,64],"comparisons":4},{"i":1,"scanned":[12,22,64],"minIdx":2,"minVal":12,"swapped":true,"after":[11,12,25,22,64],"comparisons":3},{"i":2,"scanned":[22,64],"minIdx":3,"minVal":22,"swapped":true,"after":[11,12,22,25,64],"comparisons":2},{"i":3,"scanned":[64],"minIdx":3,"minVal":25,"swapped":false,"after":[11,12,22,25,64],"comparisons":1}],"result":[11,12,22,25,64],"comparisons":10,"formula":"n(n-1)/2","swaps":3,"swapBound":4},"invariant":"after pass i, arr[0..i] holds the i+1 smallest elements in their FINAL positions","comparisonCount":{"inputIndependent":true,"distinctValuesAcrossShapes":1,"rows":[{"n":10,"comparisons":45},{"n":100,"comparisons":4950},{"n":1000,"comparisons":499500},{"n":4000,"comparisons":7998000}],"noEarlyExit":"the minimum may be the last element scanned, so the tail is always traversed in full"},"writes":{"n":4000,"selectionSwap":11979,"selectionStableShift":4047876,"insertion":4047888,"bubble":12131667,"byShape":{"sorted":0,"allequal":0,"reverse":6000,"random":11979,"nMinus1":3999},"guardEffect":{"n":1000,"guarded":0,"unguarded":2997},"twoWriteForm":{"n":4000,"threeWrite":11979,"twoWrite":7986},"swapBoundExceptions":{"arraysTested":20000,"over":0}},"stability":{"swapBased":{"arraysTested":3279,"unstable":1977,"rate":0.6029,"failuresByLength":{"1":0,"2":0,"3":3,"4":20,"5":98,"6":397,"7":1459}},"shiftBased":{"arraysTested":3279,"unstable":0},"smallestFailure":{"values":[1,1,0],"selectionTags":["c","b","a"],"stableTags":["c","a","b"]}},"stableTradeoff":{"rows":[{"n":4000,"swapMs":12.13,"stableMs":12.97,"ratio":1.07,"writeRatio":338},{"n":16000,"swapMs":125.94,"stableMs":121.62,"ratio":0.97,"writeRatio":1329},{"n":32000,"swapMs":436.23,"stableMs":399.27,"ratio":0.92,"writeRatio":2671,"swapWrites":95961,"stableWrites":256332314}],"reading":"2,671 times the writes at 0.92x the time \u2014 the minimum-write property buys nothing on a CPU","echoes":"left-rotate-array-by-k-places measured the juggling algorithm 2.5x to 24.8x slower while write-optimal"},"inputShape":{"n":16000,"comparisonsAllShapes":127992000,"selection":{"sorted":49.81,"allequal":55.04,"reverse":74.22,"random":125.94},"spread":2.53,"onSortedInput":{"bubble":0.0052,"insertion":0.0073,"selection":49.81,"selectionSlowerBy":9579},"onRandomInput":{"insertion":25.83,"stdSort":0.2785,"bubble":"comparable to selection; ranges overlapped across runs"}},"loadDiagnosis":{"branchless":true,"instruction":"csel","vectorized":false,"vectorizerMessage":"value that could not be identified as reduction is used outside the loop","indexOnly":{"sorted":49.81,"allequal":55.04,"reverse":74.22,"random":125.94,"spread":2.53},"valueCached":{"sorted":89.84,"allequal":92.13,"reverse":89.9,"random":87.94,"spread":1.05},"cause":"two loads per comparison; the second address is computed from the loop-carried minimum index"},"bugPanel":[{"name":"track the min VALUE, assign it","wrongRate":0.9849,"arraysTested":21844,"smallest":[1,0],"produces":[0,0]},{"name":"swap inside the inner loop","wrong":0,"correct":true,"writesAtN1000":{"reverse":{"canonical":1500,"variant":1498500,"ratio":999},"random":{"canonical":2976,"variant":724380,"ratio":243}}},{"name":"inner loop starts at i","wrong":0,"extraComparisons":"exactly n - 1"},{"name":"outer loop runs to n","wrong":0,"note":"the final pass compares a one-element tail with itself"}],"scaling":{"random":[{"n":1000,"ms":0.89},{"n":2000,"ms":3.52},{"n":4000,"ms":12.11},{"n":8000,"ms":41.2},{"n":16000,"ms":125.94}],"stdSortAt16000":0.2785,"vsStdSort":452},"python":{"n":2000,"selection":{"sorted":53.41,"reverse":62.79,"random":54.44,"spread":1.18},"minIndexIdiom":{"random":23.82,"speedup":2.3},"insertion":{"sorted":0.141,"random":57.83},"bubble":{"sorted":0.065,"random":115.52},"sortedBuiltin":{"random":0.149},"bruteExtractVsInPlace":{"n":2000,"extract":18.48,"inPlace":54.44}}}
+{"primary":{"array":[64,25,12,22,11],"trace":[{"i":0,"scanned":[25,12,22,11],"minIdx":4,"minVal":11,"swapped":true,"after":[11,25,12,22,64],"comparisons":4},{"i":1,"scanned":[12,22,64],"minIdx":2,"minVal":12,"swapped":true,"after":[11,12,25,22,64],"comparisons":3},{"i":2,"scanned":[22,64],"minIdx":3,"minVal":22,"swapped":true,"after":[11,12,22,25,64],"comparisons":2},{"i":3,"scanned":[64],"minIdx":3,"minVal":25,"swapped":false,"after":[11,12,22,25,64],"comparisons":1}],"result":[11,12,22,25,64],"comparisons":10,"formula":"n(n-1)/2","swaps":3,"swapBound":4},"invariant":"after pass i, arr[0..i] holds the i+1 smallest elements in their FINAL positions","comparisonCount":{"inputIndependent":true,"distinctValuesAcrossShapes":1,"rows":[{"n":10,"comparisons":45},{"n":100,"comparisons":4950},{"n":1000,"comparisons":499500},{"n":4000,"comparisons":7998000}],"noEarlyExit":"the minimum may be the last element scanned, so the tail is always traversed in full"},"writes":{"n":4000,"selectionSwap":11976,"selectionStableShift":4015034,"insertion":4015043,"bubble":12033132,"byShape":{"sorted":0,"allequal":0,"reverse":6000,"random":11976,"nMinus1":3999},"guardEffect":{"n":1000,"guarded":0,"unguarded":2997},"twoWriteForm":{"n":4000,"threeWrite":11976,"twoWrite":7984},"swapBoundExceptions":{"arraysTested":20000,"over":0}},"stability":{"swapBased":{"arraysTested":3279,"unstable":1977,"rate":0.6029,"failuresByLength":{"1":0,"2":0,"3":3,"4":20,"5":98,"6":397,"7":1459}},"shiftBased":{"arraysTested":3279,"unstable":0},"smallestFailure":{"values":[1,1,0],"selectionTags":["c","b","a"],"stableTags":["c","a","b"]}},"stableTradeoff":{"rows":[{"n":4000,"swapMs":11.23,"stableMs":11.25,"ratio":1.00,"writeRatio":335},{"n":16000,"swapMs":114.13,"stableMs":109.19,"ratio":0.96,"writeRatio":1344},{"n":32000,"swapMs":368.99,"stableMs":327.75,"ratio":0.89,"writeRatio":2677,"swapWrites":95964,"stableWrites":256928527}],"reading":"2,677 times the writes at 0.89x the time \u2014 the minimum-write property buys nothing on a CPU","echoes":"left-rotate-array-by-k-places measured the juggling algorithm 2.5x to 24.8x slower while write-optimal"},"inputShape":{"n":16000,"comparisonsAllShapes":127992000,"selection":{"sorted":46.33,"allequal":50.03,"reverse":59.15,"random":114.13},"spread":2.46,"onSortedInput":{"bubble":0.0053,"insertion":0.0070,"selection":46.33,"selectionSlowerBy":8742},"onRandomInput":{"insertion":22.31,"stdSort":0.2596,"bubble":{"ms":75.50,"note":"measured faster than selection by 1.51x; sample sets did not overlap, but bubble ranged 64-87ms across runs while selection held near 114ms"}}},"loadDiagnosis":{"branchless":true,"instruction":"csel","vectorized":false,"vectorizerMessage":"value that could not be identified as reduction is used outside the loop","indexOnly":{"sorted":46.33,"allequal":50.03,"reverse":59.15,"random":114.13,"spread":2.46},"valueCached":{"sorted":89.46,"allequal":82.82,"reverse":86.73,"random":82.20,"spread":1.09},"cause":"two loads per comparison; the second address is computed from the loop-carried minimum index"},"bugPanel":[{"name":"track the min VALUE, assign it","wrongRate":0.9849,"arraysTested":21844,"smallest":[1,0],"produces":[0,0]},{"name":"swap inside the inner loop","wrong":0,"correct":true,"writesAtN1000":{"reverse":{"canonical":1500,"variant":1498500,"ratio":999},"random":{"canonical":2970,"variant":719436,"ratio":242}}},{"name":"inner loop starts at i","wrong":0,"extraComparisons":"exactly n - 1"},{"name":"outer loop runs to n","wrong":0,"note":"the final pass compares a one-element tail with itself"}],"scaling":{"random":[{"n":1000,"ms":0.82},{"n":2000,"ms":3.11},{"n":4000,"ms":11.23},{"n":8000,"ms":37.54},{"n":16000,"ms":114.13}],"stdSortAt16000":0.2596,"vsStdSort":440},"python":{"n":2000,"selection":{"sorted":49.35,"reverse":51.94,"random":48.28,"spread":1.08},"minIndexIdiom":{"random":21.64,"speedup":2.23},"insertion":{"sorted":0.130,"random":55.40},"bubble":{"sorted":0.059,"random":109.10},"sortedBuiltin":{"random":0.116},"bruteExtractVsInPlace":{"n":2000,"extract":16.80,"inPlace":48.28}}}
 ```
 
 <!-- @highlights -->
@@ -729,11 +734,11 @@ The array as a horizontal strip with a hard vertical divider between the settled
 - That flight is exactly what breaks stability, so it is the frame the stability panel then replays.
 - The stability panel runs [1a, 1b, 0] with the two 1s in distinguishable shades: the swap track lands them reversed, the shift track lands them in order.
 - Two write meters climb beneath — at most 3 per pass for the swap track, up to n per pass for the shift track.
-- Their final tallies read 95,961 against 256,332,314 at n = 32,000.
-- The time bar underneath reads 436.23ms against 399.27ms, drawn deliberately equal.
+- Their final tallies read 95,964 against 256,928,527 at n = 32,000.
+- The time bar underneath reads 368.99ms against 327.75ms, drawn deliberately equal.
 - That contradiction between the write meters and the time bar is the centre of the figure and is held longest.
 - The input-shape panel runs four strips of identical length with one shared comparison counter locked in step across all four.
-- Four separate clocks diverge to 49.81, 80.09, 101.54 and 125.94 milliseconds, annotated with the two loads per comparison — one streaming, one following the minimum badge.
+- Four separate clocks diverge to 46.33, 50.03, 59.15 and 114.13 milliseconds, annotated with the two loads per comparison — one streaming, one following the minimum badge.
 
 <!-- @edgeCases -->
 - Empty array — n - 1 is negative, so the outer loop never runs and nothing happens; no guard is needed in any of the three languages.
@@ -745,7 +750,7 @@ The array as a horizontal strip with a hard vertical divider between the settled
 - Duplicate values present — the case where the swap version's instability appears, on 60.29% of small arrays.
 - The minimum already sitting at the boundary — the guard skips the swap, which is what makes the sorted case free of writes.
 - Two elements tying for the minimum — the strict less-than keeps the first, and using less-than-or-equal would keep the last and worsen the instability.
-- Very large arrays — the comparisons dominate everything, so at n = 32,000 the stable variant's 2,671x extra writes cost nothing measurable.
+- Very large arrays — the comparisons dominate everything, so at n = 32,000 the stable variant's 2,677x extra writes cost nothing measurable.
 - Negative values and zeros — nothing in the algorithm depends on sign, only on the ordering comparison.
 
 <!-- @pitfalls -->
@@ -756,17 +761,17 @@ The array as a horizontal strip with a hard vertical divider between the settled
 - Swapping inside the inner loop instead of after it. It is still correct — 0 wrong over 20,000 arrays — and it performs 999x the writes on reverse-sorted input at n = 1,000, destroying the one property worth having.
 - Omitting the minIdx != i guard. An already-sorted array then performs n - 1 self-swaps, measured 2,997 writes against 0 at n = 1,000.
 - Using <= rather than < in the inner comparison. It latches the last equal minimum instead of the first, which is slower to no purpose and makes the instability worse.
-- Trading stability away for the write count without measuring. At n = 32,000 the stable variant performs 2,671x the writes at 0.92x the time.
+- Trading stability away for the write count without measuring. At n = 32,000 the stable variant performs 2,677x the writes at 0.89x the time.
 - Running the outer loop to n rather than n - 1. Harmless — 0 wrong over 21,844 arrays — and the final pass can only compare a one-element tail against itself.
 - Starting the inner loop at i rather than i + 1. Also harmless, and it costs exactly n - 1 wasted self-comparisons.
-- Reaching for selection sort because it is simple. Measured 4.9x slower than insertion sort and 452x slower than std::sort on random input at n = 16,000.
-- Benchmarking it on sorted data. That is its fastest case at 49.81ms and its slowest is 125.94ms, so a sorted benchmark understates it by 2.5x.
+- Reaching for selection sort because it is simple. Measured 5.1x slower than insertion sort and 440x slower than std::sort on random input at n = 16,000.
+- Benchmarking it on sorted data. That is its fastest case at 46.33ms and its slowest is 114.13ms, so a sorted benchmark understates it by 2.5x.
 
 <!-- @doubt -->
 ### Why does selection sort take just as long on an already-sorted array?
 
 <!-- @answer -->
-Because nothing in it can detect that the array is sorted. Each pass has to scan the entire remaining tail to know which element is smallest, and the smallest could be the very last one examined — so there is no point at which the scan can legitimately stop early. That makes the comparison count exactly n(n-1)/2 regardless of the input, measured identical across sorted, reverse-sorted, random and all-equal arrays at n = 10, 100, 1,000 and 4,000. Bubble sort and insertion sort both finish a sorted array in O(n); measured at n = 16,000 they took 0.01ms each where selection sort took 49.81ms. The obvious rescue does not work either: adding an early exit when a pass performs no swap detects nothing, because a pass with no swap only means the minimum of the tail already sat at the boundary. [1, 5, 4, 3, 2] swaps nothing on its first pass and is nowhere near sorted. That test works in bubble sort because a swap-free pass there has compared every adjacent pair; here it has compared nothing of the kind.
+Because nothing in it can detect that the array is sorted. Each pass has to scan the entire remaining tail to know which element is smallest, and the smallest could be the very last one examined — so there is no point at which the scan can legitimately stop early. That makes the comparison count exactly n(n-1)/2 regardless of the input, measured identical across sorted, reverse-sorted, random and all-equal arrays at n = 10, 100, 1,000 and 4,000. Bubble sort and insertion sort both finish a sorted array in O(n); measured at n = 16,000 bubble took 0.0053ms and insertion 0.0070ms, where selection sort took 46.33ms. The obvious rescue does not work either: adding an early exit when a pass performs no swap detects nothing, because a pass with no swap only means the minimum of the tail already sat at the boundary. [1, 5, 4, 3, 2] swaps nothing on its first pass and is nowhere near sorted. That test works in bubble sort because a swap-free pass there has compared every adjacent pair; here it has compared nothing of the kind.
 
 <!-- @doubt -->
 ### Why track the index of the minimum rather than its value?
@@ -784,31 +789,31 @@ The swap-based version is not, and it is not a rare failure. The swap that bring
 ### Can I make it stable, and what does it cost?
 
 <!-- @answer -->
-Yes — shift instead of swap. Rather than exchanging the minimum with the boundary element, slide the whole block between them one position right and drop the minimum into the hole. Nothing passes over anything, so equal elements keep their order; verified over the same 3,279 arrays with zero unstable results. On paper it is expensive, turning at most n - 1 swaps into up to n writes per pass — 4,047,876 writes at n = 4,000 against 11,979. Measured, it costs nothing at all: 399.27ms against 436.23ms at n = 32,000, where it performed 2,671 times the writes. Take the stable version.
+Yes — shift instead of swap. Rather than exchanging the minimum with the boundary element, slide the whole block between them one position right and drop the minimum into the hole. Nothing passes over anything, so equal elements keep their order; verified over the same 3,279 arrays with zero unstable results. On paper it is expensive, turning at most n - 1 swaps into up to n writes per pass — 4,015,034 writes at n = 4,000 against 11,976. Measured, it costs nothing at all: 327.75ms against 368.99ms at n = 32,000, where it performed 2,677 times the writes. Take the stable version.
 
 <!-- @doubt -->
 ### Then what is the point of the minimum-write property?
 
 <!-- @answer -->
-It is real, and it is priced for a machine you are probably not using. Selection sort performs at most n - 1 swaps whatever the input — verified over 20,000 arrays with zero exceptions — which is 11,979 element writes at n = 4,000 against insertion sort's 4,047,888 and bubble sort's 12,131,667. Where a write genuinely costs more than a read, that is decisive: flash memory with limited erase cycles, a structure where each assignment triggers work, or one network round trip per element. On a CPU the comparisons dominate and the writes are nearly free, which is why the stable variant's 2,671x extra writes were unmeasurable. Left Rotate Array by K Places found exactly this for the juggling algorithm, which was write-optimal and lost by 2.5x to 24.8x.
+It is real, and it is priced for a machine you are probably not using. Selection sort performs at most n - 1 swaps whatever the input — verified over 20,000 arrays with zero exceptions — which is 11,976 element writes at n = 4,000 against insertion sort's 4,015,043 and bubble sort's 12,033,132. Where a write genuinely costs more than a read, that is decisive: flash memory with limited erase cycles, a structure where each assignment triggers work, or one network round trip per element. On a CPU the comparisons dominate and the writes are nearly free, which is why the stable variant's 2,677x extra writes were unmeasurable. Left Rotate Array by K Places found exactly this for the juggling algorithm, which was write-optimal and lost by 2.5x to 24.8x.
 
 <!-- @doubt -->
 ### Why is it slower on random input if the comparison count is identical?
 
 <!-- @answer -->
-Because the comparisons cost different amounts depending on where the minimum index sits. Measured at n = 16,000 with the comparison count fixed at 127,992,000: sorted 49.81ms, all-equal 80.09ms, reverse 101.54ms, random 125.94ms — a 2.53x spread. Branch misprediction is the obvious suspect and it is the wrong one, because clang compiles the inner loop branchless, choosing the minimum index with a csel and leaving only the loop counter as a jump. The real cause is that the loop performs two loads per comparison and the second one's address is computed from the loop-carried minimum index. Caching the minimum value so only arr[j] is loaded dropped the spread from 2.53x to 1.05x.
+Because the comparisons cost different amounts depending on where the minimum index sits. Measured at n = 16,000 with the comparison count fixed at 127,992,000: sorted 46.33ms, all-equal 50.03ms, reverse 59.15ms, random 114.13ms — a 2.46x spread. Branch misprediction is the obvious suspect and it is the wrong one, because clang compiles the inner loop branchless, choosing the minimum index with a csel and leaving only the loop counter as a jump. The real cause is that the loop performs two loads per comparison and the second one's address is computed from the loop-carried minimum index. Caching the minimum value so only arr[j] is loaded dropped the spread from 2.46x to 1.09x.
 
 <!-- @doubt -->
 ### Should I always cache the minimum value then?
 
 <!-- @answer -->
-Only if you care about predictability more than best-case speed, because it is not uniformly faster. Measured at n = 16,000: on random input it wins, 87.94ms against 125.94ms; on sorted input it loses badly, 89.84ms against 49.81ms. What it buys is a runtime that barely moves with the input — a spread of 1.05x against 2.53x — plus a two-write placement instead of a three-write swap, measured 7,986 against 11,979 at n = 4,000. In Python it buys nothing at all, 50.89ms against 54.44ms, because the effect it removes is a memory effect and the interpreter dwarfs it.
+Only if you care about predictability more than best-case speed, because it is not uniformly faster. Measured at n = 16,000: on random input it wins, 82.20ms against 114.13ms; on sorted input it loses badly, 89.46ms against 46.33ms. What it buys is a runtime that barely moves with the input — a spread of 1.09x against 2.46x — plus a two-write placement instead of a three-write swap, measured 7,984 against 11,976 at n = 4,000. In Python it buys nothing at all, 45.71ms against 48.28ms, because the effect it removes is a memory effect and the interpreter dwarfs it.
 
 <!-- @doubt -->
 ### Why swap after the inner loop rather than as soon as I find something smaller?
 
 <!-- @answer -->
-Swapping inside the inner loop is still correct — verified over 20,000 random arrays with zero failures — and it throws away the only reason to use this algorithm. Every element smaller than the current boundary value triggers its own swap instead of one swap per pass. Measured at n = 1,000: on reverse-sorted input it performed 1,498,500 writes against the canonical 1,500, a factor of 999, and on random input 724,380 against 2,976, a factor of 243. The whole point of recording the index is to defer the write until you know the final answer.
+Swapping inside the inner loop is still correct — verified over 20,000 random arrays with zero failures — and it throws away the only reason to use this algorithm. Every element smaller than the current boundary value triggers its own swap instead of one swap per pass. Measured at n = 1,000: on reverse-sorted input it performed 1,498,500 writes against the canonical 1,500, a factor of 999, and on random input 719,436 against 2,970, a factor of 242. The whole point of recording the index is to defer the write until you know the final answer.
 
 <!-- @doubt -->
 ### Should the loops be i < n - 1 and j = i + 1?
@@ -820,4 +825,4 @@ Yes, and both alternatives are harmless rather than wrong, which is worth knowin
 ### Which of the three basic sorts should I actually use?
 
 <!-- @answer -->
-None of them, for real work — measured at n = 16,000 on random input, std::sort took 0.2785ms against selection sort's 125.94ms, a factor of 480. Among the three, insertion sort is the practical one: 25.83ms on the same input, 4.9x faster than selection sort, and it is both adaptive and stable. Selection sort earns its place in exactly one setting, when writes are the expensive operation. Learn it for two other reasons: its inner loop is Largest Element's running-candidate scan, and the selection idea itself becomes heapsort once finding the minimum drops from O(n) to O(log n).
+None of them, for real work — measured at n = 16,000 on random input, std::sort took 0.2596ms against selection sort's 114.13ms, a factor of 440. Among the three, insertion sort is the practical one: 22.31ms on the same input, 5.1x faster than selection sort, and it is both adaptive and stable. Selection sort earns its place in exactly one setting, when writes are the expensive operation. Learn it for two other reasons: its inner loop is Largest Element's running-candidate scan, and the selection idea itself becomes heapsort once finding the minimum drops from O(n) to O(log n).

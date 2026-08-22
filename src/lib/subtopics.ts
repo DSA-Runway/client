@@ -163,6 +163,47 @@ export const SUBTOPICS: Record<string, Subtopic[]> = {
     ]),
   ],
 
+  "Binary Search": [
+    ...list("Easy", [
+      "Search X in sorted array",
+      "Lower Bound",
+      "Upper Bound",
+      "Search insert position",
+      "Floor and Ceil in Sorted Array",
+      "First and last occurrence",
+      "Count Occurrences in a Sorted Array",
+      "Find minimum in Rotated Sorted Array",
+      "Find out how many times the array is rotated",
+      "Find row with maximum 1's",
+    ]),
+    ...list("Medium", [
+      "Search in rotated sorted array-I",
+      "Search in rotated sorted array-II",
+      "Single element in a Sorted Array",
+      "Find peak element",
+      "Find square root of a number",
+      "Find Nth root of a number",
+      "Koko eating bananas",
+      "Minimum days to make M bouquets",
+      "Find the smallest divisor",
+      "Capacity to Ship Packages Within D Days",
+      "Kth Missing Positive Number",
+      "Painter's Partition",
+      "Kth element of 2 sorted arrays",
+      "Find Peak Element - II",
+    ]),
+    ...list("Hard", [
+      "Aggressive Cows",
+      "Book Allocation Problem",
+      "Split array - largest sum",
+      "Minimize Max Distance to Gas Station",
+      "Median of 2 sorted arrays",
+      "Search in a 2D matrix",
+      "Search in 2D matrix - II",
+      "Matrix Median",
+    ]),
+  ],
+
   Strings: [
     ...list("Easy", [
       "Largest Odd Number in a String",

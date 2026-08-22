@@ -26,6 +26,7 @@ const CURRICULUM = [
       { name:"Basic Sorting Algorithms", difficulty:"Easy", done:false, score:0, problems:["Selection Sort","Bubble Sort","Insertion Sorting"] },
       { name:"Strings", difficulty:"Easy", done:true, score:88, problems:["Reverse String","Valid Palindrome","Anagram Check"] },
       { name:"Basic Recursion", difficulty:"Easy", done:false, score:0, problems:["Factorial","Fibonacci","Sum of First N"] },
+      { name:"Binary Search", difficulty:"Medium", done:false, score:0, problems:["Lower Bound","Koko Eating Bananas","Median of 2 Sorted Arrays"] },
       { name:"Advanced Recursion", difficulty:"Hard", done:false, score:0, problems:["Subsequences","Combination Sum","Tower of Hanoi"] },
       { name:"Bit Manipulation", difficulty:"Hard", done:false, score:0, problems:["Count Bits","Single Number","Power of Two"] },
     ],

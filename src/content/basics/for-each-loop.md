@@ -382,7 +382,7 @@ print(matrix)              # unchanged by that loop
 <!-- @annotations -->
 - 5: The name value is relabelled; the list element it came from is untouched.
 - 14: A list comprehension expresses transform-every-element more directly than any loop.
-- 19: Assignment moves the label; a method call reaches through it. Same model as the variables lesson.
+- 20: Assignment moves the label; a method call reaches through it. Same model as the variables lesson.
 
 <!-- @approach -->
 ### When You Need the Index or the Position

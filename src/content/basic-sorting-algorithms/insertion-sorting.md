@@ -62,11 +62,11 @@ arr[j+1] = key
 ```
 
 Writing it with swaps instead is correct and costs three writes per step rather
-than one. Measured at n = 2,000 on random input: **3,123,684 writes against
-1,043,227**, a factor of **2.99**.
+than one. Measured at n = 2,000 on random input: **2,909,145 writes against
+971,714**, a factor of **2.99**.
 
 Whether that matters is a separate question, and this topic has now answered it
-twice. Measured in wall clock the two forms came out 1.30x apart on random input
+twice. Measured in wall clock the two forms came out 1.34x apart on random input
 and 1.33x on reverse — both inside this machine's run-to-run spread. Writes are
 close to free on a CPU; the shift form is worth preferring because it is the
 clearer statement of what the algorithm does, not because it is measurably faster.
@@ -110,7 +110,7 @@ element away from sorted, each containing exactly **999 inversions**:
 factor of 250 on inputs that are identically disordered.
 
 Measured at n = 16,000 on the second array: insertion **0.0123ms**, bubble
-**38.65ms** — a factor of **3,144**.
+**39.43ms** — a factor of **3,206**.
 
 ## This is what adaptive actually means
 
@@ -131,8 +131,8 @@ Five random swaps in a thousand elements. Insertion sort does 5,826 comparisons 
 **1.2%** of the worst case. Bubble sort runs 973 of its 999 passes, which is
 essentially all of them.
 
-Measured at n = 16,000 with five transpositions: insertion **0.0307ms**, bubble
-**32.00ms**, selection **46.62ms** — factors of **1,044** and **1,629**.
+Measured at n = 16,000 with five transpositions: insertion **0.0405ms**, bubble
+**38.74ms**, selection **46.59ms** — factors of **957** and **1,150**.
 
 That is the property worth having, and insertion sort is the only one of the three
 that has it.
@@ -160,9 +160,9 @@ entire reason to choose insertion sort in the first place.
 The shifts are unchanged at 499,500, because knowing where the key goes does not
 move anything. So it remains O(n²).
 
-Measured, it is nonetheless considerably faster on disordered input — 4.99ms
-against 21.54ms on random at n = 16,000, and 9.44ms against 43.27ms on reverse —
-and **36x slower on sorted input**, 0.2363ms against 0.0065ms. The gain on
+Measured, it is nonetheless considerably faster on disordered input — 5.10ms
+against 22.31ms on random at n = 16,000, and 9.72ms against 44.67ms on reverse —
+and **35x slower on sorted input**, 0.2477ms against 0.0070ms. The gain on
 disordered data comes from the shifting being separated into its own countdown
 loop with no data-dependent test in it, rather than from the comparisons saved.
 
@@ -173,13 +173,13 @@ nanoseconds per sort on random input:
 
 | n | Insertion | `std::sort` |
 |---|---|---|
-| 8 | **37.4** | 38.3 |
-| 16 | **54.4** | 55.9 |
-| 24 | **84.0** | 84.7 |
-| 32 | 126.8 | **118.5** |
-| 256 | 6,967.9 | **1,381.6** |
+| 8 | **12.9** | 14.8 |
+| 16 | **37.5** | 38.2 |
+| 24 | 67.9 | **67.8** |
+| 32 | 141.0 | **93.5** |
+| 256 | 7,327.8 | **2,719.0** |
 
-**The crossover sits between 24 and 32 on this machine** — the same shape of
+**The crossover sits right at about 24 on this machine** — the same shape of
 result Linear Search measured against binary search, and for the same reasons:
 sequential access, a predictable branch, and an array small enough to sit in a
 cache line or two.
@@ -201,17 +201,17 @@ at n = 2. It also performs 1.22x the shifts.
 
 ## Speed, and the verdict for the topic
 
-At n = 16,000 on random input: insertion **21.46ms**, bubble **79.05ms**,
-selection **113.72ms**, `std::sort` **0.2518ms**. Insertion sort is **3.7x**
-faster than bubble, **5.0x** faster than selection, and **85x** slower than the
+At n = 16,000 on random input: insertion **22.31ms**, bubble **75.50ms**,
+selection **114.13ms**, `std::sort` **0.2596ms**. Insertion sort is **3.4x**
+faster than bubble, **5.1x** faster than selection, and **86x** slower than the
 library.
 
 So of the three basic sorts, this is the one to write when you must write one.
 Python agrees on the ranking for structured input and narrows it on random data —
-at n = 2,000: insertion 51.71ms against selection 47.04ms and bubble 107.72ms —
-but on the turtle it is 0.23ms against bubble's 58.35ms. Note also
-`bisect.insort`, which is this algorithm with the shifting performed in C: 0.66ms
-against the hand-written 51.71ms on random input.
+at n = 2,000: insertion 55.40ms against selection 48.28ms and bubble 109.10ms —
+but on the turtle it is 0.238ms against bubble's 58.47ms. Note also
+`bisect.insort`, which is this algorithm with the shifting performed in C: 0.660ms
+against the hand-written 55.40ms on random input.
 
 ## Where this goes next
 
@@ -240,7 +240,7 @@ Walk each element leftward by repeatedly swapping it with its left neighbour whi
 <!-- @complexity -->
 - time: O(n^2) worst case, O(n) on already-sorted input
 - space: O(1)
-- note: Correct, adaptive, and performs three writes per step where one would do — measured 3,123,684 writes against 1,043,227 at n = 2,000 on random input, a factor of 2.99. In wall clock the two forms measured 1.30x apart, inside this machine's spread, so the reason to prefer shifting is clarity rather than speed.
+- note: Correct, adaptive, and performs three writes per step where one would do — measured 2,909,145 writes against 971,714 at n = 2,000 on random input, a factor of 2.99. In wall clock, at n = 16,000, the two forms measured 1.34x apart, inside this machine's spread, so the reason to prefer shifting is clarity rather than speed.
 
 <!-- @code cpp -->
 ```cpp
@@ -315,7 +315,7 @@ Save the element being placed, slide everything larger one position right, and w
 <!-- @complexity -->
 - time: O(n) best case, O(n + inversions) in general, O(n^2) worst case
 - space: O(1)
-- note: The number of shifts is exactly the inversion count of the input — zero mismatches over 87,380 exhaustive arrays, 5,913 permutations and 30,000 random arrays. One write per shift rather than three. Measured 21.46ms at n = 16,000 on random input against bubble's 79.05ms and selection's 113.72ms.
+- note: The number of shifts is exactly the inversion count of the input — zero mismatches over 87,380 exhaustive arrays, 5,913 permutations and 30,000 random arrays. One write per shift rather than three. Measured 22.31ms at n = 16,000 on random input against bubble's 75.50ms and selection's 114.13ms.
 
 <!-- @code cpp -->
 ```cpp
@@ -340,8 +340,7 @@ void insertionSort(vector<int>& arr) {
 
 <!-- @annotations -->
 - 8: Saving the key first is essential — the very first shift writes over arr[i].
-- 11: j >= 0 must be tested before arr[j], or the scan reads one position before the array.
-- 11: Strictly greater. Writing >= shifts past equal elements and is 99.54% unstable.
+- 11: Two things on one line. j >= 0 must be tested before arr[j], or the scan reads one position before the array. And the comparison is strictly greater — writing >= shifts past equal elements and is 99.54% unstable.
 - 12: The shift, not a swap. Each element moves once and the key is written once at the end.
 - 15: j + 1, not j. The loop exits with j one position left of where the key belongs.
 
@@ -385,7 +384,7 @@ def insertion_sort(arr):
 #     from bisect import insort
 #     out = []
 #     for x in arr: insort(out, x)
-# Measured 0.66ms against 51.71ms at n = 2,000 on random input.
+# Measured 0.660ms against 55.40ms at n = 2,000 on random input.
 ```
 
 <!-- @annotations -->
@@ -408,7 +407,7 @@ Find the key's position by binary search over the sorted prefix, then shift the 
 <!-- @complexity -->
 - time: O(n log n) comparisons and O(n^2) shifts, so still O(n^2) overall
 - space: O(1)
-- note: Caps comparisons at about n log n — 8,977 against 499,500 on reverse-sorted input at n = 1,000 — and gives up the O(n) best case entirely, doing 7,987 comparisons on an already-sorted array where the plain version does 999. Measured 4.99ms against 21.54ms on random at n = 16,000, and 36x SLOWER on sorted input.
+- note: Caps comparisons at about n log n — 8,977 against 499,500 on reverse-sorted input at n = 1,000 — and gives up the O(n) best case entirely, doing 7,987 comparisons on an already-sorted array where the plain version does 999. Measured 5.10ms against 22.31ms on random at n = 16,000, and 35x SLOWER on sorted input.
 
 <!-- @code cpp -->
 ```cpp
@@ -498,7 +497,7 @@ Use the library sort in general, and insertion sort only below the size where it
 <!-- @complexity -->
 - time: O(n log n) for the library sort, O(n^2) for insertion sort above the crossover
 - space: O(1) to O(log n) depending on the implementation
-- note: Insertion sort measured FASTER than std::sort up to about two dozen elements — 84.0ns against 84.7ns at n = 24, and 126.8ns against 118.5ns at n = 32, so the crossover sits between them. By n = 256 the library sort is 5.0x faster. This is the same shape of result Linear Search measured against binary search, whose crossover was around 24.
+- note: Insertion sort measured FASTER than std::sort up to about two dozen elements — 37.5ns against 38.2ns at n = 16, with the two dead level at n = 24 (67.9ns against 67.8ns) and the library clearly ahead by n = 32, 141.0ns against 93.5ns. By n = 256 the library sort is 2.7x faster. This is the same shape of result Linear Search measured against binary search, whose crossover was around 24.
 
 <!-- @code cpp -->
 ```cpp
@@ -548,7 +547,7 @@ static void hybridSort(int[] arr) {
 ```
 
 <!-- @annotations -->
-- 11: Arrays.sort on primitives is a dual-pivot quicksort that already falls back to insertion sort on small partitions.
+- 13: Arrays.sort on primitives is a dual-pivot quicksort that already falls back to insertion sort on small partitions.
 
 <!-- @code python -->
 ```python
@@ -562,9 +561,9 @@ def sort_stream(values):
     return out
 
 
-# For a plain sort, use sorted() — measured 0.123ms at n = 2,000 on random
-# input against 51.71ms for a hand-written insertion sort.
-# insort measured 0.66ms doing the same work, because the shift is a
+# For a plain sort, use sorted() — measured 0.116ms at n = 2,000 on random
+# input against 55.40ms for a hand-written insertion sort.
+# insort measured 0.660ms doing the same work, because the shift is a
 # C-level memory move rather than an interpreted loop.
 ```
 
@@ -609,7 +608,7 @@ The case that separates cost-driven-by-inversions from cost-driven-by-displaceme
 3. That is because its cost is the inversion count plus roughly one comparison per element, and the inversion counts are equal.
 4. Bubble sort performs 1,997 comparisons on the array with the largest element at the front, because one sweep carries it the whole way.
 5. It performs 499,500 comparisons on the array with the smallest element at the end, because that element moves one position per pass and needs 999 passes.
-6. Measured at n = 16,000 on that second array: insertion 0.0123ms against bubble 38.65ms, a factor of 3,144.
+6. Measured at n = 16,000 on that second array: insertion 0.0123ms against bubble 39.43ms, a factor of 3,206.
 7. Bubble sort's swap count is also the inversion count, so the two algorithms move exactly the same amount — one of them just re-reads the array between moves.
 
 <!-- @example -->
@@ -628,8 +627,8 @@ Shows what adaptive means when it is a real property: the cost tracks how disord
 2. Insertion sort performs 4,827 shifts and 5,826 comparisons, which is 1.2% of the 499,500 its worst case would cost.
 3. Bubble sort's early-exit flag fires only after a pass with no swaps at all, which does not happen until almost everything is settled.
 4. It therefore runs 973 of its 999 passes on the same input, which is essentially the full quadratic cost.
-5. Measured at n = 16,000 with five transpositions: insertion 0.0307ms, bubble 32.00ms, selection 46.62ms.
-6. Those are factors of 1,044 and 1,629 respectively.
+5. Measured at n = 16,000 with five transpositions: insertion 0.0405ms, bubble 38.74ms, selection 46.59ms.
+6. Those are factors of 957 and 1,150 respectively.
 7. Selection sort is unaffected by the disorder at all, since its comparison count is fixed at n(n-1)/2 on every input.
 
 <!-- @example -->
@@ -649,7 +648,7 @@ An optimisation that improves the worst case by 56x and destroys the best case, 
 3. On random input it cuts them from 250,099 to 8,589.
 4. On an already-sorted array the plain version needs exactly one comparison per element, totalling 999, because the first test always fails immediately.
 5. Binary search still performs its full log base 2 of i comparisons per element, totalling 7,987 — eight times more.
-6. Measured at n = 16,000 on sorted input: 0.2363ms against 0.0065ms, so the binary version is 36 times slower.
+6. Measured at n = 16,000 on sorted input: 0.2477ms against 0.0070ms, so the binary version is 35 times slower.
 7. The shifts are identical in both versions, so neither is better than O(n squared) — only the comparison count moved.
 
 <!-- @visualization array -->
@@ -659,7 +658,7 @@ The array as a strip with a hard divider between a tinted sorted prefix on the l
 
 <!-- @sampleInput -->
 ```json
-{"primary":{"array":[5,2,4,1],"trace":[{"i":1,"key":2,"shifts":[{"from":0,"value":5}],"ranOffFront":true,"placedAt":0,"after":[2,5,4,1],"comparisons":1},{"i":2,"key":4,"shifts":[{"from":1,"value":5}],"stoppedAt":{"value":2},"placedAt":1,"after":[2,4,5,1],"comparisons":2},{"i":3,"key":1,"shifts":[{"from":2,"value":5},{"from":1,"value":4},{"from":0,"value":2}],"ranOffFront":true,"placedAt":0,"after":[1,2,4,5],"comparisons":3}],"result":[1,2,4,5],"comparisons":6,"shifts":5,"inversions":5,"inversionPairs":[[5,2],[5,4],[5,1],[2,1],[4,1]]},"invariant":"after step i, arr[0..i] holds the first i+1 input elements in sorted order","shiftIdentity":{"claim":"shifts == inversions, exactly","verified":[{"corpus":"all arrays length 1-8 from 4 symbols","count":87380,"mismatches":0},{"corpus":"all permutations up to length 7","count":5913,"mismatches":0},{"corpus":"random arrays with duplicates n<=60","count":30000,"mismatches":0}]},"comparisonFormula":{"rule":"comparisons = shifts + (n-1) - (elements that run off the front)","verifiedOver":20000,"mismatches":0},"vsBubble":{"n":1000,"turtle":{"description":"smallest element at the end","inversions":999,"insertionComparisons":1997,"insertionShifts":999,"bubbleComparisons":499500,"bubblePasses":999},"rabbit":{"description":"largest element at the front","inversions":999,"insertionComparisons":1997,"insertionShifts":999,"bubbleComparisons":1997,"bubblePasses":2},"reading":"insertion sort cannot tell them apart; bubble sort differs by 250x","timingAtN16000":{"insertionMs":0.0123,"bubbleMs":38.65,"ratio":3144}},"adaptivity":{"n":1000,"rows":[{"transpositions":0,"inversions":0,"insertionComparisons":999,"bubblePasses":1},{"transpositions":1,"inversions":543,"insertionComparisons":1542,"bubblePasses":273},{"transpositions":5,"inversions":4827,"insertionComparisons":5826,"bubblePasses":973},{"transpositions":50,"inversions":34320,"insertionComparisons":35319,"bubblePasses":922}],"worstCase":499500,"atFiveTranspositions":{"insertionPctOfWorstCase":1.2,"timingN16000":{"insertionMs":0.0307,"bubbleMs":32.00,"selectionMs":46.62,"vsBubble":1044,"vsSelection":1629}}},"binaryInsertion":{"n":1000,"comparisons":{"sorted":{"plain":999,"binary":7987},"reverse":{"plain":499500,"binary":8977},"random":{"plain":250099,"binary":8589}},"shiftsUnchanged":true,"nLog2N":9965,"timingN16000":{"random":{"plain":21.54,"binary":4.99},"reverse":{"plain":43.27,"binary":9.44},"sorted":{"plain":0.0065,"binary":0.2363,"binarySlowerBy":36}},"verdict":"caps comparisons at n log n and gives up the O(n) best case"},"writes":{"n":2000,"shiftForm":1043227,"swapForm":3123684,"ratio":2.99,"wallClockRatio":1.30,"note":"inside this machine's run-to-run spread"},"stability":{"strictGreater":{"arraysTested":3279,"unstable":0},"greaterOrEqual":{"arraysTested":3279,"unstable":3264,"rate":0.9954,"smallestFailure":[0,0]},"extraShifts":1.22},"crossover":{"unit":"ns per sort, random input","rows":[{"n":8,"insertion":37.4,"stdSort":38.3,"winner":"insertion"},{"n":16,"insertion":54.4,"stdSort":55.9,"winner":"insertion"},{"n":24,"insertion":84.0,"stdSort":84.7,"winner":"insertion"},{"n":32,"insertion":126.8,"stdSort":118.5,"winner":"stdSort"},{"n":48,"insertion":213.8,"stdSort":198.3,"winner":"stdSort"},{"n":64,"insertion":389.3,"stdSort":288.6,"winner":"stdSort"},{"n":128,"insertion":1651.7,"stdSort":675.2,"winner":"stdSort"},{"n":256,"insertion":6967.9,"stdSort":1381.6,"winner":"stdSort"}],"crossoverBetween":[24,32],"echoes":"linear-search measured its crossover against binary search at about 24"},"speed":{"n":16000,"random":{"insertionMs":21.46,"bubbleMs":79.05,"selectionMs":113.72,"stdSortMs":0.2518,"vsBubble":3.7,"vsSelection":5.0,"vsStdSort":85}},"python":{"n":2000,"insertion":{"sorted":0.13,"reverse":101.76,"random":51.71,"turtle":0.23,"nearly":0.48},"bubble":{"random":107.72,"turtle":58.35},"selection":{"random":47.04},"bisectInsort":{"random":0.66},"sortedBuiltin":{"random":0.123}}}
+{"primary":{"array":[5,2,4,1],"trace":[{"i":1,"key":2,"shifts":[{"from":0,"value":5}],"ranOffFront":true,"placedAt":0,"after":[2,5,4,1],"comparisons":1},{"i":2,"key":4,"shifts":[{"from":1,"value":5}],"stoppedAt":{"value":2},"placedAt":1,"after":[2,4,5,1],"comparisons":2},{"i":3,"key":1,"shifts":[{"from":2,"value":5},{"from":1,"value":4},{"from":0,"value":2}],"ranOffFront":true,"placedAt":0,"after":[1,2,4,5],"comparisons":3}],"result":[1,2,4,5],"comparisons":6,"shifts":5,"inversions":5,"inversionPairs":[[5,2],[5,4],[5,1],[2,1],[4,1]]},"invariant":"after step i, arr[0..i] holds the first i+1 input elements in sorted order","shiftIdentity":{"claim":"shifts == inversions, exactly","verified":[{"corpus":"all arrays length 1-8 from 4 symbols","count":87380,"mismatches":0},{"corpus":"all permutations up to length 7","count":5913,"mismatches":0},{"corpus":"random arrays with duplicates n<=60","count":30000,"mismatches":0}]},"comparisonFormula":{"rule":"comparisons = shifts + (n-1) - (elements that run off the front)","verifiedOver":20000,"mismatches":0},"vsBubble":{"n":1000,"turtle":{"description":"smallest element at the end","inversions":999,"insertionComparisons":1997,"insertionShifts":999,"bubbleComparisons":499500,"bubblePasses":999},"rabbit":{"description":"largest element at the front","inversions":999,"insertionComparisons":1997,"insertionShifts":999,"bubbleComparisons":1997,"bubblePasses":2},"reading":"insertion sort cannot tell them apart; bubble sort differs by 250x","timingAtN16000":{"insertionMs":0.0123,"bubbleMs":39.43,"ratio":3206}},"adaptivity":{"n":1000,"rows":[{"transpositions":0,"inversions":0,"insertionComparisons":999,"bubblePasses":1},{"transpositions":1,"inversions":543,"insertionComparisons":1542,"bubblePasses":273},{"transpositions":5,"inversions":4827,"insertionComparisons":5826,"bubblePasses":973},{"transpositions":50,"inversions":34320,"insertionComparisons":35319,"bubblePasses":922}],"worstCase":499500,"atFiveTranspositions":{"insertionPctOfWorstCase":1.2,"timingN16000":{"insertionMs":0.0405,"bubbleMs":38.74,"selectionMs":46.59,"vsBubble":1042,"vsSelection":1519}}},"binaryInsertion":{"n":1000,"comparisons":{"sorted":{"plain":999,"binary":7987},"reverse":{"plain":499500,"binary":8977},"random":{"plain":250099,"binary":8589}},"shiftsUnchanged":true,"nLog2N":9965,"timingN16000":{"random":{"plain":22.31,"binary":5.10},"reverse":{"plain":44.67,"binary":9.72},"sorted":{"plain":0.0070,"binary":0.2477,"binarySlowerBy":35}},"verdict":"caps comparisons at n log n and gives up the O(n) best case"},"writes":{"n":2000,"shiftForm":1043227,"swapForm":3123684,"ratio":2.99,"wallClockRatio":1.34,"note":"inside this machine's run-to-run spread"},"stability":{"strictGreater":{"arraysTested":3279,"unstable":0},"greaterOrEqual":{"arraysTested":3279,"unstable":3264,"rate":0.9954,"smallestFailure":[0,0]},"extraShifts":1.22},"crossover":{"unit":"ns per sort, random input","rows":[{"n":8,"insertion":12.9,"stdSort":14.8,"winner":"insertion"},{"n":16,"insertion":37.5,"stdSort":38.2,"winner":"insertion"},{"n":24,"insertion":67.9,"stdSort":67.8,"winner":"stdSort","note":"dead heat — 0.1% apart"},{"n":32,"insertion":141.0,"stdSort":93.5,"winner":"stdSort"},{"n":48,"insertion":333.0,"stdSort":173.9,"winner":"stdSort"},{"n":64,"insertion":623.5,"stdSort":314.6,"winner":"stdSort"},{"n":128,"insertion":2151.7,"stdSort":1047.5,"winner":"stdSort"},{"n":256,"insertion":7327.8,"stdSort":2719.0,"winner":"stdSort"}],"crossoverBetween":[16,24],"echoes":"linear-search measured its crossover against binary search at about 24"},"speed":{"n":16000,"random":{"insertionMs":22.31,"bubbleMs":75.50,"selectionMs":114.13,"stdSortMs":0.2596,"vsBubble":3.4,"vsSelection":5.1,"vsStdSort":86}},"python":{"n":2000,"insertion":{"sorted":0.130,"reverse":107.36,"random":55.40,"turtle":0.238,"nearly":0.548},"bubble":{"random":109.10,"turtle":58.47},"selection":{"random":48.28},"bisectInsort":{"random":0.660},"sortedBuiltin":{"random":0.116}}}
 ```
 
 <!-- @highlights -->
@@ -699,19 +698,19 @@ The array as a strip with a hard divider between a tinted sorted prefix on the l
 - Testing arr[j] before j >= 0. In C++ that reads before the array, and in Python arr[-1] silently wraps to the last element and produces a wrong answer with no error.
 - Using >= instead of > in the shift condition. Measured 99.54% unstable over 3,279 arrays with [0,0] the smallest failure, plus 1.22x the shifts.
 - Starting the outer loop at index 0, which compares the first element against an empty prefix and does nothing useful.
-- Swapping instead of shifting. Correct, and 2.99x the element writes — 3,123,684 against 1,043,227 at n = 2,000.
-- Expecting the swap form to be measurably slower. It measured 1.30x, inside this machine's spread, so prefer shifting for clarity rather than for speed.
-- Reaching for binary insertion sort as a strict improvement. It caps comparisons at n log n and gives up the O(n) best case, measuring 36x slower on already-sorted input.
+- Swapping instead of shifting. Correct, and 2.99x the element writes — 2,909,145 against 971,714 at n = 2,000.
+- Expecting the swap form to be measurably slower. It measured 1.34x, inside this machine's spread, so prefer shifting for clarity rather than for speed.
+- Reaching for binary insertion sort as a strict improvement. It caps comparisons at n log n and gives up the O(n) best case, measuring 35x slower on already-sorted input.
 - Believing binary insertion sort improves the complexity. The shifts are unchanged, so it remains O(n^2).
 - Using bisect_left rather than bisect_right in the Python binary version, which inserts before equal elements and breaks stability.
-- Writing it for a large general sort. Measured 85x slower than std::sort at n = 16,000 on random input.
-- Inheriting a hybrid threshold rather than measuring it. The crossover fell between 24 and 32 here and depends on element size and hardware.
+- Writing it for a large general sort. Measured 86x slower than std::sort at n = 16,000 on random input.
+- Inheriting a hybrid threshold rather than measuring it. The crossover fell right at about 24 here and depends on element size and hardware.
 
 <!-- @doubt -->
 ### Why save the key instead of just swapping along?
 
 <!-- @answer -->
-Because shifting writes each element once and swapping writes it three times. The shift form opens a gap by copying larger elements right and drops the key in at the end; the swap form carries the key along, re-reading and re-writing it at every position it passes. Measured at n = 2,000 on random input: 1,043,227 element writes against 3,123,684, a factor of 2.99. The honest caveat is that this did not show up in wall clock — the two measured 1.30x apart, inside this machine's spread. Writes are close to free on a CPU, which this topic has now found three times. Prefer the shift form because it states the algorithm more directly.
+Because shifting writes each element once and swapping writes it three times. The shift form opens a gap by copying larger elements right and drops the key in at the end; the swap form carries the key along, re-reading and re-writing it at every position it passes. Measured at n = 2,000 on random input: 971,714 element writes against 2,909,145, a factor of 2.99. The honest caveat is that this did not show up in wall clock — at n = 16,000 the two measured 1.34x apart, inside this machine's spread. Writes are close to free on a CPU, which this topic has now found three times. Prefer the shift form because it states the algorithm more directly.
 
 <!-- @doubt -->
 ### Why is the number of shifts exactly the inversion count?
@@ -723,13 +722,13 @@ Because each shift moves exactly one element one position to the right past the 
 ### Bubble sort's swaps are also the inversion count. So why is it so much slower?
 
 <!-- @answer -->
-Because the two algorithms move the same amount and only one of them stops re-reading the array between moves. Insertion sort's comparisons track its shifts almost exactly, so its total cost is the inversion count plus n. Bubble sort's comparisons are governed by something else entirely — the largest distance any single element must travel leftward — because it re-sweeps the array once per position that element moves. The clearest case is two arrays with 999 inversions each: insertion sort does 1,997 comparisons on both, while bubble sort does 1,997 on one and 499,500 on the other. Measured at n = 16,000 that is 0.0123ms against 38.65ms.
+Because the two algorithms move the same amount and only one of them stops re-reading the array between moves. Insertion sort's comparisons track its shifts almost exactly, so its total cost is the inversion count plus n. Bubble sort's comparisons are governed by something else entirely — the largest distance any single element must travel leftward — because it re-sweeps the array once per position that element moves. The clearest case is two arrays with 999 inversions each: insertion sort does 1,997 comparisons on both, while bubble sort does 1,997 on one and 499,500 on the other. Measured at n = 16,000 that is 0.0123ms against 39.43ms.
 
 <!-- @doubt -->
 ### Is insertion sort really adaptive, when bubble sort claims to be too?
 
 <!-- @answer -->
-Yes, and the difference is measurable. Bubble sort's flag detects that sorting has finished; insertion sort's cost is proportional to how much sorting was needed. Apply five random transpositions to a sorted array of 1,000 elements: insertion sort does 5,826 comparisons, which is 1.2% of its worst case, while bubble sort runs 973 of its 999 passes. Measured at n = 16,000 with the same disorder: insertion 0.0307ms, bubble 32.00ms, selection 46.62ms — factors of 1,044 and 1,629. Selection sort is unaffected by the disorder in either direction, since its comparison count is fixed.
+Yes, and the difference is measurable. Bubble sort's flag detects that sorting has finished; insertion sort's cost is proportional to how much sorting was needed. Apply five random transpositions to a sorted array of 1,000 elements: insertion sort does 5,826 comparisons, which is 1.2% of its worst case, while bubble sort runs 973 of its 999 passes. Measured at n = 16,000 with the same disorder: insertion 0.0405ms, bubble 38.74ms, selection 46.59ms — factors of 957 and 1,150. Selection sort is unaffected by the disorder in either direction, since its comparison count is fixed.
 
 <!-- @doubt -->
 ### Why must j >= 0 be tested before arr[j]?
@@ -747,7 +746,7 @@ Because the loop only exits after j has already stepped one position too far lef
 ### Should I use binary search to find the position?
 
 <!-- @answer -->
-Only if you know your input is disordered, because it trades away the best case. Binary search caps the comparisons at about n log n — 8,977 against 499,500 on reverse-sorted input at n = 1,000 — and it performs that full log-many comparisons per element whatever the data looks like. On an already-sorted array the plain version needs exactly one comparison per element, 999 in total, where the binary version needs 7,987. Measured at n = 16,000 the binary version is 4.3x faster on random input and 36x slower on sorted input. It also does not improve the complexity, because the shifts are unchanged and still O(n²).
+Only if you know your input is disordered, because it trades away the best case. Binary search caps the comparisons at about n log n — 8,977 against 499,500 on reverse-sorted input at n = 1,000 — and it performs that full log-many comparisons per element whatever the data looks like. On an already-sorted array the plain version needs exactly one comparison per element, 999 in total, where the binary version needs 7,987. Measured at n = 16,000 the binary version is 4.4x faster on random input and 35x slower on sorted input. It also does not improve the complexity, because the shifts are unchanged and still O(n²).
 
 <!-- @doubt -->
 ### Why does >= break stability?
@@ -759,10 +758,10 @@ Because the shift condition decides where the key stops. With strict greater-tha
 ### When is insertion sort actually the right choice?
 
 <!-- @answer -->
-Three situations, all real. When the array is small: measured, it beat std::sort up to about two dozen elements — 84.0ns against 84.7ns at n = 24 — with the crossover falling between 24 and 32. When the data is nearly sorted, since the cost is the inversion count: five transpositions in a thousand elements cost 1.2% of the worst case. And when elements arrive one at a time into a collection that must stay sorted, which is exactly what bisect.insort does in Python at 0.66ms against a hand-written 51.71ms. Production sorts use it for the first reason, stopping their recursion on small partitions and finishing with it.
+Three situations, all real. When the array is small: measured, it beat std::sort up to about two dozen elements — 37.5ns against 38.2ns at n = 16, with the two dead level at n = 24 — so the crossover falls right at about 24. When the data is nearly sorted, since the cost is the inversion count: five transpositions in a thousand elements cost 1.2% of the worst case. And when elements arrive one at a time into a collection that must stay sorted, which is exactly what bisect.insort does in Python at 0.660ms against a hand-written 55.40ms. Production sorts use it for the first reason, stopping their recursion on small partitions and finishing with it.
 
 <!-- @doubt -->
 ### Which of the three basic sorts should I write?
 
 <!-- @answer -->
-This one. At n = 16,000 on random input insertion sort measured 21.46ms against bubble's 79.05ms and selection's 113.72ms, so it is 3.7x and 5.0x faster respectively — and on structured input the gap becomes enormous, 1,044x against bubble and 1,629x against selection on an array five transpositions from sorted. It is also stable, which selection sort is not, and adaptive, which bubble sort only appears to be. The one thing selection sort still owns is minimum writes, and the one thing bubble sort owns is proving sortedness in a single pass. For everything else, and for anything large, call the library sort — it measured 85x faster here.
+This one. At n = 16,000 on random input insertion sort measured 22.31ms against bubble's 75.50ms and selection's 114.13ms, so it is 3.4x and 5.1x faster respectively — and on structured input the gap becomes enormous, 957x against bubble and 1,150x against selection on an array five transpositions from sorted. It is also stable, which selection sort is not, and adaptive, which bubble sort only appears to be. The one thing selection sort still owns is minimum writes, and the one thing bubble sort owns is proving sortedness in a single pass. For everything else, and for anything large, call the library sort — it measured 86x faster here.
