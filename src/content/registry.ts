@@ -125,6 +125,7 @@ const FILES: Record<ContentId, string> = {
   "search-in-rotated-sorted-array-ii": "binary-search/search-in-rotated-sorted-array-ii.md",
   "single-element-in-a-sorted-array": "binary-search/single-element-in-a-sorted-array.md",
   "find-peak-element": "binary-search/find-peak-element.md",
+  "find-square-root-of-a-number": "binary-search/find-square-root-of-a-number.md",
   "selection-sort": "basic-sorting-algorithms/selection-sort.md",
   "largest-odd-number-in-a-string": "strings/largest-odd-number-in-a-string.md",
   "longest-common-prefix": "strings/longest-common-prefix.md",
@@ -146,6 +147,7 @@ const FILES: Record<ContentId, string> = {
   "deletion-of-the-head-of-ll": "linked-lists/deletion-of-the-head-of-ll.md",
   "find-the-length-of-the-linked-list": "linked-lists/find-the-length-of-the-linked-list.md",
   "search-in-linked-list": "linked-lists/search-in-linked-list.md",
+  "middle-of-a-linkedlist-tortoisehare-method": "linked-lists/middle-of-a-linkedlist-tortoisehare-method.md",
   "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",
   "insertion-sorting": "basic-sorting-algorithms/insertion-sorting.md",
   "understand-recursion-by-print-something-n-times": "basic-recursion/understand-recursion-by-print-something-n-times.md",
@@ -160,6 +162,7 @@ const FILES: Record<ContentId, string> = {
   "pow-x-n": "advanced-recursion/pow-x-n.md",
   "learn-all-patterns-of-subsequences-theory": "advanced-recursion/learn-all-patterns-of-subsequences-theory.md",
   "count-all-subsequences-with-sum-k": "advanced-recursion/count-all-subsequences-with-sum-k.md",
+  "check-if-there-exists-a-subsequence-with-sum-k": "advanced-recursion/check-if-there-exists-a-subsequence-with-sum-k.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
