@@ -150,6 +150,7 @@ const FILES: Record<ContentId, string> = {
   "search-in-linked-list": "linked-lists/search-in-linked-list.md",
   "middle-of-a-linkedlist-tortoisehare-method": "linked-lists/middle-of-a-linkedlist-tortoisehare-method.md",
   "reverse-a-linkedlist-iterative": "linked-lists/reverse-a-linkedlist-iterative.md",
+  "reverse-a-ll": "linked-lists/reverse-a-ll.md",
   "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",
   "insertion-sorting": "basic-sorting-algorithms/insertion-sorting.md",
   "understand-recursion-by-print-something-n-times": "basic-recursion/understand-recursion-by-print-something-n-times.md",
@@ -166,6 +167,7 @@ const FILES: Record<ContentId, string> = {
   "count-all-subsequences-with-sum-k": "advanced-recursion/count-all-subsequences-with-sum-k.md",
   "check-if-there-exists-a-subsequence-with-sum-k": "advanced-recursion/check-if-there-exists-a-subsequence-with-sum-k.md",
   "recursive-implementation-of-atoi": "advanced-recursion/recursive-implementation-of-atoi.md",
+  "count-good-numbers": "advanced-recursion/count-good-numbers.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");

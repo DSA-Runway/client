@@ -205,7 +205,7 @@ static int cmpPow(long long base, int n, long long m) {
 }
 
 int nthRoot(int n, long long m) {
-    for (long long b = 1; ; b++) {
+    for (long long b = 0; ; b++) {
         int c = cmpPow(b, n, m);
         if (c == 0) return (int)b;
         if (c > 0) return -1;
@@ -216,7 +216,7 @@ int nthRoot(int n, long long m) {
 <!-- @annotations -->
 - 5: The cutoff. Once the running product passes m the answer is decided, so there is no reason to keep multiplying — and no opportunity to overflow.
 - 7: Three-way, not boolean. The caller needs to distinguish "too small, keep going" from "too big, stop", and collapsing them would cost an extra evaluation.
-- 12: No upper bound is needed here, because the loop terminates the moment a candidate overshoots.
+- 12: Starting at 0, not 1, so m = 0 needs no special case — 0 to any power is 0. No upper bound is needed either, because the loop stops the moment a candidate overshoots.
 
 <!-- @code java -->
 ```java
@@ -230,7 +230,7 @@ static int cmpPow(long base, int n, long m) {
 }
 
 static int nthRoot(int n, long m) {
-    for (long b = 1; ; b++) {
+    for (long b = 0; ; b++) {
         int c = cmpPow(b, n, m);
         if (c == 0) return (int) b;
         if (c > 0) return -1;
@@ -244,7 +244,7 @@ static int nthRoot(int n, long m) {
 <!-- @code python -->
 ```python
 def nth_root(n, m):
-    b = 1
+    b = 0
     while True:
         p = b ** n
         if p == m:
@@ -371,8 +371,17 @@ Refine an estimate instead of halving a range, using the nth-root iteration.
 
 <!-- @code cpp -->
 ```cpp
+static int cmpPow(long long base, int n, long long m) {
+    long long r = 1;
+    for (int i = 0; i < n; i++) {
+        r *= base;
+        if (r > m) return 1;
+    }
+    return r == m ? 0 : -1;
+}
+
 int nthRoot(int n, long long m) {
-    if (m <= 1 || n == 1) return (n == 1) ? (int)m : (int)m;
+    if (m <= 1 || n == 1) return (int)m;
     int bits = 64 - __builtin_clzll((unsigned long long)m);
     long long x = 1LL << ((bits + n - 1) / n);
     while (true) {
@@ -390,13 +399,22 @@ int nthRoot(int n, long long m) {
 ```
 
 <!-- @annotations -->
-- 4: Seeding above the true root, so the iteration descends monotonically and the first non-decrease means it has arrived. Seeding below would let it approach from underneath and stop early.
-- 8: The same cutoff idea as the binary version — x^(n-1) can overshoot, and once it does the division term contributes nothing.
-- 11: The stopping test. Newton converges quadratically from above, so this typically runs a handful of times regardless of m.
-- 14: The verification is not optional. Newton converges to the real nth root, which is only an integer when one exists — without this check a non-root would return the floor.
+- 13: Seeding above the true root, so the iteration descends monotonically and the first non-decrease means it has arrived. Seeding below would let it approach from underneath and stop early.
+- 18: The same cutoff idea as the binary version — x^(n-1) can overshoot, and once it does the division term contributes nothing.
+- 21: The stopping test. Newton converges quadratically from above, so this typically runs a handful of times regardless of m.
+- 24: The verification is not optional. Newton converges to the real nth root, which is only an integer when one exists — without this check a non-root would return the floor.
 
 <!-- @code java -->
 ```java
+static int cmpPow(long base, int n, long m) {
+    long r = 1;
+    for (int i = 0; i < n; i++) {
+        r *= base;
+        if (r > m) return 1;
+    }
+    return r == m ? 0 : -1;
+}
+
 static int nthRoot(int n, long m) {
     if (m <= 1 || n == 1) return (int) m;
     int bits = 64 - Long.numberOfLeadingZeros(m);
@@ -416,7 +434,7 @@ static int nthRoot(int n, long m) {
 ```
 
 <!-- @annotations -->
-- 4: The seed is what makes this competitive. The square root container measured a lazy seed turning Newton from the fastest option into the slowest.
+- 13: The seed is what makes this competitive. The square root container measured a lazy seed turning Newton from the fastest option into the slowest.
 
 <!-- @code python -->
 ```python
@@ -434,7 +452,7 @@ def nth_root(n, m):
 
 <!-- @annotations -->
 - 6: Integer division throughout. Using `/` would reintroduce the floating point this whole approach exists to avoid.
-- 9: The exact check at the end, using arbitrary-precision arithmetic, so no rounding can slip through.
+- 10: The exact check at the end, using arbitrary-precision arithmetic, so no rounding can slip through.
 
 <!-- @example -->
 

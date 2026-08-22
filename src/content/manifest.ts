@@ -140,6 +140,7 @@ export const CONTENT_IDS = [
   "search-in-linked-list",
   "middle-of-a-linkedlist-tortoisehare-method",
   "reverse-a-linkedlist-iterative",
+  "reverse-a-ll",
   "bubble-sort",
   "insertion-sorting",
   "understand-recursion-by-print-something-n-times",
@@ -156,6 +157,7 @@ export const CONTENT_IDS = [
   "count-all-subsequences-with-sum-k",
   "check-if-there-exists-a-subsequence-with-sum-k",
   "recursive-implementation-of-atoi",
+  "count-good-numbers",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
