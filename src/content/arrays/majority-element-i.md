@@ -289,7 +289,7 @@ int majorityElement(vector<int> nums) {     // by value: caller's data survives
 ```
 
 <!-- @annotations -->
-- 6: By value costs an O(n) copy; taking a reference would leave the caller's array reordered.
+- 5: By value costs an O(n) copy; taking a reference would leave the caller's array reordered.
 - 7: No search is needed — the middle index is provably inside the majority's block.
 
 <!-- @code java -->

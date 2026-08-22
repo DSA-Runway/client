@@ -426,7 +426,7 @@ static int longestSubarray(int[] a, long k) {
 ```
 
 <!-- @annotations -->
-- 13: putIfAbsent expresses the earliest-wins rule directly, where put would silently overwrite.
+- 14: putIfAbsent expresses the earliest-wins rule directly, where put would silently overwrite.
 
 <!-- @code python -->
 ```python

@@ -9,7 +9,6 @@ prerequisites:
   - arithmetic-operators
   - if-else-statements
   - functions-declaration-and-calling
-  - integer-overflow-and-precision-errors
 relatedIds:
   - gcd-euclidean-algorithm
   - lcm

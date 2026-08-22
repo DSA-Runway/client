@@ -257,7 +257,7 @@ print()   # prints: 100 100 100 100 100 — still exactly 5 iterations
 
 <!-- @annotations -->
 - 9: range(5, 3) is empty because the start is already past the stop.
-- 14: A key difference: Python's loop variable leaks into the enclosing scope and holds the last value taken.
+- 15: A key difference: Python's loop variable leaks into the enclosing scope and holds the last value taken.
 - 18: In C++ or Java this would change the iteration. Here the sequence was already decided.
 
 <!-- @approach -->

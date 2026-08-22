@@ -83,8 +83,8 @@ That is a real difference from selection sort, whose comparison count is fixed a
 n(n-1)/2 regardless. With the flag, an already-sorted array costs **one pass and
 999 comparisons** at n = 1,000, against 499,500 without it.
 
-Measured at n = 16,000, sorted input: bubble **0.0053ms**, selection **49.72ms**
-— a factor of **9,323**.
+Measured at n = 16,000, sorted input: bubble **0.0053ms**, selection **46.33ms**
+— a factor of **8,742**.
 
 ## But the flag is worth either everything or nothing
 
@@ -127,8 +127,8 @@ n = 1,000, moving one element to the opposite end:
 exactly 999 swaps. One takes 2 passes and the other takes 999, and the difference
 is nothing but direction.
 
-Measured at n = 16,000, median of sixteen alternated runs: **43.16ms against
-0.0103ms — a factor of 4,194**, from moving one element to the other end of the
+Measured at n = 16,000, median of sixteen alternated runs: **39.43ms against
+0.0097ms — a factor of 4,065**, from moving one element to the other end of the
 array.
 
 Displacing a single element by `d` positions makes the rule exact, verified for
@@ -143,9 +143,9 @@ If the problem is that one direction is slow, sweep both ways. Alternate a
 left-to-right pass with a right-to-left pass, shrinking the range from both ends.
 Turtles now move a full array-length per round trip, exactly as rabbits do.
 
-On the turtle at n = 16,000: **0.0161ms against 42.06ms, a factor of 2,608.**
+On the turtle at n = 16,000: **0.0150ms against 39.43ms, a factor of 2,629.**
 
-On random input it is worth much less — measured 1.49x, which is within this
+On random input it is worth much less — measured 1.24x, which is within this
 machine's run-to-run spread for workloads of this length and should not be read as
 a real difference. Cocktail shaker fixes one specific pathology; it does not make
 bubble sort fast.
@@ -171,18 +171,20 @@ swaps are close to free and comparisons are what cost. So the argument against
 
 ## Speed
 
-At n = 16,000 on random input, medians of alternated runs: bubble **97.41ms**,
-insertion **23.17ms**, `std::sort` **0.2763ms**. Insertion sort is **4.2x** faster
-and the library sort is **316x** faster.
+At n = 16,000 on random input, medians of alternated runs: bubble **75.50ms**,
+insertion **22.31ms**, `std::sort` **0.2596ms**. Insertion sort is **3.4x** faster
+and the library sort is **291x** faster.
 
-Against selection sort the honest answer is that this machine could not separate
-them: bubble measured 94.48ms and selection 124.97ms, with overlapping ranges
-across repeated runs. Treat them as comparable on random input and note that they
-diverge completely on structured input — bubble is 9,323x faster on sorted data
-and selection is unbeatably consistent on everything.
+Against selection sort bubble came out ahead on random input — **75.50ms against
+114.13ms**, a factor of **1.51** — and over forty alternated samples each the two
+sets did not overlap. Read that weakly: 1.51x is small by this topic's standards,
+and bubble's was the least stable measurement here, ranging 64ms to 87ms across
+runs of the same session while selection held near 114ms. On structured input they
+diverge completely — bubble is 8,742x faster on sorted data and selection is
+unbeatably consistent on everything.
 
 Python is the same shape with the ordering slightly changed, at n = 2,000: bubble
-**0.06ms** sorted and **108.16ms** random, against selection's flat ~50ms on both.
+**0.059ms** sorted and **109.10ms** random, against selection's flat ~49ms on both.
 Selection sort's indifference to input becomes an advantage in Python precisely
 because bubble sort's best case is so rare.
 
@@ -365,7 +367,7 @@ Record whether any swap happened during a pass, and stop when one completes with
 <!-- @complexity -->
 - time: O(n) best case, O(n^2) average and worst
 - space: O(1)
-- note: Turns an already-sorted array into a single pass — 999 comparisons at n = 1,000 against 499,500, and measured 0.0053ms against selection sort's 49.72ms at n = 16,000, a factor of 9,323. On random input it saves 0.343% and on an array with its smallest element at the end it saves exactly nothing.
+- note: Turns an already-sorted array into a single pass — 999 comparisons at n = 1,000 against 499,500, and measured 0.0053ms against selection sort's 46.33ms at n = 16,000, a factor of 8,742. On random input it saves 0.343% and on an array with its smallest element at the end it saves exactly nothing.
 
 <!-- @code cpp -->
 ```cpp
@@ -430,7 +432,7 @@ def bubble_sort(arr):
             break
 
 
-# Measured at n = 2,000: 0.06ms already sorted, 108.16ms random.
+# Measured at n = 2,000: 0.059ms already sorted, 109.10ms random.
 # The gap is the flag, and it only opens on input that is genuinely
 # sorted from some pass onward.
 ```
@@ -455,7 +457,7 @@ Alternate a left-to-right pass with a right-to-left one, so small elements trave
 <!-- @complexity -->
 - time: O(n) best case, O(n^2) average and worst
 - space: O(1)
-- note: Removes the directional asymmetry entirely — on an array whose smallest element sits at the end it measured 0.0161ms against bubble sort's 42.06ms at n = 16,000, a factor of 2,608. On random input the measured difference was 1.49x, which is inside this machine's run-to-run spread and should not be treated as real.
+- note: Removes the directional asymmetry entirely — on an array whose smallest element sits at the end it measured 0.0150ms against bubble sort's 39.43ms at n = 16,000, a factor of 2,629. On random input the measured difference was 1.24x, which is inside this machine's run-to-run spread and should not be treated as real.
 
 <!-- @code cpp -->
 ```cpp
@@ -586,7 +588,7 @@ The clearest possible statement of the directional asymmetry — the two inputs 
 4. That single pass sorts the array, and a second confirming pass finds no swaps and exits — 1,997 comparisons in total.
 5. With the smallest element at the end, each sweep moves it left by exactly one position, because only one comparison per pass involves it.
 6. It therefore needs 999 passes to travel 999 places, costing the full 499,500 comparisons — 250 times as many.
-7. Measured at n = 16,000: 0.0103ms against 43.16ms, a factor of 4,194.
+7. Measured at n = 16,000: 0.0097ms against 39.43ms, a factor of 4,065.
 
 <!-- @example -->
 
@@ -631,11 +633,11 @@ A one-character change that costs a correctness property most people assume bubb
 <!-- @visualization array -->
 
 <!-- @description -->
-The array as a strip with a single comparison window spanning two adjacent cells, sliding left to right — and the window must never span more than two cells, because the one-position-at-a-time restriction is the source of everything in this subtopic. Tint the settled tail on the right permanently as each pass ends, and shrink the sweep visibly to that boundary so the shortening bound is watched rather than described. The element being carried is the thing to animate: as the window slides, hold the current maximum inside the right half of the window and let it ride along, only being set down when a larger value displaces it — that riding motion is why one pass settles the maximum. Run a swap counter beside an inversion counter, both starting at the input's inversion count and the swap counter climbing to meet it, so they visibly finish equal; label that as exact rather than approximate. The centre of the figure is a turtle-and-rabbit panel: two strips side by side, one with the largest element at the front and one with the smallest at the back, both annotated 999 inversions and 999 swaps. Step them together. The rabbit strip resolves in a single sweep as its element is carried the full width; the turtle strip advances its element by exactly one cell per pass, and the panel should be allowed to grind — repeat the pass many times so the reader feels 999 rather than reading it. Print the two comparison counters diverging to 1,997 and 499,500 while the two swap counters stay locked together at 999. Then a flag panel with five strips — sorted, rabbit, random, reverse, turtle — each with a lamp that lights when a pass completes without swapping, and a percentage saved beneath: 99.800, 99.600, 0.343, 0.000, 0.000. The turtle's lamp never lights, and it should be visually obvious that this array is one element from sorted. Close with a cocktail panel replaying the turtle strip with sweeps alternating direction, drawn as arrows above and below the strip, resolving in three passes against the one-directional version's 999 — with the measured 0.0161ms against 42.06ms beneath.
+The array as a strip with a single comparison window spanning two adjacent cells, sliding left to right — and the window must never span more than two cells, because the one-position-at-a-time restriction is the source of everything in this subtopic. Tint the settled tail on the right permanently as each pass ends, and shrink the sweep visibly to that boundary so the shortening bound is watched rather than described. The element being carried is the thing to animate: as the window slides, hold the current maximum inside the right half of the window and let it ride along, only being set down when a larger value displaces it — that riding motion is why one pass settles the maximum. Run a swap counter beside an inversion counter, both starting at the input's inversion count and the swap counter climbing to meet it, so they visibly finish equal; label that as exact rather than approximate. The centre of the figure is a turtle-and-rabbit panel: two strips side by side, one with the largest element at the front and one with the smallest at the back, both annotated 999 inversions and 999 swaps. Step them together. The rabbit strip resolves in a single sweep as its element is carried the full width; the turtle strip advances its element by exactly one cell per pass, and the panel should be allowed to grind — repeat the pass many times so the reader feels 999 rather than reading it. Print the two comparison counters diverging to 1,997 and 499,500 while the two swap counters stay locked together at 999. Then a flag panel with five strips — sorted, rabbit, random, reverse, turtle — each with a lamp that lights when a pass completes without swapping, and a percentage saved beneath: 99.800, 99.600, 0.343, 0.000, 0.000. The turtle's lamp never lights, and it should be visually obvious that this array is one element from sorted. Close with a cocktail panel replaying the turtle strip with sweeps alternating direction, drawn as arrows above and below the strip, resolving in three passes against the one-directional version's 999 — with the measured 0.0150ms against 39.43ms beneath.
 
 <!-- @sampleInput -->
 ```json
-{"primary":{"array":[5,1,4,2],"passes":[{"pass":1,"bound":3,"steps":[{"j":0,"pair":[5,1],"swap":true,"after":[1,5,4,2]},{"j":1,"pair":[5,4],"swap":true,"after":[1,4,5,2]},{"j":2,"pair":[5,2],"swap":true,"after":[1,4,2,5]}],"settled":5},{"pass":2,"bound":2,"steps":[{"j":0,"pair":[1,4],"swap":false},{"j":1,"pair":[4,2],"swap":true,"after":[1,2,4,5]}],"settled":4},{"pass":3,"bound":1,"steps":[{"j":0,"pair":[1,2],"swap":false}],"swappedThisPass":false,"exit":true}],"result":[1,2,4,5],"comparisons":6,"swaps":4,"inversions":4,"passesRun":3},"inversionIdentity":{"claim":"swaps == inversions, exactly","verified":[{"corpus":"all arrays length 1-8 from 4 symbols","count":87380,"mismatches":0},{"corpus":"all permutations length 1-7","count":5913,"mismatches":0},{"corpus":"random arrays with duplicates, n<=60","count":30000,"mismatches":0}],"atN2000":{"swaps":998216,"inversions":998216}},"counts":{"n":1000,"formula":{"shrink":"n(n-1)/2 = 499500","noShrink":"(n-1)^2 = 998001","ratio":2.0},"rows":[{"input":"sorted","comparisons":999,"swaps":0,"passes":1,"noFlag":499500,"noShrink":999},{"input":"allequal","comparisons":999,"swaps":0,"passes":1,"noFlag":499500,"noShrink":999},{"input":"reverse","comparisons":499500,"swaps":499500,"passes":999,"noFlag":499500,"noShrink":998001},{"input":"random","comparisons":497789,"swaps":252260,"passes":941,"noFlag":499500,"noShrink":940059},{"input":"turtle","comparisons":499500,"swaps":999,"passes":999,"noFlag":499500,"noShrink":998001},{"input":"rabbit","comparisons":1997,"swaps":999,"passes":2,"noFlag":499500,"noShrink":1998}]},"flagValue":[{"input":"sorted","savedPct":99.800},{"input":"rabbit","savedPct":99.600},{"input":"random","savedPct":0.343},{"input":"reverse","savedPct":0.000},{"input":"turtle","savedPct":0.000}],"asymmetry":{"rabbit":{"description":"largest element moved to the front","comparisons":1997,"swaps":999,"passes":2},"turtle":{"description":"smallest element moved to the end","comparisons":499500,"swaps":999,"passes":999},"comparisonRatio":250,"swapRatio":1,"displacementLaw":{"smallPushedRightByD":"min(d+1, n-1) passes","largePushedLeftByD":"2 passes","verifiedAt":[50,200,1000]},"timing":{"n":16000,"turtleMs":43.16,"rabbitMs":0.0103,"ratio":4194}},"stability":{"strictGreater":{"arraysTested":3279,"unstable":0},"greaterOrEqual":{"arraysTested":3279,"unstable":3248,"rate":0.9905,"smallestFailure":[0,0]},"swapCost":{"values":"8000 drawn from 0..9","strict":14428519,"greaterEqual":31959840,"ratio":2.22,"wallClock":"no measurable difference"}},"cocktail":{"turtle":{"n":16000,"cocktailMs":0.0161,"bubbleMs":42.06,"ratio":2608},"turtlePasses":{"n100":3,"n1000":3,"bubbleN1000":999},"random":{"ratio":1.49,"note":"inside this machine's run-to-run spread; not a real difference"}},"speed":{"n":16000,"random":{"bubbleMs":97.41,"insertionMs":23.17,"stdSortMs":0.2763,"insertionSpeedup":4.2,"stdSortSpeedup":316},"sorted":{"bubbleMs":0.0053,"selectionMs":49.72,"ratio":9323},"vsSelection":{"bubbleMs":94.48,"selectionMs":124.97,"verdict":"ranges overlap across runs — treat as comparable on random input"}},"python":{"n":2000,"bubble":{"sorted":0.06,"reverse":130.69,"random":108.16,"turtle":68.61,"rabbit":0.20},"selection":{"sorted":49.60,"random":50.04},"insertion":{"sorted":0.13,"random":58.03},"sortedBuiltin":{"random":0.160}}}
+{"primary":{"array":[5,1,4,2],"passes":[{"pass":1,"bound":3,"steps":[{"j":0,"pair":[5,1],"swap":true,"after":[1,5,4,2]},{"j":1,"pair":[5,4],"swap":true,"after":[1,4,5,2]},{"j":2,"pair":[5,2],"swap":true,"after":[1,4,2,5]}],"settled":5},{"pass":2,"bound":2,"steps":[{"j":0,"pair":[1,4],"swap":false},{"j":1,"pair":[4,2],"swap":true,"after":[1,2,4,5]}],"settled":4},{"pass":3,"bound":1,"steps":[{"j":0,"pair":[1,2],"swap":false}],"swappedThisPass":false,"exit":true}],"result":[1,2,4,5],"comparisons":6,"swaps":4,"inversions":4,"passesRun":3},"inversionIdentity":{"claim":"swaps == inversions, exactly","verified":[{"corpus":"all arrays length 1-8 from 4 symbols","count":87380,"mismatches":0},{"corpus":"all permutations length 1-7","count":5913,"mismatches":0},{"corpus":"random arrays with duplicates, n<=60","count":30000,"mismatches":0}],"atN2000":{"swaps":998216,"inversions":998216}},"counts":{"n":1000,"formula":{"shrink":"n(n-1)/2 = 499500","noShrink":"(n-1)^2 = 998001","ratio":2.0},"rows":[{"input":"sorted","comparisons":999,"swaps":0,"passes":1,"noFlag":499500,"noShrink":999},{"input":"allequal","comparisons":999,"swaps":0,"passes":1,"noFlag":499500,"noShrink":999},{"input":"reverse","comparisons":499500,"swaps":499500,"passes":999,"noFlag":499500,"noShrink":998001},{"input":"random","comparisons":497789,"swaps":252260,"passes":941,"noFlag":499500,"noShrink":940059},{"input":"turtle","comparisons":499500,"swaps":999,"passes":999,"noFlag":499500,"noShrink":998001},{"input":"rabbit","comparisons":1997,"swaps":999,"passes":2,"noFlag":499500,"noShrink":1998}]},"flagValue":[{"input":"sorted","savedPct":99.800},{"input":"rabbit","savedPct":99.600},{"input":"random","savedPct":0.343},{"input":"reverse","savedPct":0.000},{"input":"turtle","savedPct":0.000}],"asymmetry":{"rabbit":{"description":"largest element moved to the front","comparisons":1997,"swaps":999,"passes":2},"turtle":{"description":"smallest element moved to the end","comparisons":499500,"swaps":999,"passes":999},"comparisonRatio":250,"swapRatio":1,"displacementLaw":{"smallPushedRightByD":"min(d+1, n-1) passes","largePushedLeftByD":"2 passes","verifiedAt":[50,200,1000]},"timing":{"n":16000,"turtleMs":39.43,"rabbitMs":0.0097,"ratio":4065}},"stability":{"strictGreater":{"arraysTested":3279,"unstable":0},"greaterOrEqual":{"arraysTested":3279,"unstable":3248,"rate":0.9905,"smallestFailure":[0,0]},"swapCost":{"values":"8000 drawn from 0..9","strict":14428519,"greaterEqual":31959840,"ratio":2.22,"wallClock":"no measurable difference"}},"cocktail":{"turtle":{"n":16000,"cocktailMs":0.0150,"bubbleMs":39.43,"ratio":2629},"turtlePasses":{"n100":3,"n1000":3,"bubbleN1000":999},"random":{"ratio":1.24,"note":"inside this machine's run-to-run spread; not a real difference"}},"speed":{"n":16000,"random":{"bubbleMs":75.50,"insertionMs":22.31,"stdSortMs":0.2596,"insertionSpeedup":3.4,"stdSortSpeedup":291},"sorted":{"bubbleMs":0.0053,"selectionMs":46.33,"ratio":8742},"vsSelection":{"bubbleMs":75.50,"selectionMs":114.13,"ratio":1.51,"verdict":"bubble faster on random input; sample sets did not overlap, but bubble ranged 64-87ms across runs while selection held near 114ms — a weak ranking"}},"python":{"n":2000,"bubble":{"sorted":0.059,"reverse":131.08,"random":109.10,"turtle":58.47,"rabbit":0.194},"selection":{"sorted":49.35,"random":48.28},"insertion":{"sorted":0.130,"random":55.40},"sortedBuiltin":{"random":0.116}}}
 ```
 
 <!-- @highlights -->
@@ -654,7 +656,7 @@ The array as a strip with a single comparison window spanning two adjacent cells
 - The turtle's lamp never lights, on an array that is visibly one element away from sorted.
 - The cocktail panel replays the turtle with sweeps alternating direction, drawn as arrows above and below the strip.
 - It resolves in three passes against the one-directional version's 999.
-- The measured times close it: 0.0161ms against 42.06ms, a factor of 2,608.
+- The measured times close it: 0.0150ms against 39.43ms, a factor of 2,629.
 
 <!-- @edgeCases -->
 - Empty array — n - 1 is negative so the outer loop never runs, and no guard is needed in any of the three languages.
@@ -667,7 +669,7 @@ The array as a strip with a single comparison window spanning two adjacent cells
 - Smallest element at the end — n - 1 passes, whatever the flag does, and the case that shows adaptivity has limits.
 - Duplicate values present — handled correctly and stably by strict greater-than, and reordered by >=.
 - One element displaced by d positions — costs min(d+1, n-1) passes if displaced rightward and exactly 2 if leftward.
-- Very large arrays — quadratic in comparisons, and 316x slower than std::sort at n = 16,000.
+- Very large arrays — quadratic in comparisons, and 291x slower than std::sort at n = 16,000.
 
 <!-- @pitfalls -->
 - Declaring the swapped flag outside the outer loop. It becomes permanently true after the first swap and the early exit never fires again.
@@ -679,8 +681,8 @@ The array as a strip with a single comparison window spanning two adjacent cells
 - Assuming the two directions are symmetric. A large value travels the whole array in one pass; a small value travels one position per pass.
 - Comparing arr[j] with arr[j+1] in the downward sweep of cocktail sort. It must compare arr[j-1] with arr[j], or the sweep skips a pair.
 - Forgetting to shrink hi and grow lo in cocktail sort, which loops forever or re-sweeps settled regions.
-- Reaching for bubble sort because it is the simplest to write. Measured 4.2x slower than insertion sort and 316x slower than std::sort on random input.
-- Benchmarking on sorted input. That is bubble sort's single best case and it is 9,323x faster there than selection sort, which tells you nothing about random data.
+- Reaching for bubble sort because it is the simplest to write. Measured 3.4x slower than insertion sort and 291x slower than std::sort on random input.
+- Benchmarking on sorted input. That is bubble sort's single best case and it is 8,742x faster there than selection sort, which tells you nothing about random data.
 - Reading the swap count as a property of the algorithm. It is exactly the inversion count of the input, so it is a property of the data.
 
 <!-- @doubt -->
@@ -705,7 +707,7 @@ Only in a much narrower sense than the word suggests. The flag detects that sort
 ### Why is one element out of place sometimes free and sometimes the worst case?
 
 <!-- @answer -->
-Because the algorithm is directionally asymmetric and the asymmetry is total. A large value near the front gets picked up by the sweep and carried as far as it deserves to go, so it can cross the entire array in one pass. A small value near the back is only involved in one comparison per sweep, so it moves left by exactly one position per pass. At n = 1,000 both arrangements contain 999 inversions and cost exactly 999 swaps, and one takes 2 passes while the other takes 999 — 1,997 comparisons against 499,500. Measured at n = 16,000 that is 0.0103ms against 43.16ms, a factor of 4,194.
+Because the algorithm is directionally asymmetric and the asymmetry is total. A large value near the front gets picked up by the sweep and carried as far as it deserves to go, so it can cross the entire array in one pass. A small value near the back is only involved in one comparison per sweep, so it moves left by exactly one position per pass. At n = 1,000 both arrangements contain 999 inversions and cost exactly 999 swaps, and one takes 2 passes while the other takes 999 — 1,997 comparisons against 499,500. Measured at n = 16,000 that is 0.0097ms against 39.43ms, a factor of 4,065.
 
 <!-- @doubt -->
 ### How much does a single element cost if it is displaced by d rather than to the end?
@@ -717,7 +719,7 @@ It follows an exact rule, verified for every combination tested at n = 50, 200 a
 ### Does cocktail shaker sort fix this?
 
 <!-- @answer -->
-It fixes exactly this and nothing else. Alternating an upward sweep with a downward one means small elements are carried leftward the same way large elements are carried rightward, so turtles move a full array-length per round trip. On an array with its smallest element at the end it sorted in 3 passes against bubble sort's 999, measured 0.0161ms against 42.06ms at n = 16,000 — a factor of 2,608. On random input the measured difference was 1.49x, which is inside this machine's run-to-run spread and should not be reported as a real gain. It removes one pathology; it does not make the algorithm fast.
+It fixes exactly this and nothing else. Alternating an upward sweep with a downward one means small elements are carried leftward the same way large elements are carried rightward, so turtles move a full array-length per round trip. On an array with its smallest element at the end it sorted in 3 passes against bubble sort's 999, measured 0.0150ms against 39.43ms at n = 16,000 — a factor of 2,629. On random input the measured difference was 1.24x, which is inside this machine's run-to-run spread and should not be reported as a real gain. It removes one pathology; it does not make the algorithm fast.
 
 <!-- @doubt -->
 ### Why must the comparison be > rather than >=?
@@ -735,10 +737,10 @@ Exactly half the comparisons, at every size. Without it each pass sweeps all n -
 ### Is bubble sort faster or slower than selection sort?
 
 <!-- @answer -->
-On random input this machine could not separate them: bubble measured 94.48ms and selection 124.97ms at n = 16,000, with ranges that overlapped across repeated runs, so treat them as comparable rather than ranking them. On structured input they diverge completely and in both directions. Bubble sort is 9,323x faster on an already-sorted array, because it exits after one pass while selection sort still performs its full n(n-1)/2 comparisons. Selection sort is the more predictable of the two, since its cost does not depend on the input at all, which is worth something when worst-case behaviour matters more than best-case.
+On random input bubble measured faster — 75.50ms against 114.13ms at n = 16,000, a factor of 1.51, with no overlap between forty alternated samples of each. Rank them cautiously: that gap is small by this topic's standards, and bubble's own time ranged from 64ms to 87ms across runs of the same session while selection stayed near 114ms. On structured input they diverge completely and in both directions. Bubble sort is 8,742x faster on an already-sorted array, because it exits after one pass while selection sort still performs its full n(n-1)/2 comparisons. Selection sort is the more predictable of the two, since its cost does not depend on the input at all, which is worth something when worst-case behaviour matters more than best-case.
 
 <!-- @doubt -->
 ### Should I ever actually use it?
 
 <!-- @answer -->
-Essentially never for real work — measured at n = 16,000 on random input, insertion sort took 23.17ms and std::sort 0.2763ms against bubble sort's 97.41ms, so 4.2x and 316x respectively. Its one genuine niche is checking whether data is already sorted while sorting it, since a single swap-free pass proves sortedness for free. It earns its place in a course for a different reason: the swap-count-equals-inversion-count identity is the cleanest connection between a sorting algorithm and a measurable property of its input, and it is the same quantity Count Inversions computes in O(n log n).
+Essentially never for real work — measured at n = 16,000 on random input, insertion sort took 22.31ms and std::sort 0.2596ms against bubble sort's 75.50ms, so 3.4x and 291x respectively. Its one genuine niche is checking whether data is already sorted while sorting it, since a single swap-free pass proves sortedness for free. It earns its place in a course for a different reason: the swap-count-equals-inversion-count identity is the cleanest connection between a sorting algorithm and a measurable property of its input, and it is the same quantity Count Inversions computes in O(n log n).

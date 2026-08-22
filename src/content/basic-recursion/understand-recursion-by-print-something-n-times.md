@@ -284,10 +284,8 @@ void printNTimes(int n) {
 ```
 
 <!-- @annotations -->
-- 5: The base case must come before the recursive call, or the check never runs and the chain has no end.
-- 5: n <= 0 rather than n == 0, so a negative argument stops immediately instead of recursing away from the base case forever.
-- 8: n - 1 moves toward the base case. Writing n + 1 or n compiles fine and crashes at runtime.
-- 8: Nothing follows this call, which is what makes it a tail call and lets -O2 turn the whole function into a loop.
+- 5: The base case must come before the recursive call, or the check never runs and the chain has no end. n <= 0 rather than n == 0 matters for the same reason: a negative argument stops immediately instead of recursing away from the base case forever.
+- 8: n - 1 moves toward the base case. Writing n + 1 or n compiles fine and crashes at runtime. Nothing follows this call either, which is what makes it a tail call and lets -O2 turn the whole function into a loop.
 
 <!-- @code java -->
 ```java
@@ -355,8 +353,7 @@ void printNTimes(int n) {
 
 <!-- @annotations -->
 - 7: The call comes first, so the printing happens in reverse order — invisible here, and the whole answer in Print N to 1.
-- 8: Because a statement still has to run after the call returns, this frame cannot be discarded and the recursion is real.
-- 8: Measured 5.468ns per step against the loop's 1.379ns — about 4.0x, which is the genuine cost of a call and a frame.
+- 8: Because a statement still has to run after the call returns, this frame cannot be discarded and the recursion is real. Measured 5.468ns per step against the loop's 1.379ns — about 4.0x, which is the genuine cost of a call and a frame.
 
 <!-- @code java -->
 ```java
