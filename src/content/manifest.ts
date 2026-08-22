@@ -108,6 +108,7 @@ export const CONTENT_IDS = [
   "floor-and-ceil-in-sorted-array",
   "first-and-last-occurrence",
   "count-occurrences-in-a-sorted-array",
+  "find-minimum-in-rotated-sorted-array",
   "selection-sort",
   "largest-odd-number-in-a-string",
   "longest-common-prefix",
@@ -133,6 +134,7 @@ export const CONTENT_IDS = [
   "sum-of-first-n-numbers",
   "factorial-of-a-given-number",
   "reverse-an-array",
+  "check-if-string-is-palindrome-or-not",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];

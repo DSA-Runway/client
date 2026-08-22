@@ -118,6 +118,7 @@ const FILES: Record<ContentId, string> = {
   "floor-and-ceil-in-sorted-array": "binary-search/floor-and-ceil-in-sorted-array.md",
   "first-and-last-occurrence": "binary-search/first-and-last-occurrence.md",
   "count-occurrences-in-a-sorted-array": "binary-search/count-occurrences-in-a-sorted-array.md",
+  "find-minimum-in-rotated-sorted-array": "binary-search/find-minimum-in-rotated-sorted-array.md",
   "selection-sort": "basic-sorting-algorithms/selection-sort.md",
   "largest-odd-number-in-a-string": "strings/largest-odd-number-in-a-string.md",
   "longest-common-prefix": "strings/longest-common-prefix.md",
@@ -143,6 +144,7 @@ const FILES: Record<ContentId, string> = {
   "sum-of-first-n-numbers": "basic-recursion/sum-of-first-n-numbers.md",
   "factorial-of-a-given-number": "basic-recursion/factorial-of-a-given-number.md",
   "reverse-an-array": "basic-recursion/reverse-an-array.md",
+  "check-if-string-is-palindrome-or-not": "basic-recursion/check-if-string-is-palindrome-or-not.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");

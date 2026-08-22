@@ -225,6 +225,46 @@ export const SUBTOPICS: Record<string, Subtopic[]> = {
       "Reverse every word in a string",
     ]),
   ],
+
+  "Linked Lists": [
+    ...list("Easy", [
+      "Introduction to Singly LinkedList",
+      "Insertion at the head of Linked List",
+      "Deletion of the head of LL",
+      "Find the length of the Linked List",
+      "Introduction to Doubly LL",
+      "Insert node before head in Doubly Linked List",
+      "Delete head of Doubly Linked List",
+      "Middle of a LinkedList [TortoiseHare Method]",
+    ]),
+    ...list("Medium", [
+      "Search in Linked List",
+      "Reverse a Doubly Linked List",
+      "Reverse a LinkedList [Iterative]",
+      "Reverse a LL",
+      "Detect a loop in LL",
+      "Find the starting point in LL",
+      "Length of loop in LL",
+      "Check if LL is palindrome or not",
+      "Segregate odd and even nodes in Linked List",
+      "Remove Nth node from the back of the LL",
+      "Delete the middle node in LL",
+      "Sort a Linked List of 0's 1's and 2's",
+      "Find the intersection point of Y LL",
+      "Add one to a number represented by LL",
+      "Add two numbers in Linked List",
+      "Find Pairs with Given Sum in Doubly Linked List",
+    ]),
+    ...list("Hard", [
+      "Sort LL",
+      "Delete all occurrences of a key in DLL",
+      "Remove duplicates from sorted DLL",
+      "Reverse LL in group of given size K",
+      "Rotate a LL",
+      "Flattening of LL",
+      "Clone a LL with random and next pointer",
+    ]),
+  ],
 };
 
 export const SUBTOPIC_ORDER: SubtopicDifficulty[] = ["Easy", "Medium", "Hard"];
