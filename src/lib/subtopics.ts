@@ -163,6 +163,40 @@ export const SUBTOPICS: Record<string, Subtopic[]> = {
     ]),
   ],
 
+  "Advanced Recursion": [
+    ...list("Easy", [
+      "Pow(x, n)",
+      "Learn All Patterns of Subsequences (Theory)",
+      "Count all subsequences with sum K",
+      "Check if there exists a subsequence with sum K",
+    ]),
+    ...list("Medium", [
+      "Recursive Implementation of atoi()",
+      "Count Good Numbers",
+      "Sort a stack using recursion",
+      "Reverse a Stack",
+      "Generate Binary Strings Without Consecutive 1s",
+      "Generate Parentheses",
+      "Power Set",
+      "Combination Sum",
+      "Combination Sum II",
+      "Subsets I",
+      "Subsets II",
+      "Combination Sum III",
+      "Word Break",
+    ]),
+    ...list("Hard", [
+      "Letter Combinations of a Phone Number",
+      "Palindrome partitioning",
+      "Word Search",
+      "N Queen",
+      "Rat in a Maze",
+      "M Coloring Problem",
+      "Sudoku Solver",
+      "Expression Add Operators",
+    ]),
+  ],
+
   "Binary Search": [
     ...list("Easy", [
       "Search X in sorted array",
