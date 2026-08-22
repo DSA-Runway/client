@@ -123,6 +123,7 @@ const FILES: Record<ContentId, string> = {
   "find-row-with-maximum-1s": "binary-search/find-row-with-maximum-1s.md",
   "search-in-rotated-sorted-array-i": "binary-search/search-in-rotated-sorted-array-i.md",
   "search-in-rotated-sorted-array-ii": "binary-search/search-in-rotated-sorted-array-ii.md",
+  "single-element-in-a-sorted-array": "binary-search/single-element-in-a-sorted-array.md",
   "selection-sort": "basic-sorting-algorithms/selection-sort.md",
   "largest-odd-number-in-a-string": "strings/largest-odd-number-in-a-string.md",
   "longest-common-prefix": "strings/longest-common-prefix.md",
@@ -143,6 +144,7 @@ const FILES: Record<ContentId, string> = {
   "insertion-at-the-head-of-linked-list": "linked-lists/insertion-at-the-head-of-linked-list.md",
   "deletion-of-the-head-of-ll": "linked-lists/deletion-of-the-head-of-ll.md",
   "find-the-length-of-the-linked-list": "linked-lists/find-the-length-of-the-linked-list.md",
+  "search-in-linked-list": "linked-lists/search-in-linked-list.md",
   "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",
   "insertion-sorting": "basic-sorting-algorithms/insertion-sorting.md",
   "understand-recursion-by-print-something-n-times": "basic-recursion/understand-recursion-by-print-something-n-times.md",
@@ -155,6 +157,7 @@ const FILES: Record<ContentId, string> = {
   "check-if-string-is-palindrome-or-not": "basic-recursion/check-if-string-is-palindrome-or-not.md",
   "fibonacci-number": "basic-recursion/fibonacci-number.md",
   "pow-x-n": "advanced-recursion/pow-x-n.md",
+  "learn-all-patterns-of-subsequences-theory": "advanced-recursion/learn-all-patterns-of-subsequences-theory.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
