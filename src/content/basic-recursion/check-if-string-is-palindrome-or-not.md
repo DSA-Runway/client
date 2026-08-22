@@ -323,8 +323,7 @@ bool isPalindrome(const string& s) { return isPalindrome(s, 0, (int)s.size() - 1
 ```
 
 <!-- @annotations -->
-- 5: return true, not false. An empty window has no mismatched pair in it, so it is vacuously a palindrome — writing false makes every answer false for every input.
-- 5: l >= r, not l == r. On an even-length palindrome the indices cross without meeting and the recursion walks off the string — measured on exactly 255 of the 32,767 binary strings up to length 14, every one of them an even-length palindrome.
+- 5: return true, not false. An empty window has no mismatched pair in it, so it is vacuously a palindrome — writing false makes every answer false for every input. l >= r, not l == r. On an even-length palindrome the indices cross without meeting and the recursion walks off the string — measured on exactly 255 of the 32,767 binary strings up to length 14, every one of them an even-length palindrome.
 - 6: This line is why the average case is O(1) — on random 26-letter text it fires after about 1.04 comparisons regardless of length.
 - 8: Nothing is pending after the call, so -O1 compiles this to a loop with zero self-calls remaining.
 
@@ -467,8 +466,7 @@ bool isPalindrome(const string& s) { return isPalindrome(s, 0, (int)s.size() - 1
 ```
 
 <!-- @annotations -->
-- 6: The l < r guard inside the skip loops matters — without it a string of pure punctuation walks the index past the end.
-- 6: Casting to unsigned char before isalnum, because passing a negative char is undefined behaviour for these functions.
+- 6: The l < r guard inside the skip loops matters — without it a string of pure punctuation walks the index past the end. Casting to unsigned char before isalnum, because passing a negative char is undefined behaviour for these functions.
 - 9: Checked after skipping, not before, since the skipping is what can make the window empty.
 - 10: Case folding on both sides rather than pre-lowercasing the string, which is what keeps this allocation-free.
 

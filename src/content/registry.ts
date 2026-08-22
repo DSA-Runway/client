@@ -119,6 +119,7 @@ const FILES: Record<ContentId, string> = {
   "first-and-last-occurrence": "binary-search/first-and-last-occurrence.md",
   "count-occurrences-in-a-sorted-array": "binary-search/count-occurrences-in-a-sorted-array.md",
   "find-minimum-in-rotated-sorted-array": "binary-search/find-minimum-in-rotated-sorted-array.md",
+  "find-out-how-many-times-the-array-is-rotated": "binary-search/find-out-how-many-times-the-array-is-rotated.md",
   "selection-sort": "basic-sorting-algorithms/selection-sort.md",
   "largest-odd-number-in-a-string": "strings/largest-odd-number-in-a-string.md",
   "longest-common-prefix": "strings/longest-common-prefix.md",
@@ -135,6 +136,7 @@ const FILES: Record<ContentId, string> = {
   "longest-palindromic-substring": "strings/longest-palindromic-substring.md",
   "sum-of-beauty-of-all-substrings": "strings/sum-of-beauty-of-all-substrings.md",
   "reverse-every-word-in-a-string": "strings/reverse-every-word-in-a-string.md",
+  "introduction-to-singly-linkedlist": "linked-lists/introduction-to-singly-linkedlist.md",
   "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",
   "insertion-sorting": "basic-sorting-algorithms/insertion-sorting.md",
   "understand-recursion-by-print-something-n-times": "basic-recursion/understand-recursion-by-print-something-n-times.md",
@@ -145,6 +147,7 @@ const FILES: Record<ContentId, string> = {
   "factorial-of-a-given-number": "basic-recursion/factorial-of-a-given-number.md",
   "reverse-an-array": "basic-recursion/reverse-an-array.md",
   "check-if-string-is-palindrome-or-not": "basic-recursion/check-if-string-is-palindrome-or-not.md",
+  "fibonacci-number": "basic-recursion/fibonacci-number.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
