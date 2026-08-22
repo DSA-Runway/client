@@ -477,8 +477,7 @@ double myPow(double x, int n) {
 ```
 
 <!-- @annotations -->
-- 5: Handles negative n directly, so none of the sign or INT_MIN handling is needed here.
-- 5: Constant time in n — measured 7.6ns at both n = 1,024 and n = 1,048,576.
+- 5: Handles negative n directly, so none of the sign or INT_MIN handling is needed here. It is also constant time in n — measured 7.6ns at both n = 1,024 and n = 1,048,576.
 
 <!-- @code java -->
 ```java
