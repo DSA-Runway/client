@@ -199,6 +199,7 @@ export const CONTENT_IDS = [
   "implement-stack-using-linkedlist",
   "balanced-paranthesis",
   "number-of-greater-elements-to-the-right",
+  "next-greater-element",
   "generate-parentheses",
   "power-set",
   "combination-sum",

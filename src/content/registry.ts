@@ -209,6 +209,7 @@ const FILES: Record<ContentId, string> = {
   "implement-stack-using-linkedlist": "stacks/implement-stack-using-linkedlist.md",
   "balanced-paranthesis": "stacks/balanced-paranthesis.md",
   "number-of-greater-elements-to-the-right": "stacks/number-of-greater-elements-to-the-right.md",
+  "next-greater-element": "stacks/next-greater-element.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
   "power-set": "advanced-recursion/power-set.md",
   "combination-sum": "advanced-recursion/combination-sum.md",
