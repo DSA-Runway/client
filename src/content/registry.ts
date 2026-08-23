@@ -204,6 +204,7 @@ const FILES: Record<ContentId, string> = {
   "count-primes-in-range-l-to-r": "bit-manipulation/count-primes-in-range-l-to-r.md",
   "prime-factorisation-of-a-number": "bit-manipulation/prime-factorisation-of-a-number.md",
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
+  "implement-stack-using-arrays": "stacks/implement-stack-using-arrays.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
   "power-set": "advanced-recursion/power-set.md",
   "combination-sum": "advanced-recursion/combination-sum.md",

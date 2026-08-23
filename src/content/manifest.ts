@@ -194,6 +194,7 @@ export const CONTENT_IDS = [
   "count-primes-in-range-l-to-r",
   "prime-factorisation-of-a-number",
   "generate-binary-strings-without-consecutive-1s",
+  "implement-stack-using-arrays",
   "generate-parentheses",
   "power-set",
   "combination-sum",

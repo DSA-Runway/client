@@ -326,6 +326,48 @@ export const SUBTOPICS: Record<string, Subtopic[]> = {
       "Clone a LL with random and next pointer",
     ]),
   ],
+
+  Stacks: [
+    ...list("Easy", [
+      "Implement Stack using Arrays",
+      "Implement Stack using Queue",
+      "Implement stack using Linkedlist",
+      "Balanced Paranthesis",
+      "Number of Greater Elements to the Right",
+    ]),
+    ...list("Medium", [
+      "Next Greater Element",
+      "Next Greater Element - 2",
+      "Next Smaller Element",
+      "Sum of Subarray Minimums",
+      "Asteroid Collision",
+      "Sum of Subarray Ranges",
+      "Remove K Digits",
+    ]),
+    ...list("Hard", [
+      "Implement Min Stack",
+      "Trapping Rainwater",
+      "Largest rectangle in a histogram",
+      "Maximum Rectangles",
+      "Stock span problem",
+      "Celebrity Problem",
+    ]),
+  ],
+
+  Queues: [
+    ...list("Easy", [
+      "Implement Queue using Arrays",
+      "Implement Queue using Stack",
+      "Implement queue using Linkedlist",
+    ]),
+    ...list("Medium", [
+      "LRU Cache",
+    ]),
+    ...list("Hard", [
+      "Sliding Window Maximum",
+      "LFU Cache",
+    ]),
+  ],
 };
 
 export const SUBTOPIC_ORDER: SubtopicDifficulty[] = ["Easy", "Medium", "Hard"];
