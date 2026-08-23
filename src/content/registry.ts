@@ -210,6 +210,7 @@ const FILES: Record<ContentId, string> = {
   "balanced-paranthesis": "stacks/balanced-paranthesis.md",
   "number-of-greater-elements-to-the-right": "stacks/number-of-greater-elements-to-the-right.md",
   "next-greater-element": "stacks/next-greater-element.md",
+  "next-greater-element-2": "stacks/next-greater-element-2.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
   "power-set": "advanced-recursion/power-set.md",
   "combination-sum": "advanced-recursion/combination-sum.md",

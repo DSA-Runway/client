@@ -200,6 +200,7 @@ export const CONTENT_IDS = [
   "balanced-paranthesis",
   "number-of-greater-elements-to-the-right",
   "next-greater-element",
+  "next-greater-element-2",
   "generate-parentheses",
   "power-set",
   "combination-sum",
