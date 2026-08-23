@@ -166,6 +166,7 @@ export const CONTENT_IDS = [
   "reverse-a-stack",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
+  "power-set",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
