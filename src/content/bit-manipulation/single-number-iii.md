@@ -202,7 +202,7 @@ def single_number_iii(nums: list[int]) -> list[int]:
 ```
 
 <!-- @annotations -->
-- 5: In Python the performance argument against this is weak; the argument is the O(n) space.
+- 7: In Python the performance argument against this is weak; the argument is the O(n) space.
 
 <!-- @approach -->
 ### Better - Sort and Scan

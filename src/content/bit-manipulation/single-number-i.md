@@ -248,7 +248,7 @@ int singleNumber(vector<int> nums) {
 <!-- @annotations -->
 - 6: Taking the vector by value rather than by reference, since this reorders it — sorting a caller's array as a side effect is a bug they will find later.
 - 8: Stepping by two, so each comparison is between a pair rather than between neighbours. Once the single value is passed, every later pair is offset and would mismatch — which is why returning immediately is correct.
-- 10: Reaching this line means every pair matched, so the unpaired value is the last element with no partner after it.
+- 9: Reaching this line means every pair matched, so the unpaired value is the last element with no partner after it.
 
 <!-- @code java -->
 ```java
@@ -314,7 +314,7 @@ int singleNumber(vector<int>& nums) {
 
 <!-- @annotations -->
 - 9: Erasing by iterator rather than by value, which avoids a second lookup — a small saving on an approach that is 994x behind regardless.
-- 11: The set is guaranteed to hold exactly one element only if the premise holds; if it does not, this dereferences whatever happens to be first, or an empty set.
+- 12: The set is guaranteed to hold exactly one element only if the premise holds; if it does not, this dereferences whatever happens to be first, or an empty set.
 
 <!-- @code java -->
 ```java
@@ -416,7 +416,7 @@ def single_number(nums: list[int]) -> int:
 ```
 
 <!-- @annotations -->
-- 6: The explicit initial value of 0 makes this correct for an empty list rather than raising TypeError, which reduce does without it.
+- 5: The explicit initial value of 0 makes this correct for an empty list rather than raising TypeError, which reduce does without it.
 - 9: The honest framing for Python: the asymptotic space win is large and the constant-factor time win is small.
 
 <!-- @example -->

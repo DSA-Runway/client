@@ -219,7 +219,7 @@ def subsets(a: list[int]) -> list[list[int]]:
 
 <!-- @annotations -->
 - 5: cur[:] copies the list; appending cur itself would store 2^n references to one list that ends up empty.
-- 13: The library version, and the one to reach for unless the mask itself is needed.
+- 16: The library version, and the one to reach for unless the mask itself is needed.
 
 <!-- @approach -->
 ### The Correspondence - Count from 0 to 2^n - 1
@@ -297,7 +297,7 @@ def subsets(a: list[int]) -> list[list[int]]:
 
 <!-- @annotations -->
 - 3: Reads directly as the correspondence: for each mask, take the elements whose bit is set.
-- 6: The one language where n = 31 and n = 63 are not special, which removes the shift traps and none of the combinatorial ones.
+- 7: The one language where n = 31 and n = 63 are not special, which removes the shift traps and none of the combinatorial ones.
 
 <!-- @approach -->
 ### Optimal for Aggregation - Do Not Materialise

@@ -333,7 +333,7 @@ int countSetBits(unsigned n) {
 
 <!-- @annotations -->
 - 4: The step that does the work: subtracting one borrows through the trailing zeros, so the AND clears exactly the lowest set bit and nothing else.
-- 9: Worth checking on your own target before relying on either the speed argument or its rebuttal — this is a property of the compiler, not of the algorithm.
+- 10: Worth checking on your own target before relying on either the speed argument or its rebuttal — this is a property of the compiler, not of the algorithm.
 - 13: A data-dependent trip count cannot be unrolled or vectorised, which is why doing half as many iterations still loses.
 
 <!-- @code java -->
@@ -415,10 +415,10 @@ uint32_t swar(uint32_t n) {
 ```
 
 <!-- @annotations -->
+- 4: C++20 offers std::popcount in <bit>, which is the standard spelling and unsigned-only.
 - 8: The ll suffix is not optional. __builtin_popcount on a 64-bit value silently counts only the low 32 bits after the implicit conversion.
 - 14: Each step folds pairs of counts together: first 16 two-bit counts, then 8 four-bit, then 8 eight-bit.
 - 17: The multiply sums the four byte counts into the top byte in one step, which is why there is no final addition chain.
-- 5: C++20 offers std::popcount in <bit>, which is the standard spelling and unsigned-only.
 
 <!-- @code java -->
 ```java

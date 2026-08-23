@@ -214,7 +214,7 @@ vector<int> divisors(int n) {
 
 <!-- @annotations -->
 - 8: The cast avoids overflow for n near INT_MAX; d <= n / d is the alternative and costs a division instead.
-- 11: The guard that fires only for perfect squares. Without it the output has one duplicate — measured wrong on exactly 447 of the values from 1 to 200,000, which is precisely the number of perfect squares in that range.
+- 10: The guard that fires only for perfect squares. Without it the output has one duplicate — measured wrong on exactly 447 of the values from 1 to 200,000, which is precisely the number of perfect squares in that range.
 - 13: Sort afterwards if order matters, or collect the partners into a second list and append it reversed, which is O(1) extra work rather than O(sqrt(n) log sqrt(n)).
 
 <!-- @code java -->
@@ -357,9 +357,9 @@ int countDivisors(int n) {
 ```
 
 <!-- @annotations -->
-- 8: e counts how many times this prime divides n, and e + 1 is the number of choices a divisor has for it — from using it zero times to using it e times.
-- 11: The same leftover as in Print Prime Factors: at most one prime can exceed the square root, and its exponent is 1, so it contributes a factor of 2.
 - 3: Starting at 2 rather than 1, because 1 is not a prime and would loop forever.
+- 7: e counts how many times this prime divides n, and e + 1 is the number of choices a divisor has for it — from using it zero times to using it e times.
+- 11: The same leftover as in Print Prime Factors: at most one prime can exceed the square root, and its exponent is 1, so it contributes a factor of 2.
 
 <!-- @code java -->
 ```java

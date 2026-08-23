@@ -224,7 +224,7 @@ void printPrimeFactors(int n) {
 ```
 
 <!-- @annotations -->
-- 8: The line that makes the primality test unnecessary — after it, no multiple of d can divide the remaining n.
+- 7: The line that makes the primality test unnecessary — after it, no multiple of d can divide the remaining n.
 - 5: Still runs to n, so this is correct and not yet fast; the bound is fixed in the next approach.
 
 <!-- @code java -->
@@ -299,7 +299,7 @@ void printPrimeFactors(int n) {
 
 <!-- @annotations -->
 - 5: The cast prevents d * d from overflowing when n is near INT_MAX; writing d <= n / d avoids the cast entirely and costs a division. The bound is also re-evaluated each iteration against the SHRINKING n, so dividing out a large factor early ends the loop sooner.
-- 11: Not an edge case — it fires for 73.3% of values in 2..300,000, and it is the whole answer for a prime input.
+- 10: Not an edge case — it fires for 73.3% of values in 2..300,000, and it is the whole answer for a prime input.
 
 <!-- @code java -->
 ```java
@@ -377,9 +377,9 @@ void printPrimeFactors(long long n) {
 ```
 
 <!-- @annotations -->
-- 8: d and d + 2 are the 6k-1 and 6k+1 candidates. Everything else in each block of six is divisible by 2 or 3 and was already removed.
 - 4: Handling 2 and 3 first is what licenses the wheel — without it the loop would miss them entirely.
-- 12: Still needed, and for the same reason as before.
+- 8: d and d + 2 are the 6k-1 and 6k+1 candidates. Everything else in each block of six is divisible by 2 or 3 and was already removed.
+- 11: Still needed, and for the same reason as before.
 
 <!-- @code java -->
 ```java

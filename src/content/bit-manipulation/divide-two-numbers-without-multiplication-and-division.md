@@ -221,7 +221,7 @@ def divide_by_subtraction(a: int, b: int) -> int:
 
 <!-- @annotations -->
 - 3: abs() is safe here in a way it is not in C++ or Java, because there is no most-negative value.
-- 9: The guard is still worth adding if the function must match C++ semantics, since the caller may expect clamping.
+- 10: The guard is still worth adding if the function must match C++ semantics, since the caller may expect clamping.
 
 <!-- @approach -->
 ### Better - Double the Divisor
@@ -397,7 +397,7 @@ def divide(a: int, b: int) -> int:
 
 <!-- @annotations -->
 - 8: The magnitudes are divided and the sign applied afterwards, which truncates toward zero — matching C++ rather than Python's own // operator.
-- 14: And int(a / b) is not a safe shortcut either: it truncates correctly but loses precision above 2^53.
+- 16: And int(a / b) is not a safe shortcut either: it truncates correctly but loses precision above 2^53.
 
 <!-- @approach -->
 ### Handling the Edges - Widen, or Go Negative

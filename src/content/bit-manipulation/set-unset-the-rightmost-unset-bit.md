@@ -195,7 +195,7 @@ static int setRightmostClearBit(int n) {
 
 <!-- @annotations -->
 - 3: >>> is not required here since & 1 masks, but it keeps the fixed width visible.
-- 6: The library form, and the one that answers "which position" without the loop.
+- 7: The library form, and the one that answers "which position" without the loop.
 
 <!-- @code python -->
 ```python

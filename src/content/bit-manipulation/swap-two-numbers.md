@@ -280,8 +280,7 @@ void swapAdd(unsigned& a, unsigned& b) {
 ```
 
 <!-- @annotations -->
-- 2: The overflow point. On unsigned types this wraps by definition and the subtractions unwrap it exactly, which is why the 16-bit exhaustive check passes.
-- 5: Undefined behaviour means the compiler may assume it cannot happen and optimise accordingly — this is not a value you can predict.
+- 2: The overflow point. On unsigned types this wraps by definition and the subtractions unwrap it exactly, which is why the 16-bit exhaustive check passes. Undefined behaviour means the compiler may assume it cannot happen and optimise accordingly — this is not a value you can predict.
 - 9: Every objection to the XOR version applies here, plus one more.
 
 <!-- @code java -->

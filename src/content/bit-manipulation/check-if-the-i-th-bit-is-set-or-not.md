@@ -283,8 +283,7 @@ bool ithBitSet(unsigned n, int i) {
 ```
 
 <!-- @annotations -->
-- 2: 1u rather than 1, so that i = 31 is not undefined behaviour. This is the position least likely to appear in a test and most likely to appear in production.
-- 2: != 0u rather than == 1u. The AND preserves the column where it stands, so a set bit yields 2^i.
+- 2: 1u rather than 1, so that i = 31 is not undefined behaviour. This is the position least likely to appear in a test and most likely to appear in production. != 0u rather than == 1u. The AND preserves the column where it stands, so a set bit yields 2^i.
 - 10: 1 << 40 with an int literal is undefined behaviour that looks like it works — measured here it produced 256, because the shift count is masked to five bits.
 
 <!-- @code java -->
@@ -367,8 +366,7 @@ static int getBit(int n, int i) {
 ```
 
 <!-- @annotations -->
-- 2: One of the few places in Java bit code where reaching for >>> is unnecessary.
-- 4: Worth stating out loud because the habit of always writing >>> is a good habit, and this is the exception that explains what the habit is protecting against.
+- 2: One of the few places in Java bit code where reaching for >>> is unnecessary. Worth stating out loud because the habit of always writing >>> is a good habit, and this is the exception that explains what the habit is protecting against.
 
 <!-- @code python -->
 ```python
@@ -423,8 +421,7 @@ int countSetBitsEarlyExit(unsigned n) {
 
 <!-- @annotations -->
 - 5: A constant bound, so the compiler can unroll this and process several values at once — measured 65,500ns over 16,384 values.
-- 11: Looks cheaper and is 5.83x slower, at 381,750ns, because the trip count depends on n.
-- 11: It is also the version that breaks on a negative signed n, where >> sign extends and the loop never ends.
+- 11: Looks cheaper and is 5.83x slower, at 381,750ns, because the trip count depends on n. It is also the version that breaks on a negative signed n, where >> sign extends and the loop never ends.
 
 <!-- @code java -->
 ```java
@@ -439,7 +436,7 @@ static int countSetBits(int n) {
 
 <!-- @annotations -->
 - 3: >>> is not required for correctness here, since & 1 masks — but a fixed 32-iteration loop makes the width explicit, which is the point.
-- 6: In real code, call this. The loop above is for seeing the mechanism.
+- 7: In real code, call this. The loop above is for seeing the mechanism.
 
 <!-- @code python -->
 ```python
