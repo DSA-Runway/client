@@ -177,6 +177,7 @@ const FILES: Record<ContentId, string> = {
   "introduction-to-bits-and-tricks": "bit-manipulation/introduction-to-bits-and-tricks.md",
   "check-if-the-i-th-bit-is-set-or-not": "bit-manipulation/check-if-the-i-th-bit-is-set-or-not.md",
   "check-if-a-number-is-odd-or-not": "bit-manipulation/check-if-a-number-is-odd-or-not.md",
+  "check-if-a-number-is-power-of-2-or-not": "bit-manipulation/check-if-a-number-is-power-of-2-or-not.md",
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
 };
