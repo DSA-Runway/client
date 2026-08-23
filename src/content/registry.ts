@@ -205,6 +205,7 @@ const FILES: Record<ContentId, string> = {
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
   "power-set": "advanced-recursion/power-set.md",
+  "combination-sum": "advanced-recursion/combination-sum.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
