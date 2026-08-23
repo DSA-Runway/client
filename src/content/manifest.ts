@@ -178,6 +178,7 @@ export const CONTENT_IDS = [
   "xor-of-numbers-in-a-given-range",
   "single-number-iii",
   "print-prime-factors-of-a-number",
+  "divisors-of-a-number",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
 ] as const;

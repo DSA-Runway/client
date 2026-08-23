@@ -188,6 +188,7 @@ const FILES: Record<ContentId, string> = {
   "xor-of-numbers-in-a-given-range": "bit-manipulation/xor-of-numbers-in-a-given-range.md",
   "single-number-iii": "bit-manipulation/single-number-iii.md",
   "print-prime-factors-of-a-number": "bit-manipulation/print-prime-factors-of-a-number.md",
+  "divisors-of-a-number": "bit-manipulation/divisors-of-a-number.md",
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
 };
