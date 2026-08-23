@@ -179,6 +179,7 @@ const FILES: Record<ContentId, string> = {
   "check-if-a-number-is-odd-or-not": "bit-manipulation/check-if-a-number-is-odd-or-not.md",
   "check-if-a-number-is-power-of-2-or-not": "bit-manipulation/check-if-a-number-is-power-of-2-or-not.md",
   "count-the-number-of-set-bits": "bit-manipulation/count-the-number-of-set-bits.md",
+  "set-unset-the-rightmost-unset-bit": "bit-manipulation/set-unset-the-rightmost-unset-bit.md",
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
 };
