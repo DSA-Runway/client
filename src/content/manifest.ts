@@ -180,6 +180,7 @@ export const CONTENT_IDS = [
   "print-prime-factors-of-a-number",
   "divisors-of-a-number",
   "count-primes-in-range-l-to-r",
+  "prime-factorisation-of-a-number",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
 ] as const;
