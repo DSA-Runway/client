@@ -181,6 +181,7 @@ const FILES: Record<ContentId, string> = {
   "count-the-number-of-set-bits": "bit-manipulation/count-the-number-of-set-bits.md",
   "set-unset-the-rightmost-unset-bit": "bit-manipulation/set-unset-the-rightmost-unset-bit.md",
   "swap-two-numbers": "bit-manipulation/swap-two-numbers.md",
+  "divide-two-numbers-without-multiplication-and-division": "bit-manipulation/divide-two-numbers-without-multiplication-and-division.md",
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
 };
