@@ -195,6 +195,7 @@ export const CONTENT_IDS = [
   "prime-factorisation-of-a-number",
   "generate-binary-strings-without-consecutive-1s",
   "implement-stack-using-arrays",
+  "implement-stack-using-queue",
   "generate-parentheses",
   "power-set",
   "combination-sum",
