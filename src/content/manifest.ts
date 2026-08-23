@@ -165,6 +165,7 @@ export const CONTENT_IDS = [
   "sort-a-stack-using-recursion",
   "reverse-a-stack",
   "generate-binary-strings-without-consecutive-1s",
+  "generate-parentheses",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
