@@ -177,7 +177,7 @@ vector<pair<int,int>> factorise(int n) {
 ```
 
 <!-- @annotations -->
-- 12: The same leftover as in Print Prime Factors: at most one prime can exceed the square root, and its exponent is 1.
+- 13: The same leftover as in Print Prime Factors: at most one prime can exceed the square root, and its exponent is 1.
 - 6: The bound shrinks as n shrinks, so a value with a large small factor finishes early — which is why the average case is far better than O(sqrt(n)) suggests.
 
 <!-- @code java -->
@@ -274,8 +274,8 @@ vector<pair<int,int>> factorise(int n, const vector<int>& primes) {
 ```
 
 <!-- @annotations -->
-- 18: The break re-checks against the shrinking n, so dividing out a large factor early ends the scan sooner — the same benefit as recomputing d * d in the plain version.
-- 16: Only primes are tried, so for N = 10^6 that is 168 candidates rather than 1,000.
+- 19: The break re-checks against the shrinking n, so dividing out a large factor early ends the scan sooner — the same benefit as recomputing d * d in the plain version.
+- 18: Only primes are tried, so for N = 10^6 that is 168 candidates rather than 1,000.
 
 <!-- @code java -->
 ```java
@@ -366,7 +366,7 @@ vector<pair<int,int>> factorise(int n, const vector<int>& spf) {
 
 <!-- @annotations -->
 - 9: The if is what makes the entry the SMALLEST factor: a later, larger prime never overwrites what an earlier one wrote.
-- 7: Starting the inner loop at i rather than i * i, unlike a primality sieve — i itself needs its own entry, and so do multiples below i * i whose smallest factor is i.
+- 8: Starting the inner loop at i rather than i * i, unlike a primality sieve — i itself needs its own entry, and so do multiples below i * i whose smallest factor is i.
 - 15: No square root, no search, and no primality test — every step is one array read.
 
 <!-- @code java -->
@@ -488,7 +488,7 @@ static long stripSmall(long n, List<long[]> out) {
 ```
 
 <!-- @annotations -->
-- 11: Worth knowing before writing one: the standard library already has the probabilistic test this scale requires.
+- 12: Worth knowing before writing one: the standard library already has the probabilistic test this scale requires.
 
 <!-- @code python -->
 ```python
@@ -511,7 +511,7 @@ def strip_small(n: int) -> tuple[list[tuple[int, int]], int]:
 ```
 
 <!-- @annotations -->
-- 13: The honest recommendation at this scale — a hand-rolled Pollard's rho is a learning exercise, not a production choice.
+- 15: The honest recommendation at this scale — a hand-rolled Pollard's rho is a learning exercise, not a production choice.
 
 <!-- @example -->
 

@@ -246,9 +246,8 @@ vector<char> sieve(int n) {
 ```
 
 <!-- @annotations -->
-- 8: Starting at i * i rather than 2 * i. Every multiple of i below i * i has a prime factor smaller than i and was crossed out on an earlier pass.
-- 7: The outer bound is sqrt(n), for the same reason as in the previous two subtopics — any composite has a factor at or below its square root.
 - 5: vector<char> rather than vector<bool>, which is a bit-packed specialisation and measurably slower to write to despite using eight times less memory.
+- 8: Starting at i * i rather than 2 * i. Every multiple of i below i * i has a prime factor smaller than i and was crossed out on an earlier pass. The outer bound is sqrt(n), for the same reason as in the previous two subtopics — any composite has a factor at or below its square root.
 
 <!-- @code java -->
 ```java
@@ -335,8 +334,8 @@ long long countPrimesInRange(long long L, long long R) {
 ```
 
 <!-- @annotations -->
-- 16: ((L + p - 1) / p) * p is the first multiple of p at or above L — integer ceiling division, then scaled back up. The max with p * p matters too: without it, p itself would be crossed out when L is small, and small primes would vanish from the answer.
-- 18: window[j - L] rather than window[j] — every index is an offset into the window, which is the entire memory saving.
+- 18: ((L + p - 1) / p) * p is the first multiple of p at or above L — integer ceiling division, then scaled back up. The max with p * p matters too: without it, p itself would be crossed out when L is small, and small primes would vanish from the answer.
+- 19: window[j - L] rather than window[j] — every index is an offset into the window, which is the entire memory saving.
 - 12: +1 on the square root guards against the floating-point sqrt landing just below the true value, which would leave one base prime out.
 
 <!-- @code java -->
