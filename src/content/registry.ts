@@ -128,6 +128,7 @@ const FILES: Record<ContentId, string> = {
   "find-square-root-of-a-number": "binary-search/find-square-root-of-a-number.md",
   "find-nth-root-of-a-number": "binary-search/find-nth-root-of-a-number.md",
   "koko-eating-bananas": "binary-search/koko-eating-bananas.md",
+  "minimum-days-to-make-m-bouquets": "binary-search/minimum-days-to-make-m-bouquets.md",
   "selection-sort": "basic-sorting-algorithms/selection-sort.md",
   "largest-odd-number-in-a-string": "strings/largest-odd-number-in-a-string.md",
   "longest-common-prefix": "strings/longest-common-prefix.md",
@@ -153,6 +154,7 @@ const FILES: Record<ContentId, string> = {
   "reverse-a-linkedlist-iterative": "linked-lists/reverse-a-linkedlist-iterative.md",
   "reverse-a-ll": "linked-lists/reverse-a-ll.md",
   "detect-a-loop-in-ll": "linked-lists/detect-a-loop-in-ll.md",
+  "find-the-starting-point-in-ll": "linked-lists/find-the-starting-point-in-ll.md",
   "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",
   "insertion-sorting": "basic-sorting-algorithms/insertion-sorting.md",
   "understand-recursion-by-print-something-n-times": "basic-recursion/understand-recursion-by-print-something-n-times.md",
@@ -171,6 +173,10 @@ const FILES: Record<ContentId, string> = {
   "recursive-implementation-of-atoi": "advanced-recursion/recursive-implementation-of-atoi.md",
   "count-good-numbers": "advanced-recursion/count-good-numbers.md",
   "sort-a-stack-using-recursion": "advanced-recursion/sort-a-stack-using-recursion.md",
+  "reverse-a-stack": "advanced-recursion/reverse-a-stack.md",
+  "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
+  "generate-parentheses": "advanced-recursion/generate-parentheses.md",
+  "power-set": "advanced-recursion/power-set.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
