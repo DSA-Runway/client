@@ -206,6 +206,7 @@ export const CONTENT_IDS = [
   "combination-sum",
   "combination-sum-ii",
   "subsets-i",
+  "subsets-ii",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
