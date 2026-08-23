@@ -176,6 +176,7 @@ export const CONTENT_IDS = [
   "single-number-i",
   "power-set-bit-manipulation",
   "xor-of-numbers-in-a-given-range",
+  "single-number-iii",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
 ] as const;
