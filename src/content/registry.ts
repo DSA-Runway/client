@@ -210,6 +210,7 @@ const FILES: Record<ContentId, string> = {
   "power-set": "advanced-recursion/power-set.md",
   "combination-sum": "advanced-recursion/combination-sum.md",
   "combination-sum-ii": "advanced-recursion/combination-sum-ii.md",
+  "subsets-i": "advanced-recursion/subsets-i.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
