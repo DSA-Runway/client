@@ -26,7 +26,7 @@ A matrix in which no two adjacent cells are equal. Find any cell strictly greate
 than its four neighbours, treating out-of-bounds neighbours as negative infinity.
 
 ```
-[[1, 4],        ->  (0,1), holding 4
+[[1, 4],        ->  (1,0) holding 3, or (0,1) holding 4
  [3, 2]]
 
 [[10, 20, 15],  ->  (1,1) holding 30, or (2,2) holding 32
@@ -184,8 +184,8 @@ vector<int> findPeakGrid(const vector<vector<int>>& mat) {
 
 <!-- @annotations -->
 - 9: The bounds test comes first in every one of the four, so no out-of-range cell is ever read. This is the code form of "an out-of-bounds neighbour is negative infinity".
-- 9: `>=`, not `>`. Equality would mean the cell does not strictly beat its neighbour — though the problem forbids adjacent equals, so this only matters if the precondition is violated.
-- 17: Unreachable for valid input, since a peak always exists.
+- 10: `>=`, not `>`. Equality would mean the cell does not strictly beat its neighbour — though the problem forbids adjacent equals, so this only matters if the precondition is violated.
+- 16: Unreachable for valid input, since a peak always exists.
 
 <!-- @code java -->
 ```java
@@ -269,8 +269,8 @@ vector<int> findPeakGrid(const vector<vector<int>>& mat) {
 ```
 
 <!-- @annotations -->
-- 7: `bv` starts at the current cell's value, so a neighbour only wins by being strictly larger. Starting it lower would let the walk move sideways and never terminate.
-- 12: The stopping test. No neighbour beat the current cell, which is exactly the definition of a peak — no separate check is needed.
+- 8: `bv` starts at the current cell's value, so a neighbour only wins by being strictly larger. Starting it lower would let the walk move sideways and never terminate.
+- 13: The stopping test. No neighbour beat the current cell, which is exactly the definition of a peak — no separate check is needed.
 - 6: The starting cell is arbitrary. The centre is a reasonable default, but an adversary who knows it can in principle force a long walk.
 
 <!-- @code java -->
@@ -314,7 +314,7 @@ def find_peak_grid(mat):
 ```
 
 <!-- @annotations -->
-- 13: Comparing the pair rather than the values, since two different cells can never hold the same value under this problem's precondition — but comparing positions is correct regardless.
+- 14: Comparing the pair rather than the values, since two different cells can never hold the same value under this problem's precondition — but comparing positions is correct regardless.
 
 <!-- @approach -->
 ### Binary Search on Columns
@@ -358,12 +358,12 @@ vector<int> findPeakGrid(const vector<vector<int>>& mat) {
 ```
 
 <!-- @annotations -->
-- 9: The column's maximum, and this line carries the whole extension from one dimension to two. Using a fixed row instead is wrong on 14.81% of exhaustive inputs, because the cell can then be beaten from above or below.
-- 11: Only the horizontal neighbours are checked. The vertical ones are already known to be smaller — that is what taking the column maximum bought.
-- 12: Both directions are needed. Dropping the leftward test is wrong on 6.84%, since a peak can lie either side.
-- 13: No vertical check before returning, for the same reason as line 11.
+- 11: The column's maximum, and this line carries the whole extension from one dimension to two. Using a fixed row instead is wrong on 14.81% of exhaustive inputs, because the cell can then be beaten from above or below.
+- 12: Only the horizontal neighbours are checked. The vertical ones are already known to be smaller — that is what taking the column maximum bought.
+- 13: Both directions are needed. Dropping the leftward test is wrong on 6.84%, since a peak can lie either side.
+- 14: No vertical check before returning, for the same reason as line 12.
 - 6: Searching columns is O(m log n); searching rows is O(n log m). Both are correct — pick by shape, which measured 4ns against 159,626ns on a 250,000 by 4 matrix.
-- 17: Unreachable for valid input, since some column always satisfies the condition.
+- 18: Unreachable for valid input, since some column always satisfies the condition.
 
 <!-- @code java -->
 ```java
@@ -424,11 +424,11 @@ mat = [[1, 4],
 
 <!-- @output -->
 ```
-(0, 1)
+(1, 0)
 ```
 
 <!-- @why -->
-The cell holding 4 beats 1 to its left and 2 below it, and has no neighbour above or to the right. One probe finds it.
+Both cells are peaks here: 3 beats 1 above it and 2 to its right, and 4 beats 1 to its left and 2 below it. One probe finds the first of them, and the problem accepts either.
 
 <!-- @walkthrough -->
 ```
@@ -436,7 +436,7 @@ lo=0 hi=1   mid=0
   column 0 is [1, 3], its maximum is 3 at row 1
   right neighbour mat[1][1] = 2 < 3 ?  no rise
   left  neighbour none
-  ...so (1,0) holding 3 is also a peak, and is returned
+  ...neither side rises, so (1,0) holding 3 is returned
 
 Both (0,1) and (1,0) are peaks here. The problem accepts
 any of them, which is why the search never has to compare

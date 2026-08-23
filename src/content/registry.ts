@@ -166,6 +166,7 @@ const FILES: Record<ContentId, string> = {
   "segregate-odd-and-even-nodes-in-linked-list": "linked-lists/segregate-odd-and-even-nodes-in-linked-list.md",
   "remove-nth-node-from-the-back-of-the-ll": "linked-lists/remove-nth-node-from-the-back-of-the-ll.md",
   "delete-the-middle-node-in-ll": "linked-lists/delete-the-middle-node-in-ll.md",
+  "sort-a-linked-list-of-0s-1s-and-2s": "linked-lists/sort-a-linked-list-of-0s-1s-and-2s.md",
   "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",
   "insertion-sorting": "basic-sorting-algorithms/insertion-sorting.md",
   "understand-recursion-by-print-something-n-times": "basic-recursion/understand-recursion-by-print-something-n-times.md",
