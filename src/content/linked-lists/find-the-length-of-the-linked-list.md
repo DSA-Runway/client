@@ -275,7 +275,7 @@ struct CountedList {
 ```
 
 <!-- @annotations -->
-- 20: A field read. This is the entire benefit — 0.0003 microseconds regardless of how many nodes there are.
+- 19: A field read. This is the entire benefit — 0.0003 microseconds regardless of how many nodes there are.
 - 7: The increment has to be on every path that adds a node. One `pushFront` that forgets it makes the count wrong forever, with nothing to detect it.
 - 2: `head` being public is what makes the count fragile — any caller can rewire the chain behind the counter's back. Making it private is the only real defence.
 

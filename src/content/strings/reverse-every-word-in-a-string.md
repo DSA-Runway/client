@@ -202,7 +202,7 @@ string reverseWords(const string& s) {
 <!-- @annotations -->
 - 10: Pushing on every space, including consecutive ones, is what keeps the empty fields — and the empty fields are what reproduce runs of spaces on the way back out.
 - 12: The final push after the loop, for the field that has no space after it. Omitting it drops the last word.
-- 18: `append(rbegin, rend)` copies the field backwards in one call rather than a loop.
+- 17: `append(rbegin, rend)` copies the field backwards in one call rather than a loop.
 
 <!-- @code java -->
 ```java

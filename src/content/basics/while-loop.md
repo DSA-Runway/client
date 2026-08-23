@@ -458,7 +458,7 @@ while (true) {
 
 <!-- @annotations -->
 - 5: No error and no warning. The program simply hangs, printing 0 endlessly.
-- 17: The empty statement becomes the loop body, so the block below is never part of the loop.
+- 16: The empty statement becomes the loop body, so the block below is never part of the loop.
 - 22: Valid when the stopping condition can only be evaluated partway through an iteration.
 
 <!-- @code java -->
