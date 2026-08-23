@@ -197,6 +197,7 @@ export const CONTENT_IDS = [
   "implement-stack-using-arrays",
   "implement-stack-using-queue",
   "implement-stack-using-linkedlist",
+  "balanced-paranthesis",
   "generate-parentheses",
   "power-set",
   "combination-sum",

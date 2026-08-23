@@ -207,6 +207,7 @@ const FILES: Record<ContentId, string> = {
   "implement-stack-using-arrays": "stacks/implement-stack-using-arrays.md",
   "implement-stack-using-queue": "stacks/implement-stack-using-queue.md",
   "implement-stack-using-linkedlist": "stacks/implement-stack-using-linkedlist.md",
+  "balanced-paranthesis": "stacks/balanced-paranthesis.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
   "power-set": "advanced-recursion/power-set.md",
   "combination-sum": "advanced-recursion/combination-sum.md",
