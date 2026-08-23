@@ -197,6 +197,7 @@ export const CONTENT_IDS = [
   "generate-parentheses",
   "power-set",
   "combination-sum",
+  "combination-sum-ii",
 ] as const;
 
 export type ContentId = (typeof CONTENT_IDS)[number];
