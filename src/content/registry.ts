@@ -184,6 +184,7 @@ const FILES: Record<ContentId, string> = {
   "divide-two-numbers-without-multiplication-and-division": "bit-manipulation/divide-two-numbers-without-multiplication-and-division.md",
   "minimum-bit-flips-to-convert-number": "bit-manipulation/minimum-bit-flips-to-convert-number.md",
   "single-number-i": "bit-manipulation/single-number-i.md",
+  "power-set-bit-manipulation": "bit-manipulation/power-set-bit-manipulation.md",
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
 };
