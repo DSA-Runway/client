@@ -201,6 +201,7 @@ export const CONTENT_IDS = [
   "number-of-greater-elements-to-the-right",
   "next-greater-element",
   "next-greater-element-2",
+  "next-smaller-element",
   "generate-parentheses",
   "power-set",
   "combination-sum",

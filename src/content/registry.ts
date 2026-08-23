@@ -211,6 +211,7 @@ const FILES: Record<ContentId, string> = {
   "number-of-greater-elements-to-the-right": "stacks/number-of-greater-elements-to-the-right.md",
   "next-greater-element": "stacks/next-greater-element.md",
   "next-greater-element-2": "stacks/next-greater-element-2.md",
+  "next-smaller-element": "stacks/next-smaller-element.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
   "power-set": "advanced-recursion/power-set.md",
   "combination-sum": "advanced-recursion/combination-sum.md",
