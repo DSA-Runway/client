@@ -185,6 +185,7 @@ const FILES: Record<ContentId, string> = {
   "minimum-bit-flips-to-convert-number": "bit-manipulation/minimum-bit-flips-to-convert-number.md",
   "single-number-i": "bit-manipulation/single-number-i.md",
   "power-set-bit-manipulation": "bit-manipulation/power-set-bit-manipulation.md",
+  "xor-of-numbers-in-a-given-range": "bit-manipulation/xor-of-numbers-in-a-given-range.md",
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
 };
