@@ -170,6 +170,7 @@ export const CONTENT_IDS = [
   "check-if-a-number-is-power-of-2-or-not",
   "count-the-number-of-set-bits",
   "set-unset-the-rightmost-unset-bit",
+  "swap-two-numbers",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
 ] as const;
