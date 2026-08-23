@@ -173,6 +173,7 @@ export const CONTENT_IDS = [
   "swap-two-numbers",
   "divide-two-numbers-without-multiplication-and-division",
   "minimum-bit-flips-to-convert-number",
+  "single-number-i",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
 ] as const;
