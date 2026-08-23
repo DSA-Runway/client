@@ -248,7 +248,7 @@ Read every position with a fixed loop and add up the bits, without stopping earl
 <!-- @complexity -->
 - time: O(w) — always 32 reads for an int, whatever the value
 - space: O(1)
-- note: Verified over all 4,294,967,296 uint32 values, 0 mismatches. Measured 222,583ns over 65,536 random values, flat across every density tested — 193,000ns whether the input averaged 30 set bits or none. That flatness is the point: the constant bound lets the compiler unroll and vectorise, which is why it beats Kernighan's loop by 8.61x on random data despite doing twice the iterations.
+- note: Verified over all 4,294,967,296 uint32 values, 0 mismatches. Measured 222,583ns over 65,536 random values in the as-compiled ranking. In the run where the idiom recogniser is defeated, so that both loops execute as written, it is flat at roughly 193,000ns whether the input averages 30 set bits or none. That flatness is the point: the constant bound lets the compiler unroll and vectorise, which is why it beats Kernighan's loop by 8.61x on random data despite doing twice the iterations.
 
 <!-- @code cpp -->
 ```cpp
@@ -533,7 +533,7 @@ It shows that "fewer iterations is faster" is a statement about a machine rather
 4. In Python the same two functions gave 1,078ns for Kernighan's and 2,824ns for the fixed loop on random input — 2.62x the other way.
 5. On sparse input the Python gap widened to 14.2x, because interpreted iterations are expensive and skipping them is the only optimisation available.
 6. Neither result contradicts the other: the loop really does perform fewer steps, and whether that matters depends entirely on what a step costs.
-7. In both languages the builtin wins outright — 8,333ns in C++ and 53ns per value in Python, 53.3x the fixed loop.
+7. In both languages the builtin wins outright — 8,333ns over 65,536 values in C++, and 53ns per value in Python against the Python fixed loop's 2,824ns, a factor of 53.3.
 
 <!-- @visualization custom -->
 
