@@ -189,6 +189,7 @@ const FILES: Record<ContentId, string> = {
   "single-number-iii": "bit-manipulation/single-number-iii.md",
   "print-prime-factors-of-a-number": "bit-manipulation/print-prime-factors-of-a-number.md",
   "divisors-of-a-number": "bit-manipulation/divisors-of-a-number.md",
+  "count-primes-in-range-l-to-r": "bit-manipulation/count-primes-in-range-l-to-r.md",
   "generate-binary-strings-without-consecutive-1s": "advanced-recursion/generate-binary-strings-without-consecutive-1s.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
 };
