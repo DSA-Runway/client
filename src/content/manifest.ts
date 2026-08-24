@@ -217,6 +217,7 @@ export const CONTENT_IDS = [
   "next-greater-element",
   "next-greater-element-2",
   "next-smaller-element",
+  "sum-of-subarray-minimums",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
   "power-set",
