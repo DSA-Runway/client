@@ -235,6 +235,7 @@ const FILES: Record<ContentId, string> = {
   "combination-sum-ii": "advanced-recursion/combination-sum-ii.md",
   "subsets-i": "advanced-recursion/subsets-i.md",
   "subsets-ii": "advanced-recursion/subsets-ii.md",
+  "combination-sum-iii": "advanced-recursion/combination-sum-iii.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
