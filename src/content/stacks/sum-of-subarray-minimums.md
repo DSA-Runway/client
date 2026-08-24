@@ -188,8 +188,8 @@ long long sumSubarrayMins(const vector<int>& a) {
 
 <!-- @annotations -->
 - 11: The running minimum is what keeps this quadratic; recomputing min over a[i..j] inside the inner loop would make it cubic.
-- 9: long long from the start — the sum reaches 13,500,450,000,000 at the usual constraints, which is 6,287x INT_MAX.
-- 17: Four elements, ten subarrays, and every convention agrees on this input because the values are distinct.
+- 8: long long from the start — the sum reaches 13,500,450,000,000 at the usual constraints, which is 6,287x INT_MAX.
+- 19: Four elements, ten subarrays, and every convention agrees on this input because the values are distinct.
 
 <!-- @code java -->
 ```java
@@ -386,7 +386,7 @@ long long sumSubarrayMins(const vector<int>& a) {
 <!-- @annotations -->
 - 11: >= gives the previous strictly smaller element, which is the same left-hand rule as the span version — the tie asymmetry is now implicit rather than split across two loops.
 - 13: dp[p] carries the entire history of subarrays reaching past p, so nothing before p is ever revisited. Note also that (long long)(i - p) * a[i] widens before multiplying; at the problem's constraints the product alone can exceed a 32-bit int.
-- 16: Accumulating inside the loop avoids a second pass over dp, which is worth a measurable amount at these sizes.
+- 15: Accumulating inside the loop avoids a second pass over dp, which is worth a measurable amount at these sizes.
 
 <!-- @code java -->
 ```java
