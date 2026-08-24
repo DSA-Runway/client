@@ -40,8 +40,11 @@ export default function ProfilePage() {
   // Auth check removed — always logged in for demo
 
   useEffect(() => {
-    if (profileName) setDisplayName(profileName);
-    else if (session?.user?.name) setDisplayName(session.user.name);
+    const t = setTimeout(() => {
+      if (profileName) setDisplayName(profileName);
+      else if (session?.user?.name) setDisplayName(session.user.name);
+    }, 0);
+    return () => clearTimeout(t);
   }, [profileName, session]);
 
   const handleSave = (e: React.FormEvent) => {
@@ -70,7 +73,7 @@ export default function ProfilePage() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT1 }}>
       <Navbar />
-      <div style={{ height: "74px" }} />
+      <div style={{ height: "88px" }} />
 
       <div style={{ maxWidth: "640px", margin: "0 auto", padding: "36px 24px 64px" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
@@ -97,7 +100,7 @@ export default function ProfilePage() {
               <div style={{ fontSize: "13px", color: TEXT2, marginTop: "2px" }}>{session?.user?.email}</div>
               <div style={{ fontSize: "11px", color: "#f59e0b", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
                 <User style={{ width: "11px", height: "11px" }} />
-                DSA Tutor AI Member
+                DSARunway Member
               </div>
             </div>
           </div>
@@ -150,7 +153,7 @@ export default function ProfilePage() {
                   style={{ ...inputStyle(isDark), opacity: 0.6, cursor: "not-allowed" }}
                 />
                 <p style={{ fontSize: "11px", color: TEXT2, marginTop: "6px", marginBottom: 0 }}>
-                  Email cannot be changed in demo mode.
+                  Email is managed by your sign-in provider and cannot be changed here.
                 </p>
               </div>
 

@@ -100,7 +100,7 @@ function GraphAnimation() {
   );
 }
 
-const W = { maxWidth: "1400px", margin: "0 auto", padding: "0 32px" } as const;
+const W = { maxWidth: "1152px", margin: "0 auto", padding: "0 24px" } as const;
 
 export default function LandingPage() {
   const featuresRef = useRef<HTMLDivElement>(null);
@@ -153,22 +153,22 @@ export default function LandingPage() {
         </div>
 
         {/* ── Content ── */}
-        <div style={{ position: "relative", zIndex: 10, textAlign: "center", width: "100%", maxWidth: "1000px", margin: "0 auto", padding: "120px 32px 80px" }}>
+        <div style={{ position: "relative", zIndex: 10, textAlign: "center", width: "100%", maxWidth: "960px", margin: "0 auto", padding: "128px 24px 64px" }}>
 
           {/* Badge — teal pill like NextGen.ai */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "7px 20px", borderRadius: "999px",
               background: "rgba(6,182,212,0.08)", border: "1px solid rgba(6,182,212,0.25)", color: "#06b6d4",
-              fontSize: "13px", fontWeight: 600, marginBottom: "36px", backdropFilter: "blur(12px)"
+              fontSize: "13px", fontWeight: 600, marginBottom: "24px", backdropFilter: "blur(12px)"
             }}>
             <Sparkles style={{ width: "14px", height: "14px" }} />
-            AI-Powered DSA Tutor — Now Live
+            AI-Powered DSA Tutoring — Now Live
             <span className="animate-pulse" style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />
           </motion.div>
 
           {/* Giant heading — mixed typography like NextGen.ai */}
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            style={{ fontSize: "clamp(52px, 7.5vw, 96px)", fontWeight: 900, lineHeight: 1.0, letterSpacing: "-3px", marginBottom: "28px" }}
+            style={{ fontSize: "clamp(46px, 6.5vw, 84px)", fontWeight: 900, lineHeight: 1.02, letterSpacing: "-2.5px", marginBottom: "22px" }}
           >
             Your Smart<br />
             <span className="gold-text-animated">Learning</span><br />
@@ -177,7 +177,7 @@ export default function LandingPage() {
 
           {/* Subtext */}
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}
-            style={{ fontSize: "18px", color: TEXT3, lineHeight: 1.75, maxWidth: "540px", margin: "0 auto 44px" }}
+            style={{ fontSize: "17px", color: TEXT3, lineHeight: 1.7, maxWidth: "520px", margin: "0 auto 32px" }}
           >
             Practice DSA with an AI tutor that teaches like a mentor — Socratic questioning,
             live visualizations, and personalized learning paths.
@@ -185,7 +185,7 @@ export default function LandingPage() {
 
           {/* CTA buttons — pill-shaped like NextGen.ai */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
-            style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap", marginBottom: "56px" }}
+            style={{ display: "flex", justifyContent: "center", gap: "14px", flexWrap: "wrap", marginBottom: "44px" }}
           >
             <Link href="/learn">
               <motion.button
@@ -220,7 +220,7 @@ export default function LandingPage() {
 
           {/* Mini stats row (like "40,000+ | logos" in NextGen.ai) */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }}
-            style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", marginBottom: "72px" }}
+            style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", marginBottom: "56px" }}
           >
             {STATS.map((s, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center" }}>
@@ -243,7 +243,7 @@ export default function LandingPage() {
                 <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#ff5f57" }} />
                 <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#febc2e" }} />
                 <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#28c840" }} />
-                <span style={{ marginLeft: "12px", fontSize: "12px", color: "#475569", fontFamily: "monospace" }}>dsa-tutor.ai — Agent Session</span>
+                <span style={{ marginLeft: "12px", fontSize: "12px", color: "#475569", fontFamily: "monospace" }}>dsarunway.app — Agent Session</span>
                 <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#10b981" }}>
                   <span className="animate-pulse" style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", display: "inline-block" }} />Active
                 </div>
@@ -339,7 +339,7 @@ export default function LandingPage() {
           <div style={{ textAlign: "center", marginBottom: "72px" }}>
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               style={{ display: "inline-block", color: "#06b6d4", fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", padding: "4px 14px", borderRadius: "999px", background: "rgba(6,182,212,0.08)", border: "1px solid rgba(6,182,212,0.2)", marginBottom: "16px" }}>
-              Why DSA Tutor AI
+              Why DSARunway
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
               style={{ fontSize: "clamp(28px, 3.5vw, 50px)", fontWeight: 900, lineHeight: 1.1, marginBottom: "16px" }}>
@@ -372,7 +372,7 @@ export default function LandingPage() {
       <section style={{ padding: "100px 0", borderTop: `1px solid ${DIVIDER}`, background: SECT_BG, position: "relative" }}>
         <div style={{ position: "absolute", width: "700px", height: "700px", borderRadius: "50%", filter: "blur(120px)", background: "#06b6d4", opacity: 0.04, top: "-10%", left: "-150px", pointerEvents: "none" }} />
         <div style={W}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}>
               <div style={{ display: "inline-block", color: "#06b6d4", fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", padding: "4px 14px", borderRadius: "999px", background: "rgba(6,182,212,0.08)", border: "1px solid rgba(6,182,212,0.2)", marginBottom: "16px" }}>
                 Architecture
@@ -402,7 +402,20 @@ export default function LandingPage() {
             </motion.div>
             {/* Orbital diagram */}
             <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.75, delay: 0.15, ease: [0.16, 1, 0.3, 1] }} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <div style={{ position: "relative", width: "320px", height: "320px" }}>
+              <div style={{ position: "relative", width: "340px", height: "340px" }}>
+                {/* Orbit ring + connector spokes */}
+                <svg width="340" height="340" viewBox="0 0 340 340" style={{ position: "absolute", inset: 0 }} aria-hidden="true">
+                  <circle cx="170" cy="170" r="118" fill="none" stroke={isDark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.10)"} strokeWidth="1" strokeDasharray="4 6" />
+                  {AGENTS.slice(1).map((agent, i) => {
+                    const angle = (i / 4) * 2 * Math.PI - Math.PI / 2;
+                    return (
+                      <line key={i}
+                        x1={170 + 52 * Math.cos(angle)} y1={170 + 52 * Math.sin(angle)}
+                        x2={170 + 84 * Math.cos(angle)} y2={170 + 84 * Math.sin(angle)}
+                        stroke={agent.color} strokeWidth="1.5" strokeOpacity="0.45" strokeDasharray="3 4" />
+                    );
+                  })}
+                </svg>
                 <motion.div
                   animate={{ boxShadow: ["0 0 20px rgba(245,158,11,0.3)", "0 0 50px rgba(245,158,11,0.6)", "0 0 20px rgba(245,158,11,0.3)"] }}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -413,14 +426,13 @@ export default function LandingPage() {
                 </motion.div>
                 {AGENTS.slice(1).map((agent, i) => {
                   const angle = (i / 4) * 2 * Math.PI - Math.PI / 2;
-                  const r = 120;
-                  const x = 50 + (r / 160) * 100 * Math.cos(angle);
-                  const y = 50 + (r / 160) * 100 * Math.sin(angle);
+                  const x = 170 + 118 * Math.cos(angle);
+                  const y = 170 + 118 * Math.sin(angle);
                   return (
-                    <motion.div key={i} style={{ position: "absolute", left: `${x}%`, top: `${y}%`, transform: "translate(-50%,-50%)" }}
+                    <motion.div key={i} style={{ position: "absolute", left: `${x}px`, top: `${y}px`, marginLeft: "-34px", marginTop: "-34px" }}
                       animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, delay: i * 0.4, repeat: Infinity }}>
-                      <div style={{ width: "64px", height: "64px", borderRadius: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", background: `${agent.color}15`, border: `1px solid ${agent.color}50`, boxShadow: `0 0 15px ${agent.color}30` }}>
-                        <span style={{ fontSize: "9px", fontWeight: 700, lineHeight: 1.3, padding: "0 4px", color: agent.color }}>{agent.name}</span>
+                      <div style={{ width: "68px", height: "68px", borderRadius: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", background: isDark ? `${agent.color}15` : "#ffffff", border: `1.5px solid ${agent.color}55`, boxShadow: `0 0 15px ${agent.color}25` }}>
+                        <span style={{ fontSize: "9.5px", fontWeight: 700, lineHeight: 1.3, padding: "0 6px", color: agent.color }}>{agent.name}</span>
                       </div>
                     </motion.div>
                   );
@@ -495,7 +507,7 @@ export default function LandingPage() {
           </h2>
 
           {/* Subtext */}
-          <p style={{ color: "#94a3b8", marginBottom: "44px", fontSize: "18px", lineHeight: 1.7, maxWidth: "480px", margin: "0 auto 44px" }}>
+          <p style={{ color: isDark ? "#94a3b8" : "#334155", marginBottom: "44px", fontSize: "18px", lineHeight: 1.7, maxWidth: "480px", margin: "0 auto 44px" }}>
             Join thousands of engineers learning DSA the smarter way — with a tutor that adapts to you.
           </p>
 
@@ -525,83 +537,132 @@ export default function LandingPage() {
           </div>
 
           {/* Trust indicators */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "28px", marginTop: "36px", fontSize: "13px", color: "#64748b", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "28px", marginTop: "36px", fontSize: "13px", color: isDark ? "#64748b" : "#475569", flexWrap: "wrap" }}>
             <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><Star style={{ width: "13px", height: "13px", color: "#f59e0b" }} />Curriculum-Aligned</span>
-            <span style={{ width: "1px", height: "14px", background: "rgba(255,255,255,0.1)" }} />
+            <span style={{ width: "1px", height: "14px", background: isDark ? "rgba(255,255,255,0.1)" : "rgba(15,23,42,0.15)" }} />
             <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><Users style={{ width: "13px", height: "13px", color: "#f59e0b" }} />Multi-Agent AI</span>
-            <span style={{ width: "1px", height: "14px", background: "rgba(255,255,255,0.1)" }} />
+            <span style={{ width: "1px", height: "14px", background: isDark ? "rgba(255,255,255,0.1)" : "rgba(15,23,42,0.15)" }} />
             <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><Layers style={{ width: "13px", height: "13px", color: "#f59e0b" }} />RAG-Powered</span>
           </div>
         </motion.div>
       </section>
 
       {/* ════════════════════════════════════ FOOTER ════════════════════════════════════ */}
-      <footer style={{ padding: "52px 0 32px", borderTop: `1px solid ${DIVIDER}`, background: isDark ? "rgba(2,8,18,0.95)" : "rgba(241,245,249,0.95)" }}>
+      <footer style={{ padding: "72px 0 0", borderTop: `1px solid ${DIVIDER}`, background: isDark ? "rgba(2,8,18,0.95)" : "rgba(241,245,249,0.95)", overflow: "hidden" }}>
         <div style={W}>
 
-          {/* ── Top row: logo | nav links | social icons ── */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "28px", marginBottom: "36px" }}>
+          {/* ── Footer card (100xDevs style) ── */}
+          <div style={{ borderRadius: "20px", border: `1px solid ${BORDER}`, background: CARD_BG, padding: "44px 48px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "40px", boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.06)" }}>
 
-            {/* Logo */}
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
-              <div style={{ position: "relative", width: "32px", height: "32px" }}>
-                <div style={{ position: "absolute", inset: 0, background: "#f59e0b", borderRadius: "8px", opacity: 0.25, filter: "blur(5px)" }} />
-                <div style={{ position: "relative", width: "32px", height: "32px", background: "linear-gradient(135deg, #f59e0b, #d97706)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Brain style={{ width: "17px", height: "17px", color: "#000" }} />
+            {/* Col 1 — Brand */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+                <div style={{ position: "relative", width: "36px", height: "36px" }}>
+                  <div style={{ position: "absolute", inset: 0, background: "#f59e0b", borderRadius: "9px", opacity: 0.25, filter: "blur(6px)" }} />
+                  <div style={{ position: "relative", width: "36px", height: "36px", background: "linear-gradient(135deg, #f59e0b, #d97706)", borderRadius: "9px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Brain style={{ width: "19px", height: "19px", color: "#000" }} />
+                  </div>
                 </div>
+                <span style={{ fontWeight: 800, fontSize: "20px", color: TEXT1 }}>DSA<span style={{ color: "#f59e0b" }}>Runway</span></span>
               </div>
-              <span style={{ fontWeight: 800, fontSize: "16px", color: TEXT1 }}>DSA<span style={{ color: "#f59e0b" }}> Tutor</span></span>
+              <p style={{ fontSize: "14px", color: TEXT2, lineHeight: 1.8, margin: 0, maxWidth: "280px" }}>
+                Learn DSA through Socratic AI tutoring, live visualizations, and
+                personalized learning paths — built by the DSARunway team at
+                Thapar Institute.
+              </p>
             </div>
 
-            {/* Nav links with dividers */}
-            <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
-              {[
-                { href: "/", label: "Home" },
-                { href: "/dashboard", label: "Dashboard" },
-                { href: "/learn", label: "Learn" },
-                { href: "/visualizer", label: "Visualizer" },
-                { href: "/topics", label: "Topics" },
-              ].map((item, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center" }}>
-                  {i > 0 && <span style={{ color: isDark ? "rgba(255,255,255,0.12)" : "rgba(15,23,42,0.15)", padding: "0 14px", fontSize: "13px", userSelect: "none" }}>|</span>}
-                  <Link href={item.href} style={{ textDecoration: "none" }}>
-                    <span style={{ fontSize: "14px", color: TEXT2, fontWeight: 500 }}
-                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = isDark ? "#e2e8f0" : "#0f172a"}
+            {/* Col 2 — Learn links */}
+            <div>
+              <div style={{ fontWeight: 700, fontSize: "15px", color: TEXT1, marginBottom: "20px" }}>Learn</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                {[
+                  { href: "/learn", label: "AI Tutor Session" },
+                  { href: "/visualizer", label: "Algorithm Visualizer" },
+                  { href: "/topics", label: "DSA Topics" },
+                  { href: "/dashboard", label: "Progress Dashboard" },
+                ].map(item => (
+                  <Link key={item.label} href={item.href} style={{ textDecoration: "none" }}>
+                    <span style={{ fontSize: "14px", color: TEXT2, fontWeight: 500, transition: "color 0.2s" }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "#f59e0b"}
                       onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = isDark ? "#64748b" : "#475569"}
                     >{item.label}</span>
                   </Link>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
-            {/* Social icons */}
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
-              {[
-                { Icon: Twitter, label: "Twitter" },
-                { Icon: Instagram, label: "Instagram" },
-                { Icon: Linkedin, label: "LinkedIn" },
-                { Icon: Youtube, label: "YouTube" },
-              ].map(({ Icon, label }) => (
-                <motion.a key={label} href="#" aria-label={label}
-                  whileHover={{ scale: 1.12, borderColor: "rgba(245,158,11,0.4)", color: "#f59e0b" }}
-                  style={{ width: "38px", height: "38px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.05)", border: isDark ? "1px solid rgba(255,255,255,0.09)" : "1px solid rgba(15,23,42,0.10)", color: TEXT2, cursor: "pointer" }}
-                >
-                  <Icon style={{ width: "15px", height: "15px" }} />
-                </motion.a>
-              ))}
+            {/* Col 3 — DSARunway links */}
+            <div>
+              <div style={{ fontWeight: 700, fontSize: "15px", color: TEXT1, marginBottom: "20px" }}>DSARunway</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                {[
+                  { href: "/", label: "Home" },
+                  { href: "/login", label: "Learner Login" },
+                  { href: "/signup", label: "Create Account" },
+                  { href: "/profile", label: "My Profile" },
+                ].map(item => (
+                  <Link key={item.label} href={item.href} style={{ textDecoration: "none" }}>
+                    <span style={{ fontSize: "14px", color: TEXT2, fontWeight: 500, transition: "color 0.2s" }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "#f59e0b"}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = isDark ? "#64748b" : "#475569"}
+                    >{item.label}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Col 4 — Socials + copyright */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "20px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                {[
+                  { Icon: Youtube, label: "YouTube" },
+                  { Icon: Twitter, label: "Twitter" },
+                  { Icon: Instagram, label: "Instagram" },
+                  { Icon: Linkedin, label: "LinkedIn" },
+                ].map(({ Icon, label }) => (
+                  <motion.a key={label} href="#" aria-label={label}
+                    whileHover={{ scale: 1.1, borderColor: "rgba(245,158,11,0.45)", color: "#f59e0b" }}
+                    style={{ width: "44px", height: "44px", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", background: isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.05)", border: isDark ? "1px solid rgba(255,255,255,0.09)" : "1px solid rgba(15,23,42,0.10)", color: TEXT2, cursor: "pointer" }}
+                  >
+                    <Icon style={{ width: "18px", height: "18px" }} />
+                  </motion.a>
+                ))}
+              </div>
+              <div style={{ fontSize: "13px", color: isDark ? "#475569" : "#64748b", lineHeight: 1.7 }}>
+                © 2025–26 DSARunway. All rights reserved.
+                <br />
+                <span style={{ color: isDark ? "#334155" : "#94a3b8", fontSize: "12px" }}>
+                  Sachin Goyal · Raghav Chhabra · Aksh Khurana · Prachi
+                </span>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* ── Bottom row: divider + copyright ── */}
-          <div style={{ borderTop: isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(15,23,42,0.08)", paddingTop: "24px", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
-            <div style={{ fontSize: "12px", color: isDark ? "#334155" : "#64748b", textAlign: "center" }}>
-              © 2025–26 DSA Tutor AI — Thapar Institute of Engineering &amp; Technology Capstone Project
-            </div>
-            <div style={{ fontSize: "12px", color: isDark ? "#2a3f55" : "#94a3b8" }}>
-              Sachin Goyal · Raghav Chhabra · Aksh Khurana · Prachi
-            </div>
+        {/* ── Giant brand watermark (100xDevs style) ── */}
+        <div style={{ position: "relative", marginTop: "48px", paddingBottom: "0", userSelect: "none", pointerEvents: "none" }}>
+          <div
+            aria-hidden="true"
+            style={{
+              fontSize: "clamp(72px, 15.5vw, 250px)",
+              fontWeight: 900,
+              lineHeight: 0.95,
+              letterSpacing: "-0.04em",
+              textAlign: "center",
+              whiteSpace: "nowrap",
+              backgroundImage: isDark
+                ? "linear-gradient(to bottom, rgba(245,158,11,0.34) 0%, rgba(139,92,246,0.14) 60%, rgba(2,8,18,0) 100%)"
+                : "linear-gradient(to bottom, rgba(15,23,42,0.22) 0%, rgba(139,92,246,0.10) 60%, rgba(241,245,249,0) 100%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              color: "transparent",
+              transform: "translateY(8%)",
+            }}
+          >
+            DSARunway
           </div>
-
         </div>
       </footer>
     </div>

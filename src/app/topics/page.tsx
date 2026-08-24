@@ -142,7 +142,7 @@ export default function TopicsPage() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT1 }}>
       <Navbar />
-      <div style={{ height: "74px" }} />
+      <div style={{ height: "88px" }} />
 
       <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "32px 28px 64px" }}>
 
