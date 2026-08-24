@@ -9,9 +9,11 @@ import {
   Brain, Flame, Star, TrendingUp, Clock, Target, ChevronRight,
   BookOpen, Code2, Zap, Award, Play, BarChart3, ArrowRight,
   CheckCircle2, Circle, Lock, Sparkles, Bot, MessageSquare,
-  Calendar, Users, Building2, Download, SlidersHorizontal
+  Calendar, Users, Building2, Download, SlidersHorizontal, Gift,
+  Medal, Mic, Timer, Globe, Trophy, FolderOpen
 } from "lucide-react";
 import { useProfileName } from "@/lib/useProfileName";
+import { awardDaily, REWARD_TIERS, type DsrState } from "@/lib/dsr";
 
 /* ─── Data ─── */
 const TOPIC_PROGRESS = [
@@ -40,17 +42,63 @@ const RECOMMENDED = [
 ];
 
 const ACHIEVEMENTS = [
-  { title: "First Steps", desc: "Complete first session", earned: true, icon: "🎯" },
-  { title: "Array Master", desc: "90%+ in Arrays", earned: true, icon: "⚡" },
-  { title: "Streak Keeper", desc: "7-day streak", earned: true, icon: "🔥" },
-  { title: "Graph Explorer", desc: "Complete all Graph topics", earned: false, icon: "🌐" },
-  { title: "DP Warrior", desc: "Solve 10 DP problems", earned: false, icon: "🏆" },
-  { title: "Speed Coder", desc: "Solve in under 5 min", earned: false, icon: "⚡" },
+  { title: "First Steps", desc: "Complete first session", earned: true, icon: Target, color: "#f59e0b" },
+  { title: "Array Master", desc: "90%+ in Arrays", earned: true, icon: Zap, color: "#8b5cf6" },
+  { title: "Streak Keeper", desc: "7-day streak", earned: true, icon: Flame, color: "#ef4444" },
+  { title: "Graph Explorer", desc: "Complete all Graph topics", earned: false, icon: Globe, color: "#06b6d4" },
+  { title: "DP Warrior", desc: "Solve 10 DP problems", earned: false, icon: Trophy, color: "#10b981" },
+  { title: "Speed Coder", desc: "Solve in under 5 min", earned: false, icon: Timer, color: "#ec4899" },
 ];
+
+const TIER_ICONS: Record<string, typeof Medal> = { medal: Medal, book: BookOpen, folder: FolderOpen, mic: Mic };
 
 const WEEKLY_ACTIVITY = [28, 45, 30, 62, 55, 80, 70, 88, 65, 75, 90, 72];
 
-const W = { maxWidth: "1400px", margin: "0 auto", padding: "0 28px" } as const;
+const W = { maxWidth: "1152px", margin: "0 auto", padding: "0 24px" } as const;
+
+/* ─── Activity heatmap (GitHub-style) ─── */
+const HEAT_WEEKS = 52;
+type HeatDay = { label: string; level: number; inStreak: boolean };
+function buildHeatmap(year?: number): { weeks: HeatDay[][]; monthLabels: { col: number; label: string }[]; activeDays: number; maxStreak: number } {
+  const today = new Date();
+  let rangeStart: Date, end: Date;
+  if (year) {
+    rangeStart = new Date(year, 0, 1);
+    end = new Date(year, 11, 31);
+    if (end > today) end = today;
+  } else {
+    end = today;
+    rangeStart = new Date(today);
+    rangeStart.setDate(today.getDate() - today.getDay() - (HEAT_WEEKS - 1) * 7);
+  }
+  const start = new Date(rangeStart);
+  start.setDate(start.getDate() - start.getDay()); // align to Sunday
+  const totalWeeks = Math.ceil(((end.getTime() - start.getTime()) / 86400000 + 1) / 7);
+
+  const weeks: HeatDay[][] = [];
+  const monthLabels: { col: number; label: string }[] = [];
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  let activeDays = 0, maxStreak = 0, run = 0;
+  for (let w = 0; w < totalWeeks; w++) {
+    const col: HeatDay[] = [];
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(start);
+      date.setDate(start.getDate() + w * 7 + d);
+      if (date > end || date < rangeStart) { col.push({ label: "", level: -1, inStreak: false }); continue; }
+      if (d === 0 && date.getDate() <= 7) monthLabels.push({ col: w, label: MONTHS[date.getMonth()] });
+      // deterministic placeholder activity — replaced by real session data from the backend
+      const seed = (date.getDate() * 31 + (date.getMonth() + 1) * 17 + date.getFullYear()) % 12;
+      let level = [0, 1, 0, 2, 3, 0, 1, 4, 2, 0, 1, 3][seed];
+      const daysAgo = Math.floor((today.getTime() - date.getTime()) / 86400000);
+      const inStreak = !year && daysAgo < 12 && daysAgo >= 0;
+      if (inStreak && level === 0) level = 1 + (seed % 3);
+      if (level > 0) { activeDays++; run++; maxStreak = Math.max(maxStreak, run); } else run = 0;
+      col.push({ label: `${date.toDateString()}`, level, inStreak });
+    }
+    weeks.push(col);
+  }
+  return { weeks, monthLabels, activeDays, maxStreak };
+}
 
 /* ─── Components ─── */
 function CircularProgress({ value, size = 120 }: { value: number; size?: number }) {
@@ -146,26 +194,58 @@ export default function DashboardPage() {
   const TEXT2 = isDark ? "#7d8ba3"               : "#64748b";
   const SHADOW = isDark ? "none"                 : "0 2px 12px rgba(0,0,0,0.06)";
 
-  const [animatedScore, setAnimatedScore] = useState(0);
+  const [dsr, setDsr] = useState<DsrState | null>(null);
+  const [visitAwarded, setVisitAwarded] = useState(false);
+  const [dateStr, setDateStr] = useState("");
+  const [dateIso, setDateIso] = useState("");
+  const [heat, setHeat] = useState<ReturnType<typeof buildHeatmap> | null>(null);
+  const [heatMode, setHeatMode] = useState("12m");
+  const [yearOptions, setYearOptions] = useState<number[]>([]);
+
+  const fmtDate = (iso: string) =>
+    new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  const localIso = (d: Date) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
   useEffect(() => {
-    let start = 0;
-    const target = 847;
-    const step = target / 60;
-    const counter = setInterval(() => {
-      start += step;
-      if (start >= target) { setAnimatedScore(target); clearInterval(counter); }
-      else setAnimatedScore(Math.floor(start));
-    }, 16);
-    return () => clearInterval(counter);
+    // deferred a tick: hydrates client-only data (localStorage, locale date) after first paint
+    const t = setTimeout(() => {
+      const { state, awarded } = awardDaily("visit", 1, "Daily visit");
+      setDsr(state);
+      setVisitAwarded(awarded);
+      const today = new Date();
+      let iso = localIso(today);
+      try { const stored = localStorage.getItem("dsr-dash-date"); if (stored) iso = stored; } catch {}
+      setDateIso(iso);
+      setDateStr(fmtDate(iso));
+      setYearOptions([today.getFullYear(), today.getFullYear() - 1]);
+      setHeat(buildHeatmap());
+    }, 0);
+    return () => clearTimeout(t);
   }, []);
 
+  const changeDate = (iso: string) => {
+    if (!iso) return;
+    setDateIso(iso);
+    setDateStr(fmtDate(iso));
+    try {
+      if (iso === localIso(new Date())) localStorage.removeItem("dsr-dash-date");
+      else localStorage.setItem("dsr-dash-date", iso);
+    } catch {}
+  };
+
+  const changeHeatMode = (mode: string) => {
+    setHeatMode(mode);
+    setHeat(buildHeatmap(mode === "12m" ? undefined : Number(mode)));
+  };
+
+  const points = dsr?.points ?? 0;
   const diffTotal = 18 + 22 + 10;
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT1 }}>
       <Navbar />
-      <div style={{ height: "74px" }} />
+      <div style={{ height: "72px" }} />
 
       <div style={{ ...W, paddingTop: "28px", paddingBottom: "48px" }}>
 
@@ -174,7 +254,7 @@ export default function DashboardPage() {
           style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", marginBottom: "28px" }}>
           <div>
             <h1 style={{ fontSize: "26px", fontWeight: 900, margin: 0 }}>
-              Welcome back, <span style={{ color: "#f59e0b" }}>{displayName}</span> 👋
+              Welcome back, <span style={{ color: "#f59e0b" }}>{displayName}</span>
             </h1>
             <p style={{ color: TEXT2, marginTop: "4px", fontSize: "14px" }}>
               Continue your DSA journey — you&apos;re making great progress!
@@ -182,9 +262,20 @@ export default function DashboardPage() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             {/* Date chip */}
-            <div style={{ padding: "8px 14px", borderRadius: "10px", border: `1px solid ${BORDER}`, background: CARD, fontSize: "13px", color: TEXT2 }}>
-              📅 Feb 23, 2026
-            </div>
+            <label title="Click to change the dashboard date"
+              style={{ position: "relative", display: "flex", alignItems: "center", gap: "7px", padding: "8px 14px", borderRadius: "10px", border: `1px solid ${BORDER}`, background: CARD, fontSize: "13px", color: TEXT2, cursor: "pointer" }}>
+              <Calendar style={{ width: "14px", height: "14px", color: "#f59e0b" }} />
+              {dateStr || "…"}
+              <SlidersHorizontal style={{ width: "11px", height: "11px", opacity: 0.55 }} />
+              <input
+                type="date"
+                value={dateIso}
+                onChange={e => changeDate(e.target.value)}
+                onClick={e => { try { (e.currentTarget as HTMLInputElement).showPicker?.(); } catch {} }}
+                aria-label="Change dashboard date"
+                style={{ position: "absolute", inset: 0, opacity: 0, cursor: "pointer", width: "100%", height: "100%" }}
+              />
+            </label>
             <Link href="/learn">
               <motion.button
                 whileHover={{ scale: 1.04, boxShadow: "0 0 24px rgba(245,158,11,0.35)" }}
@@ -201,7 +292,7 @@ export default function DashboardPage() {
         {/* ─── TOP STAT CARDS ─── */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px", marginBottom: "20px" }}>
           {[
-            { label: "XP Score", value: animatedScore.toLocaleString(), icon: Star, color: "#f59e0b", sub: "+120 XP today", trend: "up" },
+            { label: "DSR Points", value: points.toLocaleString(), icon: Star, color: "#f59e0b", sub: visitAwarded ? "+1 daily visit" : "visit counted ✓", trend: "up" },
             { label: "Day Streak", value: "12", icon: Flame, color: "#ef4444", sub: "Personal best!", trend: "up" },
             { label: "Topics Done", value: "8/20", icon: BookOpen, color: "#8b5cf6", sub: "40% complete", trend: "neutral" },
             { label: "Avg Score", value: "84%", icon: BarChart3, color: "#10b981", sub: "↑ 6% this week", trend: "up" },
@@ -477,7 +568,9 @@ export default function DashboardPage() {
             {ACHIEVEMENTS.map((ach, i) => (
               <motion.div key={i} whileHover={{ scale: ach.earned ? 1.04 : 1 }}
                 style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", padding: "18px 10px", borderRadius: "12px", textAlign: "center", border: `1px solid ${ach.earned ? "rgba(245,158,11,0.2)" : BORDER}`, background: ach.earned ? "rgba(245,158,11,0.05)" : "rgba(255,255,255,0.02)", opacity: ach.earned ? 1 : 0.45, cursor: ach.earned ? "default" : "not-allowed" }}>
-                <div style={{ fontSize: "26px" }}>{ach.icon}</div>
+                <div style={{ width: "44px", height: "44px", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", background: `${ach.color}12`, border: `1px solid ${ach.color}${ach.earned ? "30" : "18"}` }}>
+                  <ach.icon style={{ width: "20px", height: "20px", color: ach.earned ? ach.color : TEXT2 }} />
+                </div>
                 <div style={{ fontSize: "12px", fontWeight: 600, color: TEXT1 }}>{ach.title}</div>
                 <div style={{ fontSize: "10px", color: TEXT2 }}>{ach.desc}</div>
                 {ach.earned
@@ -488,33 +581,137 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
-        {/* ─── STREAK CALENDAR ─── */}
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-          style={{ padding: "22px 24px", borderRadius: "14px", background: CARD, border: `1px solid ${BORDER}` }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "18px" }}>
-            <Flame style={{ width: "16px", height: "16px", color: "#ef4444" }} />
-            <h2 style={{ fontWeight: 700, fontSize: "15px", margin: 0, color: TEXT1 }}>Learning Streak</h2>
-            <span style={{ marginLeft: "auto", fontSize: "20px", fontWeight: 900, color: "#ef4444", display: "flex", alignItems: "center", gap: "6px" }}>
-              <Flame style={{ width: "16px", height: "16px" }} /> 12 days
+        {/* ─── DSR REWARDS ─── */}
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }}
+          style={{ padding: "22px 24px", borderRadius: "14px", background: CARD, border: `1px solid ${BORDER}`, marginBottom: "20px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px", flexWrap: "wrap" }}>
+            <Gift style={{ width: "16px", height: "16px", color: "#f59e0b" }} />
+            <h2 style={{ fontWeight: 700, fontSize: "15px", margin: 0, color: TEXT1 }}>DSR Rewards</h2>
+            <span style={{ fontSize: "13px", fontWeight: 800, color: "#f59e0b", background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)", padding: "3px 12px", borderRadius: "999px" }}>
+              {points.toLocaleString()} DSR
             </span>
+            <div style={{ marginLeft: "auto", display: "flex", gap: "8px", flexWrap: "wrap" }}>
+              {[
+                { label: "Daily visit", amt: "+1" },
+                { label: "Solve a problem", amt: "+10" },
+                { label: "Watch a lesson", amt: "+10" },
+              ].map(r => (
+                <span key={r.label} style={{ fontSize: "11px", color: TEXT2, background: isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.04)", border: `1px solid ${BORDER}`, padding: "3px 10px", borderRadius: "999px" }}>
+                  {r.label} <span style={{ color: "#10b981", fontWeight: 700 }}>{r.amt}</span>
+                </span>
+              ))}
+            </div>
           </div>
-          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-            {Array.from({ length: 28 }).map((_, i) => {
-              const active = i < 12 || [14, 16, 18, 20].includes(i);
-              const today = i === 11;
+          <p style={{ fontSize: "12px", color: TEXT2, margin: "0 0 18px" }}>
+            Earn DSR by showing up and practicing — spend streaks, unlock sheets.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "12px" }}>
+            {REWARD_TIERS.map(tier => {
+              const unlocked = points >= tier.at;
+              const pct = Math.min(100, Math.round((points / tier.at) * 100));
+              const TierIcon = TIER_ICONS[tier.icon] ?? Gift;
               return (
-                <motion.div key={i}
-                  initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: i * 0.018 }}
-                  style={{ width: "34px", height: "34px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: 600, cursor: "default", outline: today ? "2px solid #f59e0b" : "none", outlineOffset: "2px", background: active ? "rgba(245,158,11,0.18)" : isDark ? "rgba(255,255,255,0.04)" : "rgba(15,23,42,0.04)", color: active ? "#f59e0b" : TEXT2, border: active ? "1px solid rgba(245,158,11,0.3)" : `1px solid ${BORDER}` }}
-                >
-                  {i + 1}
-                </motion.div>
+                <div key={tier.at} style={{ padding: "14px 16px", borderRadius: "12px", border: `1px solid ${unlocked ? "rgba(16,185,129,0.35)" : BORDER}`, background: unlocked ? "rgba(16,185,129,0.06)" : isDark ? "rgba(255,255,255,0.02)" : "rgba(15,23,42,0.02)" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "9px", marginBottom: "6px" }}>
+                    <div style={{ width: "30px", height: "30px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: `${tier.color}14`, border: `1px solid ${tier.color}30` }}>
+                      <TierIcon style={{ width: "15px", height: "15px", color: tier.color }} />
+                    </div>
+                    <span style={{ fontSize: "13px", fontWeight: 700, color: TEXT1 }}>{tier.title}</span>
+                    {unlocked
+                      ? <CheckCircle2 style={{ width: "14px", height: "14px", color: "#10b981", marginLeft: "auto", flexShrink: 0 }} />
+                      : <Lock style={{ width: "12px", height: "12px", color: TEXT2, marginLeft: "auto", flexShrink: 0 }} />}
+                  </div>
+                  <p style={{ fontSize: "11px", color: TEXT2, margin: "0 0 10px" }}>{tier.desc}</p>
+                  <div style={{ height: "5px", borderRadius: "999px", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.08)", overflow: "hidden", marginBottom: "5px" }}>
+                    <div style={{ width: `${pct}%`, height: "100%", borderRadius: "999px", background: unlocked ? "#10b981" : "linear-gradient(90deg, #f59e0b, #d97706)", transition: "width 0.6s ease" }} />
+                  </div>
+                  <span style={{ fontSize: "10px", fontWeight: 600, color: unlocked ? "#10b981" : TEXT2 }}>
+                    {unlocked ? "Unlocked ✓" : `${points} / ${tier.at} DSR`}
+                  </span>
+                </div>
               );
             })}
           </div>
-          <p style={{ fontSize: "12px", color: TEXT2, marginTop: "14px", marginBottom: 0 }}>
-            Keep going! You&apos;re 2 days away from your longest streak.
-          </p>
+        </motion.div>
+
+        {/* ─── LEARNING STREAK HEATMAP ─── */}
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }}
+          style={{ padding: "22px 24px", borderRadius: "14px", background: CARD, border: `1px solid ${BORDER}` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px", flexWrap: "wrap" }}>
+            <Flame style={{ width: "16px", height: "16px", color: "#ef4444" }} />
+            <h2 style={{ fontWeight: 700, fontSize: "15px", margin: 0, color: TEXT1 }}>Learning Streak</h2>
+            <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+              {heat && (
+                <>
+                  <span style={{ fontSize: "12px", color: TEXT2 }}>
+                    Total active days: <strong style={{ color: TEXT1 }}>{heat.activeDays}</strong>
+                  </span>
+                  <span style={{ fontSize: "12px", color: TEXT2 }}>
+                    Max streak: <strong style={{ color: TEXT1 }}>{heat.maxStreak}</strong>
+                  </span>
+                </>
+              )}
+              <select
+                value={heatMode}
+                onChange={e => changeHeatMode(e.target.value)}
+                aria-label="Heatmap date range"
+                style={{ padding: "5px 10px", borderRadius: "8px", border: `1px solid ${BORDER}`, background: CARD2, color: TEXT1, fontSize: "12px", fontWeight: 600, cursor: "pointer", outline: "none" }}
+              >
+                <option value="12m">Last 12 months</option>
+                {yearOptions.map(y => <option key={y} value={String(y)}>{y}</option>)}
+              </select>
+              <span style={{ fontSize: "17px", fontWeight: 900, color: "#ef4444", display: "flex", alignItems: "center", gap: "6px" }}>
+                <Flame style={{ width: "15px", height: "15px" }} /> 12 days
+              </span>
+            </div>
+          </div>
+
+          {heat && (
+            <div style={{ overflowX: "auto", paddingBottom: "4px" }}>
+              {/* Month labels */}
+              <div style={{ display: "flex", marginLeft: "30px", marginBottom: "5px", position: "relative", height: "12px" }}>
+                {heat.monthLabels.map(m => (
+                  <span key={`${m.col}-${m.label}`} style={{ position: "absolute", left: `${m.col * 17}px`, fontSize: "10px", color: TEXT2 }}>{m.label}</span>
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: "3px" }}>
+                {/* Day labels */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "3px", marginRight: "4px", width: "26px", flexShrink: 0 }}>
+                  {["", "Mon", "", "Wed", "", "Fri", ""].map((d, i) => (
+                    <span key={i} style={{ fontSize: "9px", color: TEXT2, height: "14px", lineHeight: "14px" }}>{d}</span>
+                  ))}
+                </div>
+                {heat.weeks.map((week, w) => (
+                  <div key={w} style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+                    {week.map((day, d) => {
+                      if (day.level < 0) return <div key={d} style={{ width: "14px", height: "14px" }} />;
+                      const fills = isDark
+                        ? ["rgba(255,255,255,0.05)", "rgba(245,158,11,0.25)", "rgba(245,158,11,0.45)", "rgba(245,158,11,0.7)", "#f59e0b"]
+                        : ["rgba(15,23,42,0.06)", "rgba(245,158,11,0.25)", "rgba(245,158,11,0.45)", "rgba(245,158,11,0.72)", "#d97706"];
+                      return (
+                        <div key={d} title={`${day.level === 0 ? "No" : day.level} ${day.level === 1 ? "activity" : "activities"} · ${day.label}`}
+                          style={{ width: "14px", height: "14px", borderRadius: "3.5px", background: fills[day.level], outline: day.inStreak && day.level > 0 ? "1px solid rgba(239,68,68,0.35)" : "none", cursor: "default" }} />
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+              {/* Legend */}
+              <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "10px", marginLeft: "30px" }}>
+                <span style={{ fontSize: "10px", color: TEXT2, marginRight: "2px" }}>Less</span>
+                {(isDark
+                  ? ["rgba(255,255,255,0.05)", "rgba(245,158,11,0.25)", "rgba(245,158,11,0.45)", "rgba(245,158,11,0.7)", "#f59e0b"]
+                  : ["rgba(15,23,42,0.06)", "rgba(245,158,11,0.25)", "rgba(245,158,11,0.45)", "rgba(245,158,11,0.72)", "#d97706"]
+                ).map((c, i) => (
+                  <div key={i} style={{ width: "11px", height: "11px", borderRadius: "3px", background: c }} />
+                ))}
+                <span style={{ fontSize: "10px", color: TEXT2, marginLeft: "2px" }}>More</span>
+                <span style={{ marginLeft: "auto", fontSize: "12px", color: TEXT2 }}>
+                  Keep going! You&apos;re 2 days away from your longest streak.
+                </span>
+              </div>
+            </div>
+          )}
         </motion.div>
 
       </div>

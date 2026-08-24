@@ -121,7 +121,7 @@ export default function Navbar() {
         left:      "50%",
         transform: "translateX(-50%)",
         width:     "calc(100% - 48px)",
-        maxWidth:  "1200px",
+        maxWidth:  "1152px",
         zIndex:    50,
       }}>
         <motion.nav
@@ -138,7 +138,7 @@ export default function Navbar() {
             transition:         "background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease",
           }}
         >
-          <div style={{ height: "46px", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 6px 0 16px" }}>
+          <div style={{ height: "52px", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 8px 0 18px" }}>
 
             {/* ── Logo ── */}
             <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
@@ -151,7 +151,7 @@ export default function Navbar() {
                 transition: "color 0.25s",
               }}>
                 DSA
-                <span style={{ color: "#f59e0b" }}> Runway</span>
+                <span style={{ color: "#f59e0b" }}>Runway</span>
               </span>
             </Link>
 

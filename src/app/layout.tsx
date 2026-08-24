@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import AuthProvider from "@/components/providers/AuthProvider";
+import RouteProgress from "@/components/layout/RouteProgress";
 
 export const metadata: Metadata = {
-  title: "DSA Tutor AI — Your Smart Learning Companion",
-  description: "A DSA-Focused Agentic AI Tutor System with curriculum-aware personalized learning for Data Structures and Algorithms",
+  title: "DSARunway — Your Smart DSA Learning Companion",
+  description: "An agentic AI tutor for Data Structures & Algorithms — Socratic tutoring, live visualizations, an in-browser compiler, and curriculum-aware personalized learning.",
 };
 
 export default function RootLayout({
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className="antialiased" style={{ overflowX: "hidden" }} suppressHydrationWarning>
         <AuthProvider>
           <ThemeProvider>
+            <RouteProgress />
             {children}
           </ThemeProvider>
         </AuthProvider>
