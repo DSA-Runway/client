@@ -6,7 +6,7 @@ difficulty: Easy
 status: ready
 prerequisites:
   - implement-stack-using-arrays
-  - implement-queue-using-arrays
+  - left-rotate-array-by-one
   - data-types
   - time-and-space-complexity-basics
 relatedIds:
