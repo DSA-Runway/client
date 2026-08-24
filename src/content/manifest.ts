@@ -220,6 +220,7 @@ export const CONTENT_IDS = [
   "sum-of-subarray-minimums",
   "asteroid-collision",
   "sum-of-subarray-ranges",
+  "remove-k-digits",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
   "power-set",
