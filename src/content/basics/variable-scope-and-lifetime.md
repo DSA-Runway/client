@@ -419,14 +419,14 @@ print(value)            # 10 — the global was never touched
 #include <iostream>
 using namespace std;
 
-int count = 0;          // global
+int counter = 0;        // global
 
 void show() {
-    cout << count << endl;   // reading works
+    cout << counter << endl;   // reading works
 }
 
 void increment() {
-    count = count + 1;       // assigning works too — no keyword needed
+    counter = counter + 1;     // assigning works too — no keyword needed
 }
 
 int value = 10;
@@ -440,7 +440,7 @@ void shadow() {
 int main() {
     show();        // 0
     increment();
-    cout << count << endl;   // 1
+    cout << counter << endl;   // 1
 
     shadow();
     cout << value << endl;   // 10 — untouched

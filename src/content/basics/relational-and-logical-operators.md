@@ -222,18 +222,20 @@ int main() {
 
     // Floating point: never compare with ==
     double x = 0.1 + 0.2;
-    cout << (x == 0.3) << endl;              // 0  — surprising but correct
-    cout << (fabs(x - 0.3) < 1e-9) << endl;  // 1  — the right way
+    cout << (x == 0.3) << endl;              // false  — surprising but correct
+    cout << (fabs(x - 0.3) < 1e-9) << endl;  // true   — the right way
 
     // C++ strings compare by content
     string s1 = "hello", s2 = "hello";
-    cout << (s1 == s2) << endl;   // 1
+    cout << (s1 == s2) << endl;   // true
+    return 0;
+}
 ```
 
 <!-- @annotations -->
-- 13: boolalpha switches the stream to printing true/false instead of 1/0.
+- 13: boolalpha switches the stream to printing true/false instead of 1/0 — and it is **sticky**, so every bool printed after this line comes out as true/false too. That is why the comments below say true and false rather than 1 and 0.
 - 17: The stored values are very slightly off, so exact equality fails.
-- 21: Unlike Java, C++ std::string compares contents with ==.
+- 22: Unlike Java, C++ std::string compares contents with ==.
 
 <!-- @code java -->
 ```java

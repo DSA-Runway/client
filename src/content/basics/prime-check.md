@@ -534,6 +534,7 @@ Precompute primality for every number up to a limit by marking multiples, then a
 
 <!-- @code cpp -->
 ```cpp
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -568,8 +569,8 @@ int main() {
 ```
 
 <!-- @annotations -->
-- 9: Starting at i*i rather than 2*i is the standard refinement: every multiple below i*i has a factor smaller than i.
-- 29: The known count of primes below one million, useful as a correctness check on any sieve implementation.
+- 12: Starting at i*i rather than 2*i is the standard refinement: every multiple below i*i has a factor smaller than i.
+- 30: The known count of primes below one million, useful as a correctness check on any sieve implementation.
 
 <!-- @code java -->
 ```java
