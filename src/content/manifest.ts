@@ -222,6 +222,7 @@ export const CONTENT_IDS = [
   "sum-of-subarray-ranges",
   "remove-k-digits",
   "implement-min-stack",
+  "trapping-rainwater",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
   "power-set",
