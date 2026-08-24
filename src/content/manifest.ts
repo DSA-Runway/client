@@ -218,6 +218,7 @@ export const CONTENT_IDS = [
   "next-greater-element-2",
   "next-smaller-element",
   "sum-of-subarray-minimums",
+  "asteroid-collision",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
   "power-set",
