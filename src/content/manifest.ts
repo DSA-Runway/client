@@ -223,6 +223,7 @@ export const CONTENT_IDS = [
   "remove-k-digits",
   "implement-min-stack",
   "trapping-rainwater",
+  "largest-rectangle-in-a-histogram",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
   "power-set",
