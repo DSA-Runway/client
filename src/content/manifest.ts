@@ -230,6 +230,7 @@ export const CONTENT_IDS = [
   "largest-rectangle-in-a-histogram",
   "maximum-rectangles",
   "stock-span-problem",
+  "celebrity-problem",
   "asteroid-collision",
   "sum-of-subarray-ranges",
   "remove-k-digits",
