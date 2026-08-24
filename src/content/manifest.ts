@@ -229,6 +229,7 @@ export const CONTENT_IDS = [
   "trapping-rainwater",
   "largest-rectangle-in-a-histogram",
   "maximum-rectangles",
+  "stock-span-problem",
   "asteroid-collision",
   "sum-of-subarray-ranges",
   "remove-k-digits",

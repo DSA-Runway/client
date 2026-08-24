@@ -240,6 +240,7 @@ const FILES: Record<ContentId, string> = {
   "trapping-rainwater": "stacks/trapping-rainwater.md",
   "largest-rectangle-in-a-histogram": "stacks/largest-rectangle-in-a-histogram.md",
   "maximum-rectangles": "stacks/maximum-rectangles.md",
+  "stock-span-problem": "stacks/stock-span-problem.md",
   "asteroid-collision": "stacks/asteroid-collision.md",
   "sum-of-subarray-ranges": "stacks/sum-of-subarray-ranges.md",
   "remove-k-digits": "stacks/remove-k-digits.md",
