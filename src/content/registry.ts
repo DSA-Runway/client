@@ -187,7 +187,7 @@ const FILES: Record<ContentId, string> = {
   "delete-all-occurrences-of-a-key-in-dll": "linked-lists/delete-all-occurrences-of-a-key-in-dll.md",
   "remove-duplicates-from-sorted-dll": "linked-lists/remove-duplicates-from-sorted-dll.md",
   "reverse-ll-in-group-of-given-size-k": "linked-lists/reverse-ll-in-group-of-given-size-k.md",
-  "rotate-a-linked-list": "linked-lists/rotate-a-linked-list.md",
+  "rotate-a-ll": "linked-lists/rotate-a-ll.md",
   "flattening-of-ll": "linked-lists/flattening-of-ll.md",
   "clone-a-ll-with-random-and-next-pointer": "linked-lists/clone-a-ll-with-random-and-next-pointer.md",
   "bubble-sort": "basic-sorting-algorithms/bubble-sort.md",

@@ -177,7 +177,7 @@ export const CONTENT_IDS = [
   "delete-all-occurrences-of-a-key-in-dll",
   "remove-duplicates-from-sorted-dll",
   "reverse-ll-in-group-of-given-size-k",
-  "rotate-a-linked-list",
+  "rotate-a-ll",
   "flattening-of-ll",
   "clone-a-ll-with-random-and-next-pointer",
   "bubble-sort",

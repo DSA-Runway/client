@@ -1,5 +1,5 @@
 ---
-id: rotate-a-linked-list
+id: rotate-a-ll
 topic: Linked Lists
 title: Rotate a Linked List
 difficulty: Hard

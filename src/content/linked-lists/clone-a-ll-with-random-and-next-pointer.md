@@ -6,11 +6,11 @@ difficulty: Hard
 status: ready
 prerequisites:
   - flattening-of-ll
-  - rotate-a-linked-list
+  - rotate-a-ll
   - introduction-to-singly-linkedlist
 relatedIds:
   - flattening-of-ll
-  - rotate-a-linked-list
+  - rotate-a-ll
   - reverse-ll-in-group-of-given-size-k
   - find-the-intersection-point-of-y-ll
   - detect-a-loop-in-ll

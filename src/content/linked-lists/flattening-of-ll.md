@@ -10,7 +10,7 @@ prerequisites:
   - introduction-to-singly-linkedlist
 relatedIds:
   - sort-ll
-  - rotate-a-linked-list
+  - rotate-a-ll
   - reverse-ll-in-group-of-given-size-k
   - sort-a-linked-list-of-0s-1s-and-2s
   - add-two-numbers-in-linked-list
