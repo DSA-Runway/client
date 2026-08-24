@@ -230,6 +230,7 @@ const FILES: Record<ContentId, string> = {
   "next-smaller-element": "stacks/next-smaller-element.md",
   "sum-of-subarray-minimums": "stacks/sum-of-subarray-minimums.md",
   "asteroid-collision": "stacks/asteroid-collision.md",
+  "sum-of-subarray-ranges": "stacks/sum-of-subarray-ranges.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
   "power-set": "advanced-recursion/power-set.md",
   "combination-sum": "advanced-recursion/combination-sum.md",

@@ -133,8 +133,9 @@ Against the repeated-scan simulation: **91x** at n = 16,000, and 14x in Python.
 
 **Sum of Subarray Ranges** returns to the span machinery, needing the maximum
 version and the minimum version of Sum of Subarray Minimums at once — and the
-tie asymmetry has to stay consistent between them, which is exactly where
-deriving one from the other by flipping comparisons goes wrong.
+question it settles is whether the two halves have to agree about how ties are
+broken. Measured, they do not; what matters is that each half is internally
+asymmetric.
 
 <!-- @intuition -->
 Everything to the left that is still moving right is a threat to anything arriving that moves left, and the most recent right-mover is the one that meets it first — so the unresolved right-movers form a stack in the order they will be encountered. What is new is that the encounter can go three ways rather than one. In the earlier problems an arriving element only ever settled the fate of things already waiting; here it might be the one that dies, and then it never joins the queue at all. That single change ripples: the loop needs a flag saying whether the newcomer is still alive, the push moves inside a condition, and the accounting shifts from "every element is pushed once" to "every element is pushed at most once". It also makes the algorithm cheaper rather than dearer, because an element destroyed on arrival costs nothing to store.
@@ -694,4 +695,4 @@ Because it restarts the scan after every deletion. Removing an element can creat
 ### What does this lead into?
 
 <!-- @answer -->
-Sum of Subarray Ranges, which returns to the span machinery from two subtopics ago and needs it twice over — the sum of subarray maximums minus the sum of subarray minimums. The interesting part is that the tie asymmetry has to stay consistent between the two halves: deriving the maximum version by flipping every comparison in the minimum version is the obvious move, and it is exactly where the strictness gets mirrored incorrectly and the two halves stop partitioning the same set of subarrays.
+Sum of Subarray Ranges, which returns to the span machinery from two subtopics ago and needs it twice over — the sum of subarray maximums minus the sum of subarray minimums. The interesting part is a question it is easy to get wrong in the confident direction: must the two halves break ties the same way? The natural answer is yes, and the measurement says no — all four pairings of conventions were correct across 200,000 arrays, because each half partitions the subarrays independently. What does break is a symmetric convention inside either half, and when both halves are broken the errors cancel often enough that the doubly-wrong version passes testing more readily than the singly-wrong one.
