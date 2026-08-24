@@ -338,7 +338,7 @@ def sum_subarray_mins(a: list[int]) -> int:
 
 <!-- @annotations -->
 - 8: >= here and > below. Writing the same operator twice is the bug, and it is invisible on any array of distinct values.
-- 20: No overflow concern in Python, but the problem's modulo still applies — and it must be taken at the end, not inside the product.
+- 19: No overflow concern in Python, but the problem's modulo still applies — and it must be taken at the end, not inside the product.
 
 <!-- @approach -->
 ### Faster - One Pass, Carrying the Answer
@@ -530,7 +530,7 @@ def sum_subarray_mins_mod(a: list[int]) -> int:
 
 <!-- @annotations -->
 - 11: The modulo is the problem's requirement rather than the language's — Python would compute the exact 13,500,450,000,000 quite happily.
-- 16: A useful test vector, because it is large enough that a misplaced modulo or a 32-bit accumulator gives a visibly different number.
+- 17: A useful test vector, because it is large enough that a misplaced modulo or a 32-bit accumulator gives a visibly different number.
 
 <!-- @example -->
 
