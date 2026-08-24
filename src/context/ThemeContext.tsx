@@ -13,12 +13,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem("dsa-theme");
-    const dark = saved !== "light";
-    setIsDark(dark);
-    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-    document.body.style.backgroundColor = dark ? "#070d1b" : "#f4f6f9";
-    document.body.style.color = dark ? "#e2e8f0" : "#0f172a";
+    const t = setTimeout(() => {
+      const saved = localStorage.getItem("dsa-theme");
+      const dark = saved !== "light";
+      setIsDark(dark);
+      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+      document.body.style.backgroundColor = dark ? "#070d1b" : "#f4f6f9";
+      document.body.style.color = dark ? "#e2e8f0" : "#0f172a";
+    }, 0);
+    return () => clearTimeout(t);
   }, []);
 
   const toggleTheme = () => {

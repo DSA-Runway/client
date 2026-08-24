@@ -8,12 +8,15 @@ export function useProfileName() {
   const [name, setName] = useState<string>("");
 
   useEffect(() => {
-    const stored = typeof window !== "undefined" ? localStorage.getItem("user_display_name") : null;
-    if (stored) {
-      setName(stored);
-    } else if (session?.user?.name) {
-      setName(session.user.name);
-    }
+    const t = setTimeout(() => {
+      const stored = typeof window !== "undefined" ? localStorage.getItem("user_display_name") : null;
+      if (stored) {
+        setName(stored);
+      } else if (session?.user?.name) {
+        setName(session.user.name);
+      }
+    }, 0);
+    return () => clearTimeout(t);
   }, [session]);
 
   const updateName = (newName: string) => {
