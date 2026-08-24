@@ -232,6 +232,7 @@ const FILES: Record<ContentId, string> = {
   "asteroid-collision": "stacks/asteroid-collision.md",
   "sum-of-subarray-ranges": "stacks/sum-of-subarray-ranges.md",
   "remove-k-digits": "stacks/remove-k-digits.md",
+  "implement-min-stack": "stacks/implement-min-stack.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
   "power-set": "advanced-recursion/power-set.md",
   "combination-sum": "advanced-recursion/combination-sum.md",
