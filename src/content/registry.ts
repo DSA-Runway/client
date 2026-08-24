@@ -235,6 +235,7 @@ const FILES: Record<ContentId, string> = {
   "implement-min-stack": "stacks/implement-min-stack.md",
   "trapping-rainwater": "stacks/trapping-rainwater.md",
   "largest-rectangle-in-a-histogram": "stacks/largest-rectangle-in-a-histogram.md",
+  "maximum-rectangles": "stacks/maximum-rectangles.md",
   "generate-parentheses": "advanced-recursion/generate-parentheses.md",
   "power-set": "advanced-recursion/power-set.md",
   "combination-sum": "advanced-recursion/combination-sum.md",

@@ -224,6 +224,7 @@ export const CONTENT_IDS = [
   "implement-min-stack",
   "trapping-rainwater",
   "largest-rectangle-in-a-histogram",
+  "maximum-rectangles",
   "generate-binary-strings-without-consecutive-1s",
   "generate-parentheses",
   "power-set",
