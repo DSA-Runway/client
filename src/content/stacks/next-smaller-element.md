@@ -352,9 +352,9 @@ vector<int> nextSmallerOrEqual(const vector<int>& a) {
 
 <!-- @annotations -->
 - 9: >= makes this strict: an equal element is popped, so it does not become the boundary and the range extends past it to the left.
-- 20: > rather than >=, so an equal element survives and DOES become the boundary — the asymmetry is these two characters.
+- 21: > rather than >=, so an equal element survives and DOES become the boundary — the asymmetry is these two characters.
 - 19: n rather than -1 as the sentinel, so that (next - i) is a valid width when nothing smaller exists to the right.
-- 26: The invariant to test against. It held on all 200,000 tie-heavy arrays with this pairing and failed on 70.4% with either symmetric one.
+- 28: The invariant to test against. It held on all 200,000 tie-heavy arrays with this pairing and failed on 70.4% with either symmetric one.
 
 <!-- @code java -->
 ```java
