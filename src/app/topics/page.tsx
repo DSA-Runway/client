@@ -76,6 +76,7 @@ const CURRICULUM = [
     topics: [
       { name:"Sorting", difficulty:"Medium", done:false, score:0, problems:["Merge Sort","Quick Sort","Counting Sort"] },
       { name:"Binary Search", difficulty:"Medium", done:false, score:0, problems:["Search in Rotated","Find Peak","Sqrt(x)"] },
+      { name:"Sliding Window & Two Pointer", difficulty:"Hard", done:false, score:0, problems:["Longest Substring Without Repeating","Fruit Into Baskets","Minimum Window Substring"] },
       { name:"Divide & Conquer", difficulty:"Hard", done:false, score:0, problems:["Merge Sort","Karatsuba","Closest Pair"] },
       { name:"Greedy", difficulty:"Hard", done:false, score:0, problems:["Activity Selection","Huffman Coding","Coin Change"] },
     ],
