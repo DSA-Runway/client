@@ -34,6 +34,19 @@ this subtopic. Follow these rules without exception:
 `.trim();
 
 /**
+ * One numbered trace step, with continuation lines indented under the number.
+ *
+ * A step may be several lines — the fenced walkthroughs carry column-aligned
+ * probe tables where the alignment is the explanation. Indenting only the first
+ * line would shift it right of the rest and break exactly the thing those steps
+ * are drawn to show. Single-line steps are unaffected.
+ */
+function numbered(step: string, i: number): string {
+  const prefix = `  ${i + 1}. `;
+  return prefix + step.split("\n").join("\n" + " ".repeat(prefix.length));
+}
+
+/**
  * Serialise a container into the prompt block. Deterministic — same input, same string.
  *
  * Pass the student's chosen language to scope the code to it. Omit it (the
@@ -96,7 +109,7 @@ Summary: ${content.summary}`);
           (e, i) =>
             `### Example ${i + 1}\nInput: ${e.input}\nOutput: ${e.output}${
               e.why ? `\nChosen because: ${e.why}` : ""
-            }\nTrace:\n${e.walkthrough.map((w, wi) => `  ${wi + 1}. ${w}`).join("\n")}`,
+            }\nTrace:\n${e.walkthrough.map(numbered).join("\n")}`,
         )
         .join("\n\n"),
   );

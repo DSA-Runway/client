@@ -35,7 +35,8 @@ import type { SubtopicDifficulty } from "@/lib/subtopics";
  *     <!-- @code cpp -->     one fenced block
  *     <!-- @annotations -->  "- 12: text", keyed by 1-indexed line number
  *   <!-- @example -->
- *     <!-- @input --> <!-- @output --> <!-- @why --> <!-- @walkthrough -->
+ *     <!-- @input --> <!-- @output --> <!-- @why -->
+ *     <!-- @walkthrough -->   ordered list, or a fenced trace split on blank lines
  *   <!-- @visualization array -->
  *     <!-- @description --> <!-- @sampleInput --> <!-- @highlights -->
  *   <!-- @edgeCases --> <!-- @pitfalls -->
@@ -120,6 +121,31 @@ function fenced(body: string): string {
   const rest = lines.slice(start + 1);
   const end = rest.findIndex(l => /^\s*```\s*$/.test(l));
   return (end === -1 ? rest : rest.slice(0, end)).join("\n");
+}
+
+/**
+ * Trace steps, from either a list or a fenced block.
+ *
+ * Most containers write the walkthrough as a numbered list. The Binary Search
+ * set writes it as a fenced trace instead, because the alignment of the lo/hi/mid
+ * columns is itself part of the explanation and a list would flatten it away.
+ * Read both — a fenced walkthrough parsed by `bullets` alone yields nothing, and
+ * the tutor is then handed a worked example whose trace is silently empty, which
+ * grounds it worse than having no example at all.
+ *
+ * Stanzas separated by a blank line become separate steps, so a probe table
+ * followed by a paragraph of commentary stays two things rather than one.
+ */
+function traceSteps(body: string): string[] {
+  const items = bullets(body);
+  if (items.length) return items;
+
+  const block = fenced(body).trim();
+  if (!block) return [];
+  return block
+    .split(/\n[ \t]*\n/)
+    .map(stanza => stanza.replace(/\s+$/, ""))
+    .filter(stanza => stanza.length > 0);
 }
 
 /** Strip a leading "### " heading and return what it said. */
@@ -240,7 +266,7 @@ export function parseSubtopicMarkdown(text: string): SubtopicContent {
         if (example && b.body) example.why = b.body;
         break;
       case "walkthrough":
-        if (example) example.walkthrough = bullets(b.body);
+        if (example) example.walkthrough = traceSteps(b.body);
         break;
 
       case "visualization":

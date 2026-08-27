@@ -454,6 +454,7 @@ The problem asks for the answer modulo 10^9+7, and where the modulo is applied c
 <!-- @code cpp -->
 ```cpp
 #include <vector>
+#include <iostream>
 using namespace std;
 const long long MOD = 1000000007;
 
@@ -478,9 +479,9 @@ long long sumSubarrayMinsMod(const vector<int>& a) {
 ```
 
 <!-- @annotations -->
-- 14: Reducing dp[i] as it is built keeps every later dp[p] small, which is what makes the accumulation safe without any wider type.
-- 16: Reducing the total too, so it never grows beyond MOD regardless of n.
-- 21: Worth checking rather than assuming: (i - p) * a[i] before reduction is at most about 9 x 10^8 at the stated constraints, well inside 64 bits.
+- 15: Reducing dp[i] as it is built keeps every later dp[p] small, which is what makes the accumulation safe without any wider type.
+- 17: Reducing the total too, so it never grows beyond MOD regardless of n.
+- 22: Worth checking rather than assuming: (i - p) * a[i] before reduction is at most about 9 x 10^8 at the stated constraints, well inside 64 bits.
 
 <!-- @code java -->
 ```java

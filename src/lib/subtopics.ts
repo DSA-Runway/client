@@ -368,6 +368,25 @@ export const SUBTOPICS: Record<string, Subtopic[]> = {
       "LFU Cache",
     ]),
   ],
+
+  "Sliding Window & Two Pointer": [
+    ...list("Medium", [
+      "Longest Substring Without Repeating Characters",
+      "Max Consecutive Ones III",
+      "Fruit Into Baskets",
+      "Maximum Points You Can Obtain from Cards",
+      "Subarrays with K Different Integers",
+    ]),
+    ...list("Hard", [
+      "Longest Repeating Character Replacement",
+      "Binary Subarrays With Sum",
+      "Count number of Nice subarrays",
+      "Number of Substrings Containing All Three Characters",
+      "Longest Substring With At Most K Distinct Characters",
+      "Minimum Window Substring",
+      "Minimum Window Subsequence",
+    ]),
+  ],
 };
 
 export const SUBTOPIC_ORDER: SubtopicDifficulty[] = ["Easy", "Medium", "Hard"];

@@ -565,6 +565,7 @@ Compare N against the precomputed boundaries of each digit range, avoiding both 
 <!-- @code cpp -->
 ```cpp
 #include <iostream>
+#include <climits>
 using namespace std;
 
 int countDigitsTable(long long n) {
@@ -595,9 +596,9 @@ int main() {
 ```
 
 <!-- @annotations -->
-- 15: At most 18 integer comparisons, fixed regardless of input — constant time by any measure.
-- 22: Zero needs no special case: 0 is not greater than 9, so the first comparison returns 1.
-- 25: Exactly the value where log10 fails. This returns the correct answer.
+- 16: At most 18 integer comparisons, fixed regardless of input — constant time by any measure.
+- 23: Zero needs no special case: 0 is not greater than 9, so the first comparison returns 1.
+- 26: Exactly the value where log10 fails. This returns the correct answer.
 
 <!-- @code java -->
 ```java

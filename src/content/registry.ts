@@ -242,6 +242,7 @@ const FILES: Record<ContentId, string> = {
   "maximum-rectangles": "stacks/maximum-rectangles.md",
   "stock-span-problem": "stacks/stock-span-problem.md",
   "celebrity-problem": "stacks/celebrity-problem.md",
+  "longest-substring-without-repeating-characters": "sliding-window/longest-substring-without-repeating-characters.md",
   "asteroid-collision": "stacks/asteroid-collision.md",
   "sum-of-subarray-ranges": "stacks/sum-of-subarray-ranges.md",
   "remove-k-digits": "stacks/remove-k-digits.md",
@@ -254,6 +255,19 @@ const FILES: Record<ContentId, string> = {
   "combination-sum-iii": "advanced-recursion/combination-sum-iii.md",
   "word-break": "advanced-recursion/word-break.md",
   "letter-combinations-of-a-phone-number": "advanced-recursion/letter-combinations-of-a-phone-number.md",
+  "implement-queue-using-arrays": "queues/implement-queue-using-arrays.md",
+  "implement-queue-using-stack": "queues/implement-queue-using-stack.md",
+  "implement-queue-using-linkedlist": "queues/implement-queue-using-linkedlist.md",
+  "lru-cache": "queues/lru-cache.md",
+  "lfu-cache": "queues/lfu-cache.md",
+  "sliding-window-maximum": "queues/sliding-window-maximum.md",
+  "palindrome-partitioning": "advanced-recursion/palindrome-partitioning.md",
+  "word-search": "advanced-recursion/word-search.md",
+  "n-queen": "advanced-recursion/n-queen.md",
+  "rat-in-a-maze": "advanced-recursion/rat-in-a-maze.md",
+  "m-coloring-problem": "advanced-recursion/m-coloring-problem.md",
+  "sudoku-solver": "advanced-recursion/sudoku-solver.md",
+  "expression-add-operators": "advanced-recursion/expression-add-operators.md",
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
