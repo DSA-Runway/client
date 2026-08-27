@@ -242,6 +242,7 @@ const FILES: Record<ContentId, string> = {
   "maximum-rectangles": "stacks/maximum-rectangles.md",
   "stock-span-problem": "stacks/stock-span-problem.md",
   "celebrity-problem": "stacks/celebrity-problem.md",
+  "longest-substring-without-repeating-characters": "sliding-window/longest-substring-without-repeating-characters.md",
   "asteroid-collision": "stacks/asteroid-collision.md",
   "sum-of-subarray-ranges": "stacks/sum-of-subarray-ranges.md",
   "remove-k-digits": "stacks/remove-k-digits.md",
