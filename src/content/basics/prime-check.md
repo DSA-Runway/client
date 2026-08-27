@@ -300,6 +300,7 @@ Stop at the square root, since divisors come in pairs and one member of every pa
 <!-- @code cpp -->
 ```cpp
 #include <iostream>
+#include <climits>
 using namespace std;
 
 bool isPrime(int n) {
@@ -333,8 +334,8 @@ int main() {
 ```
 
 <!-- @annotations -->
-- 7: Widening before the multiplication, not after. (long long)(i * i) would overflow first and widen a wrong value.
-- 16: Verified: 2147483647 is prime, and this is exactly the input that hangs without the cast.
+- 8: Widening before the multiplication, not after. (long long)(i * i) would overflow first and widen a wrong value.
+- 17: Verified: 2147483647 is prime, and this is exactly the input that hangs without the cast.
 
 <!-- @code java -->
 ```java

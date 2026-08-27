@@ -298,6 +298,7 @@ XOR everything to get a ^ b, pick a column where they differ, and partition the 
 <!-- @code cpp -->
 ```cpp
 #include <vector>
+#include <climits>
 using namespace std;
 
 vector<int> singleNumberIII(vector<int>& nums) {
@@ -320,9 +321,9 @@ vector<int> singleNumberIII(vector<int>& nums) {
 ```
 
 <!-- @annotations -->
-- 6: The same loop as Single Number - I; what changes is only the interpretation of the result.
-- 8: Non-zero is guaranteed by the premise that the two singletons differ, so there is always a column to split on. Any set bit works, not just the lowest — verified over 3,196,952 (pair, bit) combinations with 0 failures; the lowest is chosen because n & -n finds it in one operation.
-- 12: Duplicated pairs always take the same branch, because identical values agree in every column — that is what keeps each group's pairs intact.
+- 7: The same loop as Single Number - I; what changes is only the interpretation of the result.
+- 9: Non-zero is guaranteed by the premise that the two singletons differ, so there is always a column to split on. Any set bit works, not just the lowest — verified over 3,196,952 (pair, bit) combinations with 0 failures; the lowest is chosen because n & -n finds it in one operation.
+- 13: Duplicated pairs always take the same branch, because identical values agree in every column — that is what keeps each group's pairs intact.
 
 <!-- @code java -->
 ```java
